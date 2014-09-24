@@ -1,5 +1,5 @@
 #include "MainMenu.h"
-
+#include <GamePath.h>
 const int MainMenu::BUTTON_WIDTH = 250;
 const int MainMenu::BUTTON_HEIGHT = 40;
 
@@ -28,9 +28,12 @@ void MainMenu::initComponents(void)
     btnQuit.setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     btnQuit.setCaption("Quit");
 
+    img.setImage(StiGame::GamePath::getFilepath(StiGame::AssetRoot, "mainmenu_image.png"));
+
     add(&lblTitle);
     add(&btnNewGame);
     add(&btnQuit);
+    add(&img);
 
     btnNewGame.subscribe(this);
     btnQuit.subscribe(this);
@@ -58,4 +61,6 @@ void MainMenu::onResize(int m_width, int m_height)
 
     btnNewGame.setPoint((m_width - btnNewGame.getWidth())/2, 100);
     btnQuit.setPoint((m_width - btnQuit.getWidth())/2, 100 + BUTTON_HEIGHT + 10);
+
+    img.setPoint((m_width - img.getWidth())/2, 100 + 2*BUTTON_HEIGHT + 10);
 }

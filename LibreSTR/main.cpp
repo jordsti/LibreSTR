@@ -1,9 +1,12 @@
 
 #include <Viewport.h>
+#include <Runtime.h>
 #include "MainMenu.h"
 #include <iostream>
+#include "LibreSTRStyle.h"
 
 using namespace StiGame;
+
 int main(int argc, char** argv)
 {
     // this is the normal behaviour
@@ -33,6 +36,9 @@ std::cout << "Overriding fullscreen resolution to windowed : " << width << "x" <
     Viewport *vp = new Viewport(width, height, fullscreen);
 
     vp->setTitle("LibreSTR [0.0.0]");
+
+    LibreSTRStyle *style = new LibreSTRStyle();
+    Gui::Runtime::getInstance()->ForceStyle(style);
 
     MainMenu *mainMenu = new MainMenu();
 

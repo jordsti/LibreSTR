@@ -5,6 +5,7 @@
 
 #include <Label.h>
 #include <Button.h>
+#include <Image.h>
 
 class MainMenu :
     public StiGame::Gui::GuiState,
@@ -23,6 +24,9 @@ class MainMenu :
         StiGame::Gui::Label lblTitle;
         StiGame::Gui::Button btnNewGame;
         StiGame::Gui::Button btnQuit;
+
+        StiGame::Gui::Image img;
+
     private:
         void initComponents(void);
 };

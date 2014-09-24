@@ -51,6 +51,8 @@
 			<Add option="-lStiGame" />
 			<Add directory="../lib" />
 		</Linker>
+		<Unit filename="LibreSTRStyle.cpp" />
+		<Unit filename="LibreSTRStyle.h" />
 		<Unit filename="MainMenu.cpp" />
 		<Unit filename="MainMenu.h" />
 		<Unit filename="main.cpp" />
