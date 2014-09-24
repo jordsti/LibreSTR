@@ -4,6 +4,7 @@
 #include "MainMenu.h"
 #include <iostream>
 #include "LibreSTRStyle.h"
+#include "MapGenerator.h"
 
 using namespace StiGame;
 
@@ -32,6 +33,29 @@ std::cout << "Overriding fullscreen resolution to windowed : " << width << "x" <
 //reduce the resolution a bit
 
 #endif // DEBUG
+
+    GameMap *gmap = MapGenerator::RandomMap(200, 300);
+
+    for(int y=0; y<gmap->getHeight(); y++)
+    {
+        for(int x=0; x<gmap->getWidth(); x++)
+        {
+            Tile *t = gmap->get(x, y);
+            if(t->getType() == TT_Normal)
+            {
+                std::cout << "n";
+            }
+            else if(t->getType() == TT_Water)
+            {
+                std::cout << "w";
+            }
+            else
+            {
+                std::cout << "b";
+            }
+        }
+        std::cout << std::endl;
+    }
 
     Viewport *vp = new Viewport(width, height, fullscreen);
 
