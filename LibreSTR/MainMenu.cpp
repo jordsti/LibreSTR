@@ -1,5 +1,10 @@
 #include "MainMenu.h"
 
+const int MainMenu::BUTTON_WIDTH = 250;
+const int MainMenu::BUTTON_HEIGHT = 40;
+
+using namespace StiGame;
+
 MainMenu::MainMenu()
 {
     //ctor
@@ -17,13 +22,31 @@ void MainMenu::initComponents(void)
     lblTitle.setFont(style->getBigFont());
     lblTitle.setCaption("Libre STR");
 
-    btnNewGame.setFixedSize(250, 40);
+    btnNewGame.setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     btnNewGame.setCaption("New Game");
+
+    btnQuit.setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+    btnQuit.setCaption("Quit");
 
     add(&lblTitle);
     add(&btnNewGame);
+    add(&btnQuit);
+
+    btnNewGame.subscribe(this);
+    btnQuit.subscribe(this);
 }
 
+void MainMenu::handleEvent(EventThrower *src, EventArgs *evt)
+{
+    if(src == &btnNewGame)
+    {
+        //todo game state
+    }
+    else if(src == &btnQuit)
+    {
+        running = false;
+    }
+}
 
 void MainMenu::onResize(int m_width, int m_height)
 {
@@ -31,8 +54,8 @@ void MainMenu::onResize(int m_width, int m_height)
 
     //middle the label
     lblTitle.doAutosize();
-    lblTitle.setPoint(( m_width - lblTitle.getWidth() )/2, 20);
+    lblTitle.setPoint((m_width - lblTitle.getWidth())/2, 20);
 
     btnNewGame.setPoint((m_width - btnNewGame.getWidth())/2, 100);
-
+    btnQuit.setPoint((m_width - btnQuit.getWidth())/2, 100 + BUTTON_HEIGHT + 10);
 }
