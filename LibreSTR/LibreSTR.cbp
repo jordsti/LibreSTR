@@ -53,14 +53,22 @@
 		</Linker>
 		<Unit filename="GameMap.cpp" />
 		<Unit filename="GameMap.h" />
+		<Unit filename="HydrocarbonGaz.cpp" />
+		<Unit filename="HydrocarbonGaz.h" />
+		<Unit filename="IResource.cpp" />
+		<Unit filename="IResource.h" />
 		<Unit filename="LibreSTRStyle.cpp" />
 		<Unit filename="LibreSTRStyle.h" />
 		<Unit filename="MainMenu.cpp" />
 		<Unit filename="MainMenu.h" />
 		<Unit filename="MapGenerator.cpp" />
 		<Unit filename="MapGenerator.h" />
+		<Unit filename="PlayerMap.cpp" />
+		<Unit filename="PlayerMap.h" />
 		<Unit filename="Tile.cpp" />
 		<Unit filename="Tile.h" />
+		<Unit filename="Titanium.cpp" />
+		<Unit filename="Titanium.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

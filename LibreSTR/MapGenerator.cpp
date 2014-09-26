@@ -1,6 +1,17 @@
 #include "MapGenerator.h"
 #include "TimeTools.h"
+#include <iostream>
 #include <cstdlib>
+#include <list>
+#include <Point.h>
+#include "Titanium.h"
+#include "HydrocarbonGaz.h"
+
+const int MapGenerator::LIMIT_OFFSET = 5;
+const int MapGenerator::MAX_ITERATION = 1024;
+const int MapGenerator::N_TILES = 18;
+const int MapGenerator::METAL_TILES = 10;
+const int MapGenerator::GAZ_TILES = 2;
 
 MapGenerator::MapGenerator()
 {
@@ -31,7 +42,7 @@ GameMap* MapGenerator::RandomMap(int width, int height, int seed)
 
             int i = rand() % 10;
 
-            if(i >= 0 || i <= 2)
+            if(i >= 0 && i <= 2)
             {
                 t->setType(TT_Block);
             }
@@ -42,5 +53,150 @@ GameMap* MapGenerator::RandomMap(int width, int height, int seed)
         }
     }
 
+    //generate starting point
+
+    //each corner would got a spot
+    //player 1 is left
+    //player 2 is right
+    //0,0
+    std::list<StiGame::Point> pts;
+    StiGame::Point p1 (LIMIT_OFFSET, LIMIT_OFFSET);
+    pts.push_back(p1);
+    gmap->addStartPoint(1, p1);
+
+    //width, height
+    StiGame::Point p2 (width - LIMIT_OFFSET, height - LIMIT_OFFSET);
+    pts.push_back(p2);
+    gmap->addStartPoint(2, p2);
+
+    //0, height
+    StiGame::Point p3 (LIMIT_OFFSET, height - LIMIT_OFFSET);
+    pts.push_back(p3);
+    gmap->addStartPoint(1, p3);
+
+    //width, 0
+    StiGame::Point p4 (width - LIMIT_OFFSET, LIMIT_OFFSET);
+    pts.push_back(p4);
+    gmap->addStartPoint(2, p4);
+
+    //each middle
+    // width/2, 0
+    // not good for a start point
+    pts.push_back(StiGame::Point(width/2, LIMIT_OFFSET));
+
+    // width/2, height
+    // not good for a start point
+    pts.push_back(StiGame::Point(width/2, height - LIMIT_OFFSET));
+
+    // 0, height/2
+
+    StiGame::Point p5 (LIMIT_OFFSET, height/2);
+    pts.push_back(p5);
+    gmap->addStartPoint(1, p5);
+
+    // width, height/2
+    StiGame::Point p6 (width - LIMIT_OFFSET, height/2);
+    pts.push_back(p6);
+    gmap->addStartPoint(2, p6);
+
+    //full middle
+    StiGame::Point p7 (width/2, height/2);
+    pts.push_back(p7);
+    //adding some random points for ressource
+
+    //placing random pts
+    //between 3 and 5 pts
+
+    int nb = rand() % 2;
+    nb += 3;
+
+    for(int i=0; i<nb; i++)
+    {
+        int x = (rand() % (width-LIMIT_OFFSET*2)) + LIMIT_OFFSET;
+        int y = (rand() % (height-LIMIT_OFFSET*2)) + LIMIT_OFFSET;
+        StiGame::Point rpt (x, y);
+        pts.push_back(rpt);
+    }
+
+
+
+    auto lit(pts.begin()), lend(pts.end());
+    for(;lit!=lend;++lit)
+    {
+        PlaceRessource(gmap, (*lit).getX(), (*lit).getY(), N_TILES, METAL_TILES, GAZ_TILES);
+    }
+
     return gmap;
+}
+
+void MapGenerator::PlaceRessource(GameMap *gmap, int x, int y, int n, int metalTiles, int gazTiles)
+{
+    //chosing n tiles around the points
+    //from those tiles choose n random and place ressource on them
+    std::vector<Tile*> tilesTaken;
+    std::vector<StiGame::Point> chosenPts;
+
+    StiGame::Point mpt (x, y);
+    int i=0;
+    while(tilesTaken.size() < n)
+    {
+        int tx = LIMIT_OFFSET - (rand() % LIMIT_OFFSET*2);
+        int ty = LIMIT_OFFSET - (rand() % LIMIT_OFFSET*2);
+
+        tx += mpt.getX();
+        ty += mpt.getY();
+
+        if(gmap->contains(tx, ty))
+        {
+            StiGame::Point cpt (tx, ty);
+
+            if(cpt.equals(&mpt))
+            {
+                continue;
+            }
+
+            auto lit(chosenPts.begin()), lend(chosenPts.end());
+            for(;lit!=lend;++lit)
+            {
+                if((*lit).equals(&cpt))
+                {
+                    continue;
+                }
+            }
+
+            Tile *t = gmap->get(tx, ty);
+            if(t->getType() == TT_Normal)
+            {
+                chosenPts.push_back(cpt);
+                tilesTaken.push_back(t);
+            }
+        }
+
+        i++;
+
+        if(i > 500)
+        {
+            std::cout << "MAX ITERATION HIT!" << std::endl;
+            break;
+        }
+    }
+
+    i = 0;
+    for(int j=0; j<METAL_TILES; j++)
+    {
+        Tile *t = tilesTaken[j+i];
+        Titanium *r = new Titanium();
+        t->setResource(r);
+    }
+
+    i += METAL_TILES;
+
+    for(int k=0; k<GAZ_TILES; k++)
+    {
+        Tile *t = tilesTaken[k+i];
+        HydrocarbonGaz *g = new HydrocarbonGaz();
+        t->setResource(g);
+    }
+
+
 }

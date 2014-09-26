@@ -34,16 +34,23 @@ std::cout << "Overriding fullscreen resolution to windowed : " << width << "x" <
 
 #endif // DEBUG
 
-    GameMap *gmap = MapGenerator::RandomMap(200, 300);
+    GameMap *gmap = MapGenerator::RandomMap(480, 300);
 
-    for(int y=0; y<gmap->getHeight(); y++)
+    PlayerMap *pmap = gmap->GeneratePlayerMap(0);
+
+    Point pt = pmap->getPosition( pmap->get(2000) );
+
+    std::cout << "Pt : " << pt.getX() << ", " << pt.getY() << std::endl;
+
+    /*for(int y=0; y<pmap->getHeight(); y++)
     {
-        for(int x=0; x<gmap->getWidth(); x++)
+        for(int x=0; x<pmap->getWidth(); x++)
         {
-            Tile *t = gmap->get(x, y);
+            Tile *t = pmap->get(x, y);
             if(t->getType() == TT_Normal)
             {
-                std::cout << "n";
+                std::cout << "n" << t->getId();
+
             }
             else if(t->getType() == TT_Water)
             {
@@ -55,11 +62,11 @@ std::cout << "Overriding fullscreen resolution to windowed : " << width << "x" <
             }
         }
         std::cout << std::endl;
-    }
+    }*/
 
     Viewport *vp = new Viewport(width, height, fullscreen);
 
-    vp->setTitle("LibreSTR [0.0.0]");
+    vp->setTitle("LibreSTR [0.0.0-whatisrts?]");
 
     LibreSTRStyle *style = new LibreSTRStyle();
     Gui::Runtime::getInstance()->ForceStyle(style);
