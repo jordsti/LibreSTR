@@ -14,6 +14,7 @@ class IResource
     public:
         virtual ~IResource();
 
+        int getId(void);
         std::string getName(void);
         std::string getTexture(void);
         ResourceType getType(void);
@@ -23,6 +24,7 @@ class IResource
 
     protected:
         IResource();
+        IResource(int m_id);
 
         std::string name;
         int amount;
@@ -30,6 +32,10 @@ class IResource
         ResourceType type;
 
     private:
+        int _id;
+        static int _currentId;
+        int GetCurrendId(void);
+
 };
 
 #endif // IRESOURCE_H

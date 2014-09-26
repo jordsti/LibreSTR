@@ -51,6 +51,8 @@ Tile* Tile::clone(void)
     {
         cTile->setResource(resource->clone());
     }
+
+    return cTile;
 }
 
 Tile::~Tile()

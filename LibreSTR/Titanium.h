@@ -8,6 +8,7 @@ class Titanium :
     public:
         static const int STARTING_AMOUNT;
         Titanium();
+        Titanium(int m_id);
         virtual ~Titanium();
         IResource* clone(void);
     protected:

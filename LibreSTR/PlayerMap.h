@@ -20,6 +20,8 @@ class PlayerMap
 
         StiGame::Point getPosition(Tile *tile);
 
+        IResource* getResource(int resId);
+
     protected:
     private:
         void initRows(void);
@@ -27,6 +29,7 @@ class PlayerMap
         int height;
         std::vector< std::vector<Tile*> > tiles;
         std::vector<Tile*> tileRefs;
+        std::vector<IResource*> resRefs;
 };
 
 #endif // PLAYERMAP_H

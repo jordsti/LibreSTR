@@ -32,7 +32,26 @@ void PlayerMap::addTile(int row, Tile *tile)
     {
         tiles[row].push_back(tile);
         tileRefs.push_back(tile);
+
+        if(tile->containsResource())
+        {
+            resRefs.push_back(tile->getResource());
+        }
     }
+}
+
+IResource* PlayerMap::getResource(int resId)
+{
+    auto lit(resRefs.begin()), lend(resRefs.end());
+    for(;lit!=lend;++lit)
+    {
+        if((*lit)->getId() == resId)
+        {
+            return (*lit);
+        }
+    }
+
+    return nullptr;
 }
 
 Tile* PlayerMap::get(int tileId)

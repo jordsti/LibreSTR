@@ -12,9 +12,19 @@ Titanium::Titanium() :
     type = RT_METAL;
 }
 
+Titanium::Titanium(int m_id) :
+    IResource(m_id)
+{
+    //ctor
+    name = "Titanium";
+    texture = "tba";
+    amount = STARTING_AMOUNT;
+    type = RT_METAL;
+}
+
 IResource* Titanium::clone(void)
 {
-    return new Titanium();
+    return new Titanium(getId());
 }
 
 Titanium::~Titanium()
