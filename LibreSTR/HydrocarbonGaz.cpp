@@ -9,7 +9,7 @@ HydrocarbonGaz::HydrocarbonGaz() :
     name = "Hydrocarbon Gaz";
     amount = STARTING_AMOUNT;
     type = RT_GAZ;
-    texture = "tba";
+    texture = "gaz";
 }
 
 HydrocarbonGaz::HydrocarbonGaz(int m_id) :
@@ -19,7 +19,7 @@ HydrocarbonGaz::HydrocarbonGaz(int m_id) :
     name = "Hydrocarbon Gaz";
     amount = STARTING_AMOUNT;
     type = RT_GAZ;
-    texture = "tba";
+    texture = "gaz";
 }
 
 IResource* HydrocarbonGaz::clone(void)

@@ -9,7 +9,7 @@
 
 const int MapGenerator::LIMIT_OFFSET = 5;
 const int MapGenerator::MAX_ITERATION = 1024;
-const int MapGenerator::N_TILES = 18;
+const int MapGenerator::N_TILES = 48;
 const int MapGenerator::METAL_TILES = 10;
 const int MapGenerator::GAZ_TILES = 2;
 
@@ -40,7 +40,7 @@ GameMap* MapGenerator::RandomMap(int width, int height, int seed)
         {
             Tile *t = gmap->get(x, y);
 
-            int i = rand() % 10;
+            int i = rand() % 30;
 
             if(i >= 0 && i <= 2)
             {
@@ -143,6 +143,7 @@ void MapGenerator::PlaceRessource(GameMap *gmap, int x, int y, int n, int metalT
         int tx = LIMIT_OFFSET - (rand() % LIMIT_OFFSET*2);
         int ty = LIMIT_OFFSET - (rand() % LIMIT_OFFSET*2);
 
+
         tx += mpt.getX();
         ty += mpt.getY();
 
@@ -182,21 +183,57 @@ void MapGenerator::PlaceRessource(GameMap *gmap, int x, int y, int n, int metalT
     }
 
     i = 0;
-    for(int j=0; j<METAL_TILES; j++)
+    int j = 0;
+    while(j < gazTiles)
     {
+        if(i+j >= tilesTaken.size())
+        {
+            std::cout << "no more tiles..." << std::endl;
+            break;
+        }
+
         Tile *t = tilesTaken[j+i];
-        Titanium *r = new Titanium();
-        t->setResource(r);
+
+        if(!t->containsResource())
+        {
+            HydrocarbonGaz *g = new HydrocarbonGaz();
+            t->setResource(g);
+        }
+        else
+        {
+            i++;
+            continue;
+        }
+
+        i++;
+        j++;
     }
 
-    i += METAL_TILES;
-
-    for(int k=0; k<GAZ_TILES; k++)
+    j = 0;
+    while(j < metalTiles)
     {
-        Tile *t = tilesTaken[k+i];
-        HydrocarbonGaz *g = new HydrocarbonGaz();
-        t->setResource(g);
+        if(i+j >= tilesTaken.size())
+        {
+            std::cout << "no more tiles..." << std::endl;
+            break;
+        }
+
+        Tile *t = tilesTaken[j+i];
+        if(!t->containsResource())
+        {
+            Titanium *r = new Titanium();
+            t->setResource(r);
+        }
+        else
+        {
+            i++;
+            continue;
+        }
+
+        i++;
+        j++;
     }
+
 
 
 }

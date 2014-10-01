@@ -34,13 +34,13 @@ std::cout << "Overriding fullscreen resolution to windowed : " << width << "x" <
 
 #endif // DEBUG
 
-    GameMap *gmap = MapGenerator::RandomMap(480, 300);
+    /*GameMap *gmap = MapGenerator::RandomMap(480, 300);
 
     PlayerMap *pmap = gmap->GeneratePlayerMap(0);
 
     Point pt = pmap->getPosition( pmap->get(2000) );
 
-    std::cout << "Pt : " << pt.getX() << ", " << pt.getY() << std::endl;
+    std::cout << "Pt : " << pt.getX() << ", " << pt.getY() << std::endl;*/
 
     /*for(int y=0; y<pmap->getHeight(); y++)
     {

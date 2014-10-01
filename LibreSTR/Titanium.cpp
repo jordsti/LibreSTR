@@ -7,7 +7,7 @@ Titanium::Titanium() :
 {
     //ctor
     name = "Titanium";
-    texture = "tba";
+    texture = "titanium";
     amount = STARTING_AMOUNT;
     type = RT_METAL;
 }
@@ -17,7 +17,7 @@ Titanium::Titanium(int m_id) :
 {
     //ctor
     name = "Titanium";
-    texture = "tba";
+    texture = "titanium";
     amount = STARTING_AMOUNT;
     type = RT_METAL;
 }

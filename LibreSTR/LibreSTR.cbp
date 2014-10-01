@@ -12,6 +12,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
 				<Compiler>
 					<Add option="-g" />
 					<Add option="-DDEBUG" />
@@ -53,6 +54,8 @@
 		</Linker>
 		<Unit filename="GameMap.cpp" />
 		<Unit filename="GameMap.h" />
+		<Unit filename="GameState.cpp" />
+		<Unit filename="GameState.h" />
 		<Unit filename="HydrocarbonGaz.cpp" />
 		<Unit filename="HydrocarbonGaz.h" />
 		<Unit filename="IResource.cpp" />
