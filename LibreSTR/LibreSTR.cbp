@@ -54,6 +54,8 @@
 		</Linker>
 		<Unit filename="GameMap.cpp" />
 		<Unit filename="GameMap.h" />
+		<Unit filename="GameOverlay.cpp" />
+		<Unit filename="GameOverlay.h" />
 		<Unit filename="GameState.cpp" />
 		<Unit filename="GameState.h" />
 		<Unit filename="HydrocarbonGaz.cpp" />

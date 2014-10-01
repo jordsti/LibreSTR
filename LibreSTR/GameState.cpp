@@ -1,6 +1,8 @@
 #include "GameState.h"
 #include <Viewport.h>
 #include <iostream>
+#include "GameOverlay.h"
+#include <OverlayGameAction.h>
 
 using namespace StiGame;
 
@@ -10,6 +12,8 @@ GameState::GameState(GameMap *m_gameMap) :
     //ctor
     gameMap = m_gameMap;
     background.setRGB(0, 0, 0);
+    viewX = 0;
+    viewY = 0;
 
 }
 
@@ -30,7 +34,87 @@ void GameState::onStart(void)
     sprites = new SpriteLibrary(viewport->getRenderer());
     loadSprites();
     drawBaseMap();
+
+    GameOverlay *overlay = new GameOverlay();
+    overlay->setState(this);
+    KeyEventThrower::subscribe(overlay);
+
+    setGameMenu(overlay);
+
+    BaseGameAction *oaction = OverlayGameAction::GetDefaultOverlayGameAction(this);
+
+    actions.push_back(oaction);
+
+    KeyEventThrower::subscribe(this);
+
     running = true;
+}
+
+void GameState::handleEvent(KeyEventThrower *src, KeyEventArgs *args)
+{
+    if(args->getState() == KS_DOWN)
+    {
+        if(args->getKeyboardEvent()->keysym.sym == SDLK_UP)
+        {
+            if(viewY > 0)
+            {
+                viewY -= 16;
+            }
+        }
+        else if(args->getKeyboardEvent()->keysym.sym == SDLK_DOWN)
+        {
+            if(viewY < (gameMap->getHeight() * Tile::TILE_HEIGHT) - height)
+            {
+                viewY += 16;
+            }
+
+        }
+        else if(args->getKeyboardEvent()->keysym.sym == SDLK_LEFT)
+        {
+            if(viewX > 0)
+            {
+                viewX -= 16;
+            }
+        }
+        else if(args->getKeyboardEvent()->keysym.sym == SDLK_RIGHT)
+        {
+            if(viewX < (gameMap->getWidth() * Tile::TILE_WIDTH) - width)
+            {
+                viewX += 16;
+            }
+        }
+    }
+}
+
+void GameState::onPaint(SDL_Renderer *renderer)
+{
+    //todo move this plz !
+    tickActions();
+
+
+
+    SDL_Rect mapRect;
+    SDL_Rect viewRect;
+
+    mapRect.x = viewX;
+    mapRect.y = viewY;
+    mapRect.w = width;
+    mapRect.h = height;
+
+    viewRect.x = 0;
+    viewRect.y = 0;
+    viewRect.w = width;
+    viewRect.h = height;
+
+
+    Surface *buffer = new Surface(width, height);
+
+    buffer->blit(baseMap, &mapRect, &viewRect);
+
+    Texture tex (renderer, buffer);
+    tex.renderCopy(&viewRect, &viewRect);
+
+    BaseGameState::onPaint(renderer);
 }
 
 void GameState::drawBaseMap(void)
@@ -81,8 +165,6 @@ void GameState::drawBaseMap(void)
         }
     }
 
-    //saving image for debug purpose
-    baseMap->saveBmp("map.bmp");
 }
 
 void GameState::loadSprites(void)
