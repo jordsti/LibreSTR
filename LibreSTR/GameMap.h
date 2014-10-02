@@ -5,7 +5,34 @@
 #include "Tile.h"
 #include <vector>
 #include <map>
+#include <iostream>
 #include "PlayerMap.h"
+#include "AssetManager.h"
+
+struct MapHeader
+{
+    int width;
+    int height;
+    int seed;
+};
+
+struct TileInfo
+{
+    int type;
+};
+
+struct ResourceMarker
+{
+    int count;
+};
+
+struct ResourceInfo
+{
+    int x;
+    int y;
+    int amount;
+    int type;
+};
 
 class GameMap
 {
@@ -28,6 +55,9 @@ class GameMap
         void addStartPoint(int player, StiGame::Point& pt);
 
         PlayerMap* GeneratePlayerMap(int playerId);
+
+        void save(std::string output);
+        void load(std::string input, AssetManager *asset);
 
     protected:
         void initTiles(void);

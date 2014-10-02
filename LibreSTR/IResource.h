@@ -19,6 +19,7 @@ class IResource
         std::string getTexture(void);
         ResourceType getType(void);
         int getAmount(void);
+        void setAmount(int m_amount);
 
         virtual IResource* clone(void) = 0;
 

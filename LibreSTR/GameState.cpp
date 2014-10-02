@@ -12,6 +12,8 @@ GameState::GameState(AssetManager *m_assets, GameMap *m_gameMap) :
     //ctor
     assets = m_assets;
     gameMap = m_gameMap;
+    //gameMap = new GameMap();
+    //gameMap->load("test.map", assets);
     background.setRGB(0, 0, 0);
     viewX = 0;
     viewY = 0;

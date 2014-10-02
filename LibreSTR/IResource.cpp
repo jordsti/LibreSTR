@@ -56,6 +56,11 @@ int IResource::getAmount(void)
     return amount;
 }
 
+void IResource::setAmount(int m_amount)
+{
+    amount = m_amount;
+}
+
 int IResource::GetCurrendId(void)
 {
     int id = _currentId;
