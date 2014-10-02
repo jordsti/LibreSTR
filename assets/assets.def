@@ -1,0 +1,7 @@
+#Assets data to load
+# 
+res_metal=titanium.res;
+res_gaz=hydrocarbongaz.res;
+
+tile_normal=grass;
+tile_block=rock;
