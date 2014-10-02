@@ -52,6 +52,8 @@
 			<Add option="-lStiGame" />
 			<Add directory="../lib" />
 		</Linker>
+		<Unit filename="AssetManager.cpp" />
+		<Unit filename="AssetManager.h" />
 		<Unit filename="GameMap.cpp" />
 		<Unit filename="GameMap.h" />
 		<Unit filename="GameOverlay.cpp" />
@@ -74,6 +76,8 @@
 		<Unit filename="Tile.h" />
 		<Unit filename="Titanium.cpp" />
 		<Unit filename="Titanium.h" />
+		<Unit filename="VFResource.cpp" />
+		<Unit filename="VFResource.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

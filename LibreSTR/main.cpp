@@ -5,6 +5,7 @@
 #include <iostream>
 #include "LibreSTRStyle.h"
 #include "MapGenerator.h"
+#include "AssetManager.h"
 
 using namespace StiGame;
 
@@ -33,7 +34,6 @@ std::cout << "Overriding fullscreen resolution to windowed : " << width << "x" <
 //reduce the resolution a bit
 
 #endif // DEBUG
-
     /*GameMap *gmap = MapGenerator::RandomMap(480, 300);
 
     PlayerMap *pmap = gmap->GeneratePlayerMap(0);
@@ -68,10 +68,14 @@ std::cout << "Overriding fullscreen resolution to windowed : " << width << "x" <
 
     vp->setTitle("LibreSTR [0.0.0-whatisrts?]");
 
+    //loading asset
+    AssetManager *assets = new AssetManager();
+    MapGenerator::setAssets(assets);
+
     LibreSTRStyle *style = new LibreSTRStyle();
     Gui::Runtime::getInstance()->ForceStyle(style);
 
-    MainMenu *mainMenu = new MainMenu();
+    MainMenu *mainMenu = new MainMenu(assets);
 
     vp->push(mainMenu);
     vp->startLoop();

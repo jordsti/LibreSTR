@@ -7,6 +7,8 @@
 #include <Button.h>
 #include <Image.h>
 
+#include "AssetManager.h"
+
 class MainMenu :
     public StiGame::Gui::GuiState,
     public StiGame::EventListener
@@ -15,7 +17,7 @@ class MainMenu :
     public:
         static const int BUTTON_WIDTH;
         static const int BUTTON_HEIGHT;
-        MainMenu();
+        MainMenu(AssetManager *m_assets);
         virtual ~MainMenu();
         void onResize(int m_width, int m_height);
         void handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *evt);
@@ -26,7 +28,7 @@ class MainMenu :
         StiGame::Gui::Button btnQuit;
 
         StiGame::Gui::Image img;
-
+        AssetManager *assets;
     private:
         void initComponents(void);
 };

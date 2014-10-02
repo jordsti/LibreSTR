@@ -6,13 +6,14 @@
 
 #include "SpriteLibrary.h"
 #include "GameMap.h"
+#include "AssetManager.h"
 
 class GameState :
     public StiGame::BaseGameState,
     public StiGame::KeyEventListener
 {
     public:
-        GameState(GameMap *m_gameMap);
+        GameState(AssetManager *m_assets, GameMap *m_gameMap);
         virtual ~GameState();
         void quit(void);
         void onStart(void);
@@ -24,7 +25,7 @@ class GameState :
 
         GameMap *gameMap;
         StiGame::SpriteLibrary *sprites;
-
+        AssetManager *assets;
     private:
         int viewX;
         int viewY;

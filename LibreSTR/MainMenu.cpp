@@ -8,9 +8,10 @@ const int MainMenu::BUTTON_HEIGHT = 40;
 
 using namespace StiGame;
 
-MainMenu::MainMenu()
+MainMenu::MainMenu(AssetManager *m_assets)
 {
     //ctor
+    assets = m_assets;
     initComponents();
 }
 
@@ -47,7 +48,7 @@ void MainMenu::handleEvent(EventThrower *src, EventArgs *evt)
     if(src == &btnNewGame)
     {
         //todo game state
-        GameState *state = new GameState(MapGenerator::RandomMap(300, 200));
+        GameState *state = new GameState(assets, MapGenerator::RandomMap(300, 200));
         viewport->push(state);
     }
     else if(src == &btnQuit)

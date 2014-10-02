@@ -4,14 +4,14 @@
 #include <cstdlib>
 #include <list>
 #include <Point.h>
-#include "Titanium.h"
-#include "HydrocarbonGaz.h"
 
 const int MapGenerator::LIMIT_OFFSET = 5;
 const int MapGenerator::MAX_ITERATION = 1024;
 const int MapGenerator::N_TILES = 48;
 const int MapGenerator::METAL_TILES = 10;
 const int MapGenerator::GAZ_TILES = 2;
+
+AssetManager* MapGenerator::assets = nullptr;
 
 MapGenerator::MapGenerator()
 {
@@ -21,6 +21,11 @@ MapGenerator::MapGenerator()
 MapGenerator::~MapGenerator()
 {
     //dtor
+}
+
+void MapGenerator::setAssets(AssetManager *m_assets)
+{
+    assets = m_assets;
 }
 
 GameMap* MapGenerator::RandomMap(int width, int height)
@@ -45,6 +50,12 @@ GameMap* MapGenerator::RandomMap(int width, int height, int seed)
             if(i >= 0 && i <= 2)
             {
                 t->setType(TT_Block);
+                t->setTexture(assets->getTileBlock());
+            }
+            else
+            {
+                t->setType(TT_Normal);
+                t->setTexture(assets->getTileNormal());
             }
             /*else if(i < 5 && i > 2)
             {
@@ -196,8 +207,8 @@ void MapGenerator::PlaceRessource(GameMap *gmap, int x, int y, int n, int metalT
 
         if(!t->containsResource())
         {
-            HydrocarbonGaz *g = new HydrocarbonGaz();
-            t->setResource(g);
+            IResource *res = assets->getGazDef()->create();
+            t->setResource(res);
         }
         else
         {
@@ -221,8 +232,8 @@ void MapGenerator::PlaceRessource(GameMap *gmap, int x, int y, int n, int metalT
         Tile *t = tilesTaken[j+i];
         if(!t->containsResource())
         {
-            Titanium *r = new Titanium();
-            t->setResource(r);
+            IResource *res = assets->getMetalDef()->create();
+            t->setResource(res);
         }
         else
         {

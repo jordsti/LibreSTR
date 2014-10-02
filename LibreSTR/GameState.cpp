@@ -6,10 +6,11 @@
 
 using namespace StiGame;
 
-GameState::GameState(GameMap *m_gameMap) :
+GameState::GameState(AssetManager *m_assets, GameMap *m_gameMap) :
     BaseGameState()
 {
     //ctor
+    assets = m_assets;
     gameMap = m_gameMap;
     background.setRGB(0, 0, 0);
     viewX = 0;
@@ -126,8 +127,8 @@ void GameState::drawBaseMap(void)
     dst.w = Tile::TILE_WIDTH;
     dst.h = Tile::TILE_HEIGHT;
 
-    Sprite *sprGrass = sprites->getSprite("grass");
-    Sprite *sprBlock = sprites->getSprite("rock");
+    Sprite *sprNormal = sprites->getSprite(assets->getTileNormal());
+    Sprite *sprBlock = sprites->getSprite(assets->getTileBlock());
 
     Surface *sur;
 
@@ -140,7 +141,7 @@ void GameState::drawBaseMap(void)
 
             Tile *t = gameMap->get(x, y);
             //draw grass on all tile
-            sur = sprGrass->getCurrentSurface();
+            sur = sprNormal->getCurrentSurface();
 
             baseMap->blit(sur, &dst);
 
@@ -169,8 +170,17 @@ void GameState::drawBaseMap(void)
 
 void GameState::loadSprites(void)
 {
-    sprites->loadVarFile("grass");
-    sprites->loadVarFile("rock");
-    sprites->loadVarFile("titanium");
-    sprites->loadVarFile("gaz");
+    //tile to put in a res file
+    //sprites->loadVarFile("grass");
+    //sprites->loadVarFile("rock");
+
+    std::list< std::string > textures = assets->getTextures();
+
+    auto lit(textures.begin()), lend(textures.end());
+    for(;lit!=lend;++lit)
+    {
+        std::cout << "Load asset texture : " << (*lit) << std::endl;
+        sprites->loadVarFile((*lit));
+    }
+
 }
