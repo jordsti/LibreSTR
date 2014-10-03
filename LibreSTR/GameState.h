@@ -7,6 +7,7 @@
 #include "SpriteLibrary.h"
 #include "GameMap.h"
 #include "AssetManager.h"
+#include "TopHud.h"
 
 class GameState :
     public StiGame::BaseGameState,
@@ -19,6 +20,7 @@ class GameState :
         void onStart(void);
         void onPaint(SDL_Renderer *renderer);
         void handleEvent(StiGame::KeyEventThrower *src, StiGame::KeyEventArgs *args);
+        void onResize(int m_width, int m_height);
     protected:
         void loadSprites(void);
         void drawBaseMap(void);
@@ -29,7 +31,7 @@ class GameState :
     private:
         int viewX;
         int viewY;
-
+        TopHud topHud;
         StiGame::Surface *baseMap;
         StiGame::Color background;
 };

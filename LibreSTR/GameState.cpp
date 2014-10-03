@@ -32,6 +32,12 @@ void GameState::quit(void)
     running = false;
 }
 
+void GameState::onResize(int m_width, int m_height)
+{
+    topHud.setWidth(m_width);
+    BaseGameState::onResize(m_width, m_height);
+}
+
 void GameState::onStart(void)
 {
     sprites = new SpriteLibrary(viewport->getRenderer());
@@ -41,6 +47,7 @@ void GameState::onStart(void)
     GameOverlay *overlay = new GameOverlay();
     overlay->setState(this);
     KeyEventThrower::subscribe(overlay);
+
 
     setGameMenu(overlay);
 
@@ -105,9 +112,9 @@ void GameState::onPaint(SDL_Renderer *renderer)
     mapRect.h = height;
 
     viewRect.x = 0;
-    viewRect.y = 0;
+    viewRect.y = topHud.getHeight();
     viewRect.w = width;
-    viewRect.h = height;
+    viewRect.h = height - topHud.getHeight();
 
 
     Surface *buffer = new Surface(width, height);
@@ -116,6 +123,14 @@ void GameState::onPaint(SDL_Renderer *renderer)
 
     Texture tex (renderer, buffer);
     tex.renderCopy(&viewRect, &viewRect);
+
+
+    //Hud
+    Surface *surHud = topHud.render();
+
+    Texture texHud (renderer, surHud);
+
+    texHud.renderCopy(&topHud);
 
     BaseGameState::onPaint(renderer);
 }
@@ -181,7 +196,7 @@ void GameState::loadSprites(void)
     auto lit(textures.begin()), lend(textures.end());
     for(;lit!=lend;++lit)
     {
-        std::cout << "Load asset texture : " << (*lit) << std::endl;
+        //std::cout << "Load asset texture : " << (*lit) << std::endl;
         sprites->loadVarFile((*lit));
     }
 

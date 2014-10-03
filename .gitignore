@@ -3,7 +3,7 @@
 *.lo
 *.o
 *.obj
-*.txt
+*.user
 
 #post build copy
 *.pb
@@ -12,6 +12,7 @@
 lib/*
 bin/*
 include/*
+build/*
 */bin/*
 */obj/*
 *.zip
