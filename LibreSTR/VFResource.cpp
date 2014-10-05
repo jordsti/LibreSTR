@@ -42,6 +42,7 @@ void VFResource::fromVarFile(std::string var_file)
     name = vf.getValue("name");
     texture = vf.getValue("texture");
     amount = vf.getInt("starting_amount");
+    icon = vf.getValue("icon");
     type = static_cast<ResourceType>(vf.getInt("type"));
 }
 

@@ -10,10 +10,14 @@ GameState::GameState(AssetManager *m_assets, GameMap *m_gameMap) :
     BaseGameState()
 {
     //ctor
+    topHud = new TopHud(m_assets);
     assets = m_assets;
     gameMap = m_gameMap;
+    miniMap = new MiniMap(gameMap->GeneratePlayerMap(1), 300, 200, 22);
+
     //gameMap = new GameMap();
-    //gameMap->load("test.map", assets);
+    //gameMap->load("test.map", assets)
+
     background.setRGB(0, 0, 0);
     viewX = 0;
     viewY = 0;
@@ -34,8 +38,9 @@ void GameState::quit(void)
 
 void GameState::onResize(int m_width, int m_height)
 {
-    topHud.setWidth(m_width);
+    topHud->setWidth(m_width);
     BaseGameState::onResize(m_width, m_height);
+    miniMap->setViewDimension(m_width, m_height);
 }
 
 void GameState::onStart(void)
@@ -56,6 +61,7 @@ void GameState::onStart(void)
     actions.push_back(oaction);
 
     KeyEventThrower::subscribe(this);
+    MouseButtonEventThrower::subscribe(this);
 
     running = true;
 }
@@ -93,6 +99,8 @@ void GameState::handleEvent(KeyEventThrower *src, KeyEventArgs *args)
                 viewX += 16;
             }
         }
+
+        miniMap->setViewPoint(viewX, viewY);
     }
 }
 
@@ -109,12 +117,12 @@ void GameState::onPaint(SDL_Renderer *renderer)
     mapRect.x = viewX;
     mapRect.y = viewY;
     mapRect.w = width;
-    mapRect.h = height;
+    mapRect.h = height - topHud->getHeight();
 
     viewRect.x = 0;
-    viewRect.y = topHud.getHeight();
+    viewRect.y = topHud->getHeight();
     viewRect.w = width;
-    viewRect.h = height - topHud.getHeight();
+    viewRect.h = height - topHud->getHeight();
 
 
     Surface *buffer = new Surface(width, height);
@@ -126,13 +134,34 @@ void GameState::onPaint(SDL_Renderer *renderer)
 
 
     //Hud
-    Surface *surHud = topHud.render();
+    Surface *surHud = topHud->render();
 
     Texture texHud (renderer, surHud);
+    texHud.renderCopy(topHud);
 
-    texHud.renderCopy(&topHud);
+    Surface *surMiniMap = miniMap->getSurface();
+    Texture texMiniMap (renderer, surMiniMap);
+    Point dst (0, height - texMiniMap.getHeight());
+
+    texMiniMap.setBlendMode(SDL_BLENDMODE_BLEND);
+    texMiniMap.setAlphaMod(160);
+    texMiniMap.renderCopy(&dst);
 
     BaseGameState::onPaint(renderer);
+}
+
+void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *args)
+{
+    if(args->getMouseButton() == MB_LEFT && !args->isDown())
+    {
+        Dimension d = miniMap->getDimension();
+        Rectangle miniMapZone(0, height - d.getHeight(), d.getWidth(), d.getHeight());
+        if(miniMapZone.contains(args->getX(), args->getY()))
+        {
+            Point pt (args->getX(),args->getY() - (height - d.getHeight()));
+            miniMap->mouseClick(pt);
+        }
+    }
 }
 
 void GameState::drawBaseMap(void)

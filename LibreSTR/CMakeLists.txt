@@ -11,6 +11,7 @@ set(SOURCE_FILES main.cpp
     LibreSTRStyle.cpp
     MainMenu.cpp
     MapGenerator.cpp
+    MiniMap.cpp
     PlayerMap.cpp
     Tile.cpp
     TopHud.cpp

@@ -9,7 +9,7 @@ IResource::IResource()
     texture = "nothing";
     amount = 0;
     type = RT_NOT_DEFINED;
-
+    icon = "";
     _id = GetCurrendId();
 
 }
@@ -21,7 +21,7 @@ IResource::IResource(int m_id)
     texture = "nothing";
     amount = 0;
     type = RT_NOT_DEFINED;
-
+    icon = "";
     _id = m_id;
 
 }
@@ -49,6 +49,11 @@ std::string IResource::getTexture(void)
 ResourceType IResource::getType(void)
 {
         return type;
+}
+
+std::string IResource::getIcon(void)
+{
+    return icon;
 }
 
 int IResource::getAmount(void)

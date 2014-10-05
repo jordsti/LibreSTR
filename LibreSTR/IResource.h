@@ -17,6 +17,7 @@ class IResource
         int getId(void);
         std::string getName(void);
         std::string getTexture(void);
+        std::string getIcon(void);
         ResourceType getType(void);
         int getAmount(void);
         void setAmount(int m_amount);
@@ -30,6 +31,7 @@ class IResource
         std::string name;
         int amount;
         std::string texture;
+        std::string icon;
         ResourceType type;
 
     private:
