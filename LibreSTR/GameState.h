@@ -24,6 +24,9 @@ class GameState :
         void handleEvent(StiGame::KeyEventThrower *src, StiGame::KeyEventArgs *args);
         void handleEvent(StiGame::MouseButtonEventThrower *src, StiGame::MouseButtonEventArgs *args);
         void onResize(int m_width, int m_height);
+
+        void setViewPoint(int t_x, int t_y);
+
     protected:
         void loadSprites(void);
         void drawBaseMap(void);

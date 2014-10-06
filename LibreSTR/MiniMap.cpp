@@ -1,7 +1,7 @@
 #include "MiniMap.h"
 #include <PRect.h>
 #include <GamePath.h>
-
+#include "GameState.h"
 #include <iostream>
 
 using namespace StiGame;
@@ -9,8 +9,9 @@ using namespace StiGame;
 //todo
 //add a bar with a hide button
 
-MiniMap::MiniMap(PlayerMap *m_playerMap, int m_width, int m_height, int m_borderWidth)
+MiniMap::MiniMap(GameState *m_state, PlayerMap *m_playerMap, int m_width, int m_height, int m_borderWidth)
 {
+    state = m_state;
     playerMap = m_playerMap;
     width = m_width;
     height = m_height;
@@ -78,18 +79,46 @@ Dimension MiniMap::getDimension(void)
 
 void MiniMap::mouseClick(StiGame::Point& pt)
 {
-    //todo
-    std::cout << pt.getX() << pt.getY() << std::endl;
     if(hide)
     {
         hide = false;
     }
     else
     {
+        Rectangle mapZone (0, 0, width, height);
         Rectangle zone (width + (borderWidth - closeIcon->getWidth())/2, 0, closeIcon->getWidth(), closeIcon->getHeight());
         if(zone.contains(&pt))
         {
             hide = true;
+        }
+        else if(mapZone.contains(&pt))
+        {
+            int n_x = 0;
+            int n_y = 0;
+
+            n_x = pt.getX() / (int)miniTileWidth;
+            n_y = pt.getY() / (int)miniTileHeight;
+
+            n_x -= (viewWidth/Tile::TILE_WIDTH)/2;
+            n_y -= (viewHeight/Tile::TILE_HEIGHT)/2;
+
+            if(n_x < 0)
+                n_x = 0;
+
+            if(n_y < 0)
+                n_y = 0;
+
+            if(n_x > playerMap->getWidth() - (viewWidth/Tile::TILE_WIDTH))
+                n_x = playerMap->getWidth() - (viewWidth/Tile::TILE_WIDTH);
+
+            if(n_y > playerMap->getHeight() - (viewHeight/Tile::TILE_HEIGHT))
+                n_y = playerMap->getHeight() - (viewHeight/Tile::TILE_HEIGHT);
+
+            state->setViewPoint(n_x, n_y);
+            viewX = n_x * Tile::TILE_WIDTH;
+            viewY = n_y * Tile::TILE_HEIGHT;
+
+            render();
         }
     }
 

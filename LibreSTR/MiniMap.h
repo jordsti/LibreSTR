@@ -4,10 +4,12 @@
 #include "PlayerMap.h"
 #include <Surface.h>
 
+class GameState;
+
 class MiniMap
 {
 public:
-    MiniMap(PlayerMap *m_playerMap, int m_width, int m_height, int m_borderWidth);
+    MiniMap(GameState *m_state, PlayerMap *m_playerMap, int m_width, int m_height, int m_borderWidth);
 
     virtual ~MiniMap();
 
@@ -42,6 +44,8 @@ private:
     int viewX;
     int viewY;
     int borderWidth;
+
+    GameState *state;
 
     StiGame::Color viewColor;
     StiGame::Color background;

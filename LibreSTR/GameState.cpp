@@ -13,7 +13,7 @@ GameState::GameState(AssetManager *m_assets, GameMap *m_gameMap) :
     topHud = new TopHud(m_assets);
     assets = m_assets;
     gameMap = m_gameMap;
-    miniMap = new MiniMap(gameMap->GeneratePlayerMap(1), 300, 200, 22);
+    miniMap = new MiniMap(this, gameMap->GeneratePlayerMap(1), 300, 200, 22);
 
     //gameMap = new GameMap();
     //gameMap->load("test.map", assets)
@@ -102,6 +102,21 @@ void GameState::handleEvent(KeyEventThrower *src, KeyEventArgs *args)
 
         miniMap->setViewPoint(viewX, viewY);
     }
+}
+
+void GameState::setViewPoint(int t_x, int t_y)
+{
+    /*if(t_x < gameMap->getWidth() - (width / Tile::TILE_WIDTH) && t_x >= 0)
+    {
+        viewX = t_x * Tile::TILE_WIDTH;
+    }
+
+    if(t_y < gameMap->getHeight() - (height / Tile::TILE_HEIGHT) && t_y >= 0)
+    {
+        viewY = t_y * Tile::TILE_HEIGHT;
+    }*/
+    viewX = t_x * Tile::TILE_WIDTH;
+    viewY = t_y * Tile::TILE_HEIGHT;
 }
 
 void GameState::onPaint(SDL_Renderer *renderer)
