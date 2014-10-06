@@ -40,7 +40,7 @@ void PlayerMap::addTile(int row, Tile *tile)
     }
 }
 
-IResource* PlayerMap::getResource(int resId)
+Resource* PlayerMap::getResource(int resId)
 {
     auto lit(resRefs.begin()), lend(resRefs.end());
     for(;lit!=lend;++lit)

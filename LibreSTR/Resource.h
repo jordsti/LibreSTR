@@ -3,16 +3,20 @@
 
 #include <string>
 
+class ResourceIdentity;
+
 enum ResourceType {
     RT_NOT_DEFINED = 0,
     RT_METAL = 1,
     RT_GAZ = 2
 };
 
-class IResource
+class Resource
 {
     public:
-        virtual ~IResource();
+        Resource(ResourceIdentity *m_identity);
+        Resource(ResourceIdentity *m_identity, int m_id);
+        virtual ~Resource();
 
         int getId(void);
         std::string getName(void);
@@ -22,22 +26,20 @@ class IResource
         int getAmount(void);
         void setAmount(int m_amount);
 
-        virtual IResource* clone(void) = 0;
+        Resource* clone(void);
+
+        ResourceIdentity* getIdentity(void);
 
     protected:
-        IResource();
-        IResource(int m_id);
-
-        std::string name;
         int amount;
-        std::string texture;
-        std::string icon;
-        ResourceType type;
+
 
     private:
         int _id;
         static int _currentId;
         int GetCurrendId(void);
+        ResourceIdentity *_identity;
+
 
 };
 

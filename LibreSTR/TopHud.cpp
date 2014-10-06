@@ -7,8 +7,8 @@ TopHud::TopHud(AssetManager *m_assets)
 {
     assets = m_assets;
 
-    iconMetal.setImage(GamePath::getFilepath(AssetRoot, assets->getMetalDef()->getIcon()));
-    iconGaz.setImage(GamePath::getFilepath(AssetRoot, assets->getGazDef()->getIcon()));
+    iconMetal.setImage(GamePath::getFilepath(AssetRoot, assets->getMetalIdentity()->getIcon()));
+    iconGaz.setImage(GamePath::getFilepath(AssetRoot, assets->getGazIdentity()->getIcon()));
 
     maximumSize.setHeight(30);
     height = 30;

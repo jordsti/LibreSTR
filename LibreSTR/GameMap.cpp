@@ -1,7 +1,9 @@
 #include "GameMap.h"
 #include <fstream>
 
-
+//todo
+// -tile texture defined into map header
+//
 const int GameMap::PLAYERS_MAX = 2;
 
 GameMap::GameMap()
@@ -90,12 +92,12 @@ void GameMap::load(std::string input, AssetManager *asset)
         Tile *t = get(ri.x, ri.y);
         if(ri.type == RT_METAL)
         {
-            t->setResource(asset->getMetalDef()->create());
+            t->setResource(asset->getMetalIdentity()->create());
 
         }
         else if(ri.type == RT_GAZ)
         {
-            t->setResource(asset->getGazDef()->create());
+            t->setResource(asset->getGazIdentity()->create());
         }
 
         t->getResource()->setAmount(ri.amount);
@@ -143,7 +145,7 @@ void GameMap::save(std::string output)
     for(;lit!=lend;++lit)
     {
         Tile *t = get((*lit).getX(), (*lit).getY());
-        IResource *r = t->getResource();
+        Resource *r = t->getResource();
 
         ResourceInfo ri;
         ri.x = (*lit).getX();

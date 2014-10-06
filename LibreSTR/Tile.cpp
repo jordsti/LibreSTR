@@ -79,7 +79,7 @@ std::string Tile::getTexture(void)
     return texture;
 }
 
-IResource* Tile::getResource(void)
+Resource* Tile::getResource(void)
 {
     return resource;
 }
@@ -100,7 +100,7 @@ void Tile::setTexture(std::string m_texture)
     texture = m_texture;
 }
 
-void Tile::setResource(IResource *m_resource)
+void Tile::setResource(Resource *m_resource)
 {
     resource = m_resource;
 }

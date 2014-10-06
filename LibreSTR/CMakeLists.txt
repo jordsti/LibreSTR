@@ -7,7 +7,7 @@ set(SOURCE_FILES main.cpp
     GameOverlay.cpp
     GameState.cpp
     #HydrocarbonGaz.cpp will be remove too
-    IResource.cpp
+    Resource.cpp
     LibreSTRStyle.cpp
     MainMenu.cpp
     MapGenerator.cpp
@@ -16,7 +16,7 @@ set(SOURCE_FILES main.cpp
     Tile.cpp
     TopHud.cpp
     #Titanium.cpp this file will be removed
-    VFResource.cpp
+    ResourceIdentity.cpp
 )
 
 configure_file(VersionConfig.h.in ${PROJECT_SOURCE_DIR}/LibreSTRVersion.h)

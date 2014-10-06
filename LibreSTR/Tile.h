@@ -2,7 +2,7 @@
 #define TILE_H
 
 #include <string>
-#include "IResource.h"
+#include "Resource.h"
 
 enum TileType {
     TT_Normal,
@@ -25,19 +25,19 @@ class Tile
 
         TileType getType(void);
         std::string getTexture(void);
-        IResource* getResource(void);
+        Resource* getResource(void);
         bool containsResource(void);
 
         void setType(TileType m_type);
         void setTexture(std::string m_texture);
-        void setResource(IResource *m_resource);
+        void setResource(Resource *m_resource);
 
         Tile* clone(void);
 
     protected:
         TileType type;
         std::string texture;
-        IResource *resource;
+        Resource *resource;
     private:
         int _id;
         static int GetCurrentId(void);

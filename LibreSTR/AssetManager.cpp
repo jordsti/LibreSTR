@@ -31,12 +31,12 @@ std::list<std::string> AssetManager::getTextures(void)
     return textures;
 }
 
-VFResource* AssetManager::getMetalDef(void)
+ResourceIdentity* AssetManager::getMetalIdentity(void)
 {
     return resMetal;
 }
 
-VFResource* AssetManager::getGazDef(void)
+ResourceIdentity* AssetManager::getGazIdentity(void)
 {
     return resGaz;
 }
@@ -62,7 +62,7 @@ void AssetManager::loadData(void)
     tileBlock = vf.getValue("tile_block");
 
     //loading VFResource
-    resMetal = new VFResource(rmetal);
-    resGaz = new VFResource(rgaz);
+    resMetal = new ResourceIdentity(rmetal);
+    resGaz = new ResourceIdentity(rgaz);
 
 }

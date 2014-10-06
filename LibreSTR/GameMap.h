@@ -9,6 +9,8 @@
 #include "PlayerMap.h"
 #include "AssetManager.h"
 
+const int TEXTURE_NAME_LENGTH = 32;
+
 struct MapHeader
 {
     int width;

@@ -216,7 +216,7 @@ void GameState::drawBaseMap(void)
 
             if(t->containsResource())
             {
-                IResource *rs = t->getResource();
+                Resource *rs = t->getResource();
                 Sprite *sprRes = sprites->getSprite(rs->getTexture());
 
                 sur = sprRes->getCurrentSurface();

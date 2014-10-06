@@ -1,7 +1,7 @@
 #ifndef ASSETMANAGER_H
 #define ASSETMANAGER_H
 
-#include "VFResource.h"
+#include "ResourceIdentity.h"
 #include <list>
 
 class AssetManager
@@ -10,8 +10,8 @@ class AssetManager
         AssetManager();
         virtual ~AssetManager();
 
-        VFResource* getMetalDef(void);
-        VFResource* getGazDef(void);
+        ResourceIdentity* getMetalIdentity(void);
+        ResourceIdentity* getGazIdentity(void);
 
         std::string getTileNormal(void);
         std::string getTileBlock(void);
@@ -21,8 +21,8 @@ class AssetManager
     protected:
         void loadData(void);
 
-        VFResource *resMetal;
-        VFResource *resGaz;
+        ResourceIdentity *resMetal;
+        ResourceIdentity *resGaz;
 
         std::string tileNormal;
         std::string tileBlock;

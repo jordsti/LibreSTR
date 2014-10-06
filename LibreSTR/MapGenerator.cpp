@@ -207,7 +207,7 @@ void MapGenerator::PlaceRessource(GameMap *gmap, int x, int y, int n, int metalT
 
         if(!t->containsResource())
         {
-            IResource *res = assets->getGazDef()->create();
+            Resource *res = assets->getGazIdentity()->create();
             t->setResource(res);
         }
         else
@@ -232,7 +232,7 @@ void MapGenerator::PlaceRessource(GameMap *gmap, int x, int y, int n, int metalT
         Tile *t = tilesTaken[j+i];
         if(!t->containsResource())
         {
-            IResource *res = assets->getMetalDef()->create();
+            Resource *res = assets->getMetalIdentity()->create();
             t->setResource(res);
         }
         else
