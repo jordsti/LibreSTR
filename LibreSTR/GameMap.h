@@ -16,11 +16,17 @@ struct MapHeader
     int width;
     int height;
     int seed;
+    int nbTextures;
+};
+
+struct TileTexture {
+    char name[TEXTURE_NAME_LENGTH];
 };
 
 struct TileInfo
 {
     int type;
+    int texture_id;
 };
 
 struct ResourceMarker
@@ -61,6 +67,12 @@ class GameMap
         void save(std::string output);
         void load(std::string input, AssetManager *asset);
 
+        int addTexture(std::string name);
+        std::string getTexture(int id);
+
+        int getDefaultTextureId(void);
+        std::string getDefaultTexture(void);
+
     protected:
         void initTiles(void);
         void initPtsMap(void);
@@ -68,9 +80,13 @@ class GameMap
         int width;
         int height;
         int seed;
+        int defaultTexture;
+
         std::vector< std::vector<Tile*> > tiles;
 
         std::map<int, std::vector<StiGame::Point>> startingPoints;
+
+        std::vector< std::string > textures;
 
     private:
 };

@@ -39,6 +39,9 @@ GameMap* MapGenerator::RandomMap(int width, int height, int seed)
     srand(seed);
     GameMap *gmap = new GameMap(width, height, seed);
 
+    int tileNormal = gmap->addTexture(assets->getTileNormal());
+    int tileBlock = gmap->addTexture(assets->getTileBlock());
+
     for(int y=0; y<height; y++)
     {
         for(int x=0; x<width; x++)
@@ -50,12 +53,12 @@ GameMap* MapGenerator::RandomMap(int width, int height, int seed)
             if(i >= 0 && i <= 2)
             {
                 t->setType(TT_Block);
-                t->setTexture(assets->getTileBlock());
+                t->setTextureId(tileBlock);
             }
             else
             {
                 t->setType(TT_Normal);
-                t->setTexture(assets->getTileNormal());
+                t->setTextureId(tileNormal);
             }
             /*else if(i < 5 && i > 2)
             {

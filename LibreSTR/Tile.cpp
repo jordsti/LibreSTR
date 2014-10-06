@@ -18,34 +18,34 @@ Tile::Tile()
 {
     //ctor
     type = TT_Normal;
-    texture = "";
+    textureId = 0;
     resource = nullptr;
     _id = GetCurrentId();
 }
 
-Tile::Tile(TileType m_type, std::string m_texture)
+Tile::Tile(TileType m_type, int m_textureId)
 {
     //ctor
     type = m_type;
-    texture = m_texture;
+    textureId = m_textureId;
     resource = nullptr;
     _id = GetCurrentId();
 }
 
-Tile::Tile(TileType m_type, std::string m_texture, int m_id)
+Tile::Tile(TileType m_type, int m_textureId, int m_id)
 {
     //ctor
     //for clone purpose
 
     type = m_type;
-    texture = m_texture;
+    textureId = m_textureId;
     _id = m_id;
     resource = nullptr;
 }
 
 Tile* Tile::clone(void)
 {
-    Tile *cTile = new Tile(type, texture, _id);
+    Tile *cTile = new Tile(type, textureId, _id);
 
     if(containsResource())
     {
@@ -74,9 +74,9 @@ TileType Tile::getType(void)
     return type;
 }
 
-std::string Tile::getTexture(void)
+int Tile::getTextureId(void)
 {
-    return texture;
+    return textureId;
 }
 
 Resource* Tile::getResource(void)
@@ -95,9 +95,9 @@ void Tile::setType(TileType m_type)
     type = m_type;
 }
 
-void Tile::setTexture(std::string m_texture)
+void Tile::setTextureId(int m_textureId)
 {
-    texture = m_texture;
+    textureId = m_textureId;
 }
 
 void Tile::setResource(Resource *m_resource)

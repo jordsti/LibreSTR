@@ -17,26 +17,26 @@ class Tile
         static const int TILE_HEIGHT;
 
         Tile();
-        Tile(TileType m_type, std::string m_texture);
-        Tile(TileType m_type, std::string m_texture, int m_id);
+        Tile(TileType m_type, int m_textureId);
+        Tile(TileType m_type, int m_textureId, int m_id);
         virtual ~Tile();
 
         int getId(void);
 
         TileType getType(void);
-        std::string getTexture(void);
+        int getTextureId(void);
         Resource* getResource(void);
         bool containsResource(void);
 
         void setType(TileType m_type);
-        void setTexture(std::string m_texture);
+        void setTextureId(int m_textureId);
         void setResource(Resource *m_resource);
 
         Tile* clone(void);
 
     protected:
         TileType type;
-        std::string texture;
+        int textureId;
         Resource *resource;
     private:
         int _id;

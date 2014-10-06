@@ -188,8 +188,7 @@ void GameState::drawBaseMap(void)
     dst.w = Tile::TILE_WIDTH;
     dst.h = Tile::TILE_HEIGHT;
 
-    Sprite *sprNormal = sprites->getSprite(assets->getTileNormal());
-    Sprite *sprBlock = sprites->getSprite(assets->getTileBlock());
+    Sprite *sprDefault = sprites->getSprite(gameMap->getDefaultTexture());
 
     Surface *sur;
 
@@ -202,17 +201,23 @@ void GameState::drawBaseMap(void)
 
             Tile *t = gameMap->get(x, y);
             //draw grass on all tile
-            sur = sprNormal->getCurrentSurface();
-
+            sur = sprDefault->getCurrentSurface();
             baseMap->blit(sur, &dst);
 
-            if(t->getType() == TT_Block)
+            if(t->getTextureId() != gameMap->getDefaultTextureId())
+            {
+                Sprite *sprTile = sprites->getSprite(gameMap->getTexture(t->getTextureId()));
+                sur = sprTile->getCurrentSurface();
+                baseMap->blit(sur, &dst);
+            }
+
+            /*if(t->getType() == TT_Block)
             {
                 sur = sprBlock->getCurrentSurface();
 
                 baseMap->blit(sur, &dst);
                 //draw a rock
-            }
+            }*/
 
             if(t->containsResource())
             {
