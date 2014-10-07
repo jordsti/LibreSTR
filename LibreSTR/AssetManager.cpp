@@ -53,7 +53,8 @@ std::string AssetManager::getTileBlock(void)
 
 void AssetManager::loadData(void)
 {
-    VarFile vf (GamePath::getFilepath(AssetRoot, "assets.def").c_str());
+    std::string p = GamePath::getFilepath(AssetRoot, "assets.def");
+    VarFile vf (p.c_str());
     vf.read();
     std::string rmetal = vf.getValue("res_metal");
     std::string rgaz = vf.getValue("res_gaz");

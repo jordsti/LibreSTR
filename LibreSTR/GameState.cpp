@@ -34,7 +34,6 @@ GameState::~GameState()
 
 void GameState::unload(void)
 {
-    std::cout << "Is this called ?!?" << std::endl;
     clearActions();
     delete gameMap;
     delete miniMap;

@@ -21,7 +21,8 @@ ResourceIdentity::~ResourceIdentity()
 
 void ResourceIdentity::fromVarFile(std::string var_file)
 {
-    VarFile vf (GamePath::getFilepath(AssetRoot, var_file).c_str());
+    std::string p = GamePath::getFilepath(AssetRoot, var_file);
+    VarFile vf (p.c_str());
     vf.read();
 
     name = vf.getValue("name");
