@@ -16,6 +16,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
 if(WIN32)
     set(SDL2_LIBS_PATH "${PROJECT_SOURCE_DIR}/lib/")
     set(SDL2_INCLUDE "include/SDL2")
+elseif(UNIX)
+    set(SDL2_LIBS_PATH "/usr/lib/")
+    set(SDL2_INCLUDE "/usr/include/SDL2")
 endif(WIN32)
 #linux todo
 
