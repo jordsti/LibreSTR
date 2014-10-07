@@ -21,7 +21,6 @@ class MainMenu :
         virtual ~MainMenu();
         void onResize(int m_width, int m_height);
         void handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *evt);
-
     protected:
         StiGame::Gui::Label lblTitle;
         StiGame::Gui::Button btnNewGame;

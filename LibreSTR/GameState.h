@@ -19,6 +19,7 @@ class GameState :
         GameState(AssetManager *m_assets, GameMap *m_gameMap);
         virtual ~GameState();
         void quit(void);
+        void unload(void);
         void onStart(void);
         void onPaint(SDL_Renderer *renderer);
         void handleEvent(StiGame::KeyEventThrower *src, StiGame::KeyEventArgs *args);
@@ -27,6 +28,8 @@ class GameState :
 
         void setViewPoint(int t_x, int t_y);
 
+        AssetManager* getAssets(void);
+
     protected:
         void loadSprites(void);
         void drawBaseMap(void);
@@ -34,6 +37,7 @@ class GameState :
         GameMap *gameMap;
         StiGame::SpriteLibrary *sprites;
         AssetManager *assets;
+        PlayerMap *pmap; //temp
     private:
         int viewX;
         int viewY;

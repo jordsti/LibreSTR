@@ -55,7 +55,13 @@ void MiniMap::setHide(bool m_hide)
 
 MiniMap::~MiniMap()
 {
+    if(minimap != nullptr)
+    {
+        delete minimap;
+    }
 
+    delete closedImage;
+    delete closeIcon;
 }
 
 void MiniMap::setViewPoint(int m_x, int m_y)

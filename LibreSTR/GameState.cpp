@@ -13,7 +13,8 @@ GameState::GameState(AssetManager *m_assets, GameMap *m_gameMap) :
     topHud = new TopHud(m_assets);
     assets = m_assets;
     gameMap = m_gameMap;
-    miniMap = new MiniMap(this, gameMap->GeneratePlayerMap(1), 300, 200, 22);
+    pmap = gameMap->GeneratePlayerMap(1);
+    miniMap = new MiniMap(this, pmap, 300, 200, 22);
 
     //gameMap = new GameMap();
     //gameMap->load("test.map", assets)
@@ -30,6 +31,23 @@ GameState::~GameState()
     //dtor
 }
 
+
+void GameState::unload(void)
+{
+    std::cout << "Is this called ?!?" << std::endl;
+    clearActions();
+    delete gameMap;
+    delete miniMap;
+    delete sprites;
+    delete baseMap;
+    delete topHud;
+    delete pmap;
+}
+
+AssetManager* GameState::getAssets(void)
+{
+    return assets;
+}
 
 void GameState::quit(void)
 {
@@ -52,8 +70,6 @@ void GameState::onStart(void)
     GameOverlay *overlay = new GameOverlay();
     overlay->setState(this);
     KeyEventThrower::subscribe(overlay);
-
-
     setGameMenu(overlay);
 
     BaseGameAction *oaction = OverlayGameAction::GetDefaultOverlayGameAction(this);

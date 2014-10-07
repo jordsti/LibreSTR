@@ -1,4 +1,5 @@
 #include "GameOverlay.h"
+#include "MainMenu.h"
 
 using namespace StiGame;
 
@@ -9,12 +10,17 @@ GameOverlay::GameOverlay() :
     state = nullptr;
 
     resumeButton.setCaption("Resume");
+    quitToMenuButton.setCaption("Quit to Menu");
     quitButton.setCaption("Quit");
 
     resumeButton.subscribe(this);
+    quitToMenuButton.subscribe(this);
     quitButton.subscribe(this);
 
+    width = 200;
+
     add(&resumeButton);
+    add(&quitToMenuButton);
     add(&quitButton);
 }
 
@@ -29,6 +35,16 @@ void GameOverlay::handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *ar
     if(src == &resumeButton)
     {
         visible = false;
+    }
+    else if(src == &quitToMenuButton)
+    {
+        MainMenu *mm = new MainMenu(state->getAssets());
+
+        Viewport *vp = state->getViewport();
+        vp->push(mm);
+
+        //delete state;
+
     }
     else if(src == &quitButton)
     {

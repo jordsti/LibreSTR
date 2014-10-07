@@ -12,7 +12,15 @@ PlayerMap::~PlayerMap()
 {
     //dtor
     //todo
-
+    auto vit(tiles.begin()), vend(tiles.end());
+    for(;vit!=vend;++vit)
+    {
+        auto vit2((*vit).begin()), vend2((*vit).end());
+        for(;vit2!=vend2;++vit2)
+        {
+            delete (*vit2);
+        }
+    }
 }
 
 

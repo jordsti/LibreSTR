@@ -43,6 +43,7 @@ void MainMenu::initComponents(void)
     btnQuit.subscribe(this);
 }
 
+
 void MainMenu::handleEvent(EventThrower *src, EventArgs *evt)
 {
     if(src == &btnNewGame)

@@ -17,6 +17,7 @@ class GameOverlay :
         void setState(GameState *m_state);
     protected:
         StiGame::Gui::Button resumeButton;
+        StiGame::Gui::Button quitToMenuButton;
         StiGame::Gui::Button quitButton;
         GameState *state;
     private:
