@@ -2,12 +2,12 @@
 #define GAMEMAP_H
 
 #include <Point.h>
-#include "Tile.h"
 #include <vector>
 #include <map>
 #include <iostream>
 #include "PlayerMap.h"
 #include "AssetManager.h"
+#include "ITileMap.h"
 
 const int TEXTURE_NAME_LENGTH = 32;
 
@@ -42,7 +42,8 @@ struct ResourceInfo
     int type;
 };
 
-class GameMap
+class GameMap :
+        public ITileMap
 {
     public:
         static const int PLAYERS_MAX;
@@ -73,6 +74,7 @@ class GameMap
         int getDefaultTextureId(void);
         std::string getDefaultTexture(void);
 
+        int getTextureCount(void);
     protected:
         void initTiles(void);
         void initPtsMap(void);

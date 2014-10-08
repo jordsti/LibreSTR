@@ -3,8 +3,13 @@
 #include <iostream>
 #include "GameOverlay.h"
 #include <OverlayGameAction.h>
+#include "ViewMoveAction.h"
 
 using namespace StiGame;
+
+const int GameState::VIEW_MOVE_DX = 16;
+const int GameState::VIEW_MOVE_DY = 16;
+const int GameState::VIEW_RECT_ZONE = 48;
 
 GameState::GameState(AssetManager *m_assets, GameMap *m_gameMap) :
     BaseGameState()
@@ -58,6 +63,22 @@ void GameState::onResize(int m_width, int m_height)
     topHud->setWidth(m_width);
     BaseGameState::onResize(m_width, m_height);
     miniMap->setViewDimension(m_width, m_height);
+
+
+    //view movement rect update
+    viewRectUp.setWidth(m_width);
+    viewRectUp.setHeight(VIEW_RECT_ZONE + topHud->getHeight());
+
+    viewRectDown.setWidth(m_width);
+    viewRectDown.setHeight(VIEW_RECT_ZONE);
+    viewRectDown.setY(height - VIEW_RECT_ZONE);
+
+    viewRectLeft.setHeight(m_height);
+    viewRectLeft.setWidth(VIEW_RECT_ZONE);
+
+    viewRectRight.setHeight(m_height);
+    viewRectRight.setWidth(VIEW_RECT_ZONE);
+    viewRectRight.setX(width - VIEW_RECT_ZONE);
 }
 
 void GameState::onStart(void)
@@ -68,68 +89,111 @@ void GameState::onStart(void)
 
     GameOverlay *overlay = new GameOverlay();
     overlay->setState(this);
-    KeyEventThrower::subscribe(overlay);
+    //KeyEventThrower::subscribe(overlay);
     setGameMenu(overlay);
 
-    BaseGameAction *oaction = OverlayGameAction::GetDefaultOverlayGameAction(this);
+    //BaseGameAction *oaction = OverlayGameAction::GetDefaultOverlayGameAction(this);
 
-    actions.push_back(oaction);
+    //actions.push_back(oaction);
+
+    //view movement action
+    ViewMoveAction *vaction;
+
+    vaction = new ViewMoveAction(this, "view_move_up", 0, -VIEW_MOVE_DX);
+    actions.push_back(vaction);
+
+    vaction = new ViewMoveAction(this, "view_move_down", 0, VIEW_MOVE_DX);
+    actions.push_back(vaction);
+
+    vaction = new ViewMoveAction(this, "view_move_left", -VIEW_MOVE_DY, 0);
+    actions.push_back(vaction);
+
+    vaction = new ViewMoveAction(this, "view_move_right", VIEW_MOVE_DY, 0);
+    actions.push_back(vaction);
+
+    auto vit(actions.begin()), vend(actions.end());
+    for(;vit!=vend;++vit)
+    {
+        ActionMap *amap = assets->getBindings()->getBinding((*vit)->getName());
+        if(amap != 0)
+        {
+            (*vit)->setActionMap(amap);
+        }
+    }
 
     KeyEventThrower::subscribe(this);
     MouseButtonEventThrower::subscribe(this);
+    MouseMotionEventThrower::subscribe(this);
 
     running = true;
 }
 
+void GameState::tickMouseViewMovement(void)
+{
+    int dx = 0;
+    int dy = 0;
+
+    if(viewRectUp.contains(&mousePosition))
+        dy -= VIEW_MOVE_DY;
+
+
+    if(viewRectDown.contains(&mousePosition))
+        dy += VIEW_MOVE_DY;
+
+
+    if(viewRectLeft.contains(&mousePosition))
+        dx -= VIEW_MOVE_DX;
+
+
+    if(viewRectRight.contains(&mousePosition))
+        dx += VIEW_MOVE_DX;
+
+
+    if(dx != 0 || dy != 0)
+        moveViewPoint(dx, dy);
+
+}
+
 void GameState::handleEvent(KeyEventThrower *src, KeyEventArgs *args)
 {
-    if(args->getState() == KS_DOWN)
+    if(args->getKeyboardEvent()->keysym.sym == SDLK_ESCAPE && args->getState() == KS_UP)
     {
-        if(args->getKeyboardEvent()->keysym.sym == SDLK_UP)
+        if(!gameMenu->isVisible())
         {
-            if(viewY > 0)
-            {
-                viewY -= 16;
-            }
+            openGameMenu();
         }
-        else if(args->getKeyboardEvent()->keysym.sym == SDLK_DOWN)
+        else
         {
-            if(viewY < (gameMap->getHeight() * Tile::TILE_HEIGHT) - height)
-            {
-                viewY += 16;
-            }
-
+            closeGameMenu();
         }
-        else if(args->getKeyboardEvent()->keysym.sym == SDLK_LEFT)
-        {
-            if(viewX > 0)
-            {
-                viewX -= 16;
-            }
-        }
-        else if(args->getKeyboardEvent()->keysym.sym == SDLK_RIGHT)
-        {
-            if(viewX < (gameMap->getWidth() * Tile::TILE_WIDTH) - width)
-            {
-                viewX += 16;
-            }
-        }
-
-        miniMap->setViewPoint(viewX, viewY);
     }
+}
+
+void GameState::handleEvent(StiGame::MouseMotionEventThrower *src, StiGame::MouseMotionEventArgs *args)
+{
+    mousePosition.setPoint(args->getX(), args->getY());
+}
+
+void GameState::moveViewPoint(int dx, int dy)
+{
+    int tmpX = viewX + dx;
+    int tmpY = viewY + dy;
+
+    if((tmpX >= 0 && tmpX <= (gameMap->getWidth() * Tile::TILE_WIDTH) - width) && dx != 0)
+    {
+        viewX = tmpX;
+    }
+
+    if((tmpY >= 0 && tmpY <= (gameMap->getHeight() * Tile::TILE_HEIGHT) - height - topHud->getHeight()) && dy != 0)
+    {
+        viewY = tmpY;
+    }
+
+    miniMap->setViewPoint(viewX, viewY);
 }
 
 void GameState::setViewPoint(int t_x, int t_y)
 {
-    /*if(t_x < gameMap->getWidth() - (width / Tile::TILE_WIDTH) && t_x >= 0)
-    {
-        viewX = t_x * Tile::TILE_WIDTH;
-    }
-
-    if(t_y < gameMap->getHeight() - (height / Tile::TILE_HEIGHT) && t_y >= 0)
-    {
-        viewY = t_y * Tile::TILE_HEIGHT;
-    }*/
     viewX = t_x * Tile::TILE_WIDTH;
     viewY = t_y * Tile::TILE_HEIGHT;
 }
@@ -138,8 +202,7 @@ void GameState::onPaint(SDL_Renderer *renderer)
 {
     //todo move this plz !
     tickActions();
-
-
+    tickMouseViewMovement();
 
     SDL_Rect mapRect;
     SDL_Rect viewRect;

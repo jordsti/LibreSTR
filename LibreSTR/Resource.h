@@ -1,17 +1,12 @@
-#ifndef IRESOURCE_H
-#define IRESOURCE_H
+#ifndef RESOURCE_H
+#define RESOURCE_H
 
-#include <string>
+#include "IResource.h"
 
 class ResourceIdentity;
 
-enum ResourceType {
-    RT_NOT_DEFINED = 0,
-    RT_METAL = 1,
-    RT_GAZ = 2
-};
-
-class Resource
+class Resource :
+        public IResource
 {
     public:
         Resource(ResourceIdentity *m_identity);

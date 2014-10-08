@@ -1,6 +1,7 @@
 #include "AssetManager.h"
 #include <VarFile.h>
 #include <GamePath.h>
+#include <KeyActionMap.h>
 
 using namespace StiGame;
 
@@ -15,6 +16,12 @@ AssetManager::~AssetManager()
     //dtor
     delete resMetal;
     delete resGaz;
+    delete bindings;
+}
+
+StiGame::ActionBinding* AssetManager::getBindings(void)
+{
+    return bindings;
 }
 
 std::list<std::string> AssetManager::getTextures(void)
@@ -51,6 +58,22 @@ std::string AssetManager::getTileBlock(void)
     return tileBlock;
 }
 
+void AssetManager::initBindings()
+{
+    KeyActionMap *kmap;
+    kmap = new KeyActionMap("view_move_up", SDLK_UP);
+    bindings->addBinding(kmap);
+
+    kmap = new KeyActionMap("view_move_down", SDLK_DOWN);
+    bindings->addBinding(kmap);
+
+    kmap = new KeyActionMap("view_move_left", SDLK_LEFT);
+    bindings->addBinding(kmap);
+
+    kmap = new KeyActionMap("view_move_right", SDLK_RIGHT);
+    bindings->addBinding(kmap);
+}
+
 void AssetManager::loadData(void)
 {
     std::string p = GamePath::getFilepath(AssetRoot, "assets.def");
@@ -65,5 +88,15 @@ void AssetManager::loadData(void)
     //loading VFResource
     resMetal = new ResourceIdentity(rmetal);
     resGaz = new ResourceIdentity(rgaz);
+
+    p = GamePath::getFilepath(AssetRoot, "bindings.cfg");
+    bindings = new ActionBinding(p);
+    bindings->read();
+
+    if(bindings->getCount() == 0)
+    {
+        initBindings();
+        bindings->write();
+    }
 
 }

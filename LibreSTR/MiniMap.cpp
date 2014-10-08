@@ -9,7 +9,7 @@ using namespace StiGame;
 //todo
 //add a bar with a hide button
 
-MiniMap::MiniMap(GameState *m_state, PlayerMap *m_playerMap, int m_width, int m_height, int m_borderWidth)
+MiniMap::MiniMap(GameState *m_state, ITileMap *m_playerMap, int m_width, int m_height, int m_borderWidth)
 {
     state = m_state;
     playerMap = m_playerMap;
