@@ -1,7 +1,7 @@
 #include "MainMenu.h"
 #include <GamePath.h>
 #include "MapGenerator.h"
-#include "GameState.h"
+#include "NewGameMenu.h"
 
 const int MainMenu::BUTTON_WIDTH = 250;
 const int MainMenu::BUTTON_HEIGHT = 40;
@@ -49,7 +49,8 @@ void MainMenu::handleEvent(EventThrower *src, EventArgs *evt)
     if(src == &btnNewGame)
     {
         //todo game state
-        GameState *state = new GameState(assets, MapGenerator::RandomMap(300, 200));
+        //GameState *state = new GameState(assets, MapGenerator::RandomMap(300, 200));
+        NewGameMenu *state = new NewGameMenu();
         viewport->push(state);
     }
     else if(src == &btnQuit)

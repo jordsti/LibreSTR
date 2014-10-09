@@ -77,7 +77,7 @@ void GameMap::load(std::string input, AssetManager *asset)
 {
     std::ifstream in (input.c_str(), std::ifstream::in | std::ifstream::binary);
 
-    MapHeader header;
+    STRData::MapHeader header;
 
     in.read((char*)&header, sizeof(header));
 
@@ -87,49 +87,39 @@ void GameMap::load(std::string input, AssetManager *asset)
 
     for(int i=0; i<header.nbTextures; i++)
     {
-        TileTexture tt;
-        in.read((char*)&tt, sizeof(TileTexture));
+        STRData::TileTexture tt;
+        in.read((char*)&tt, sizeof(STRData::TileTexture));
         std::string tname = tt.name;
         textures.push_back(tname);
     }
 
     initTiles();
 
-    TileInfo ti;
+    STRData::TileInfo ti;
 
     for(int y=0; y<height; y++)
     {
         for(int x=0; x<width; x++)
         {
-            in.read((char*)&ti, sizeof(TileInfo));
+            in.read((char*)&ti, sizeof(STRData::TileInfo));
             Tile *t = get(x, y);
             t->setType(static_cast<TileType>(ti.type));
-
-            /*if(ti.type == TT_Normal)
-            {
-                t->setTexture(asset->getTileNormal());
-            }
-            else if(ti.type == TT_Block)
-            {
-                t->setTexture(asset->getTileBlock());
-            }*/
         }
     }
 
-    ResourceMarker rmark;
+    STRData::ResourceMarker rmark;
 
-    in.read((char*)&rmark, sizeof(ResourceMarker));
+    in.read((char*)&rmark, sizeof(STRData::ResourceMarker));
 
-    ResourceInfo ri;
+    STRData::ResourceInfo ri;
 
     for(int i=0; i<rmark.count; i++)
     {
-        in.read((char*)&ri, sizeof(ResourceInfo));
+        in.read((char*)&ri, sizeof(STRData::ResourceInfo));
         Tile *t = get(ri.x, ri.y);
         if(ri.type == RT_METAL)
         {
             t->setResource(asset->getMetalIdentity()->create());
-
         }
         else if(ri.type == RT_GAZ)
         {
@@ -148,27 +138,27 @@ void GameMap::save(std::string output)
 
 
     //writing map header
-    MapHeader header;
+    STRData::MapHeader header;
     header.width = width;
     header.height = height;
     header.seed = seed;
     header.nbTextures = textures.size();
 
-    out.write(reinterpret_cast<char*>(&header), sizeof(MapHeader));
+    out.write(reinterpret_cast<char*>(&header), sizeof(STRData::MapHeader));
 
 
     //texture list
     auto vit(textures.begin()), vend(textures.end());
     for(;vit!=vend;++vit)
     {
-        TileTexture tt;
+        STRData::TileTexture tt;
         tt.name[(*vit).size()] = 0;
         std::memcpy(&tt.name, (*vit).c_str(), (*vit).size());
 
-        out.write(reinterpret_cast<char*>(&tt), sizeof(TileTexture));
+        out.write(reinterpret_cast<char*>(&tt), sizeof(STRData::TileTexture));
     }
 
-    TileInfo ti;
+    STRData::TileInfo ti;
 
     std::vector<StiGame::Point> resPts;
 
@@ -179,7 +169,7 @@ void GameMap::save(std::string output)
             Tile *t = get(x, y);
             ti.type = t->getType();
             ti.texture_id = t->getTextureId();
-            out.write(reinterpret_cast<char*>(&ti), sizeof(TileInfo));
+            out.write(reinterpret_cast<char*>(&ti), sizeof(STRData::TileInfo));
 
             if(t->containsResource())
             {
@@ -188,9 +178,9 @@ void GameMap::save(std::string output)
         }
     }
 
-    ResourceMarker rmark;
+    STRData::ResourceMarker rmark;
     rmark.count = resPts.size();
-    out.write(reinterpret_cast<char*>(&rmark), sizeof(ResourceMarker));
+    out.write(reinterpret_cast<char*>(&rmark), sizeof(STRData::ResourceMarker));
 
     auto lit(resPts.begin()), lend(resPts.end());
     for(;lit!=lend;++lit)
@@ -198,13 +188,13 @@ void GameMap::save(std::string output)
         Tile *t = get((*lit).getX(), (*lit).getY());
         Resource *r = t->getResource();
 
-        ResourceInfo ri;
+        STRData::ResourceInfo ri;
         ri.x = (*lit).getX();
         ri.y = (*lit).getY();
         ri.amount = r->getAmount();
         ri.type = r->getType();
 
-        out.write(reinterpret_cast<char*>(&ri), sizeof(ResourceInfo));
+        out.write(reinterpret_cast<char*>(&ri), sizeof(STRData::ResourceInfo));
     }
 
     out.close();

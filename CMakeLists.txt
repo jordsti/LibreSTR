@@ -12,23 +12,26 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2 -DRELEASE")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
 
 
-#win32 SDL2 lib path
+
 if(WIN32)
     set(SDL2_LIBS_PATH "${PROJECT_SOURCE_DIR}/lib/")
     set(SDL2_INCLUDE "include/SDL2")
 elseif(UNIX)
     set(SDL2_LIBS_PATH "/usr/lib/")
     set(SDL2_INCLUDE "/usr/include/SDL2")
-	include_directories("${PROJECT_SOURCE_DIR}/include/SDL2")
 endif(WIN32)
-#linux todo
 
 include_directories(${SDL2_INCLUDE})
-include_directories(../stigame/StiGame)
+include_directories(STRData)
 
 if(TRAVIS_BUILD)
 	include_directories(stigame/StiGame/)
+        #need sdl2_gfx header
+        include_directories("${PROJECT_SOURCE_DIR}/include/SDL2")
+else(TRAVIS_BUILD)
+	include_directories(../stigame/StiGame)
 endif(TRAVIS_BUILD)
+
 
 find_library(SDL2 NAMES "SDL2" PATHS ${SDL2_LIBS_PATH})
 find_library(SDL2_image NAMES "SDL2_image" PATHS ${SDL2_LIBS_PATH})
@@ -47,7 +50,9 @@ else(CMAKE_BUILD_TYPE EQUAL "Release")
     set(INSTALL_DIR ${PROJECT_SOURCE_DIR}/build/last/${CMAKE_BUILD_TYPE})
 endif(CMAKE_BUILD_TYPE EQUAL "Release")
 
+add_subdirectory(STRData)
 add_subdirectory(LibreSTR)
+
 
 if(WIN32)
     get_filename_component(MINGW32_ROOT ${CMAKE_CXX_COMPILER} DIRECTORY)

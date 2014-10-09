@@ -8,39 +8,7 @@
 #include "PlayerMap.h"
 #include "AssetManager.h"
 #include "ITileMap.h"
-
-const int TEXTURE_NAME_LENGTH = 32;
-
-struct MapHeader
-{
-    int width;
-    int height;
-    int seed;
-    int nbTextures;
-};
-
-struct TileTexture {
-    char name[TEXTURE_NAME_LENGTH];
-};
-
-struct TileInfo
-{
-    int type;
-    int texture_id;
-};
-
-struct ResourceMarker
-{
-    int count;
-};
-
-struct ResourceInfo
-{
-    int x;
-    int y;
-    int amount;
-    int type;
-};
+#include <MapData.h>
 
 class GameMap :
         public ITileMap
