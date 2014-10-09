@@ -26,8 +26,8 @@ include_directories(STRData)
 
 if(TRAVIS_BUILD)
 	include_directories(stigame/StiGame/)
-        #need sdl2_gfx header
-        include_directories("${PROJECT_SOURCE_DIR}/include/SDL2")
+    #need sdl2_gfx header
+    include_directories("${PROJECT_SOURCE_DIR}/include/SDL2")
 else(TRAVIS_BUILD)
 	include_directories(../stigame/StiGame)
 endif(TRAVIS_BUILD)

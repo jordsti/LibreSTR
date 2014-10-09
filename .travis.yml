@@ -22,7 +22,7 @@ before_install:
    - git clone https://github.com/jordsti/stigame.git
    - mkdir stigame-build
    - cd stigame-build
-   - cmake  ../stigame -DCMAKE_BUILD_TYPE:STRING=Release
+   - cmake  ../stigame -DCMAKE_BUILD_TYPE:STRING=Release -DSDL2_GFX_PATH:PATH=../SDL2_gfx-1.0.1
    - make
    - make install
    - cd ..
