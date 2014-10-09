@@ -32,7 +32,7 @@ find_library(SDL2_gfx NAMES "SDL2_gfx" PATHS ${SDL2_LIBS_PATH})
 find_library(SDL2_ttf NAMES "SDL2_ttf" PATHS ${SDL2_LIBS_PATH})
 find_library(SDL2_net NAMES "SDL2_net" PATHS ${SDL2_LIBS_PATH})
 find_library(SDL2main NAMES "SDL2main" PATHS ${SDL2_LIBS_PATH})
-find_library(StiGame NAMES "StiGame" PATHS ${PROJECT_SOURCE_DIR}/../StiGame/build/*/${CMAKE_BUILD_TYPE} FORCE)
+find_library(StiGame NAMES "StiGame" PATHS ${PROJECT_SOURCE_DIR}/../stigame/build/*/${CMAKE_BUILD_TYPE} FORCE)
 
 if(CMAKE_BUILD_TYPE EQUAL "Release")
     set(INSTALL_DIR ${PROJECT_SOURCE_DIR}/build/${LIBRESTR_MAJOR}.${LIBRESTR_MINOR}.${LIBRESTR_RELEASE}.${LIBRESTR_BUILD}/${CMAKE_BUILD_TYPE})

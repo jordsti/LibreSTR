@@ -26,10 +26,14 @@ before_install:
    - make
    - make install
    - cd ..
+   - cd stigame/build/*/Release
+   - ls
+   - cd ../..
 script: 
    - mkdir build
    - cd build
    - cmake  ../ -DCMAKE_BUILD_TYPE:STRING=Release
    - make
    - make install
-   - cd 
+   - cd ../stigame/StiGame/build/*/Release
+   - ls
