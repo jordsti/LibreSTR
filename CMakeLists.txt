@@ -19,6 +19,7 @@ if(WIN32)
 elseif(UNIX)
     set(SDL2_LIBS_PATH "/usr/lib/")
     set(SDL2_INCLUDE "/usr/include/SDL2")
+	include_directories("${PROJECT_SOURCE_DIR}/include/SDL2")
 endif(WIN32)
 #linux todo
 
