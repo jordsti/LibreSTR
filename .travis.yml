@@ -28,7 +28,7 @@ before_install:
    - cd ..
    - cd stigame/build/*/Release
    - ls
-   - cd ../..
+   - cd ../../../..
 script: 
    - mkdir build
    - cd build
