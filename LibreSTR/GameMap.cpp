@@ -2,6 +2,7 @@
 #include <fstream>
 #include <set>
 #include <map>
+#include <cstring>
 
 //todo
 // -tile texture defined into map header
@@ -162,7 +163,7 @@ void GameMap::save(std::string output)
     {
         TileTexture tt;
         tt.name[(*vit).size()] = 0;
-        memcpy(&tt.name, (*vit).c_str(), (*vit).size());
+        std::memcpy(&tt.name, (*vit).c_str(), (*vit).size());
 
         out.write(reinterpret_cast<char*>(&tt), sizeof(TileTexture));
     }
