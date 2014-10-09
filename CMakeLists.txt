@@ -26,6 +26,10 @@ endif(WIN32)
 include_directories(${SDL2_INCLUDE})
 include_directories(../stigame/StiGame)
 
+if(TRAVIS_BUILD)
+	include_directories(stigame/StiGame/)
+endif(TRAVIS_BUILD)
+
 find_library(SDL2 NAMES "SDL2" PATHS ${SDL2_LIBS_PATH})
 find_library(SDL2_image NAMES "SDL2_image" PATHS ${SDL2_LIBS_PATH})
 find_library(SDL2_gfx NAMES "SDL2_gfx" PATHS ${SDL2_LIBS_PATH})

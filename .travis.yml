@@ -32,7 +32,7 @@ before_install:
 script: 
    - mkdir build
    - cd build
-   - cmake  ../ -DCMAKE_BUILD_TYPE:STRING=Release
+   - cmake  ../ -DCMAKE_BUILD_TYPE:STRING=Release -DTRAVIS_BUILD:STRING=YES
    - make
    - make install
    - cd ../stigame/StiGame/build/*/Release
