@@ -13,9 +13,14 @@
 class GameState :
     public StiGame::BaseGameState,
     public StiGame::KeyEventListener,
-    public StiGame::MouseButtonEventListener
+    public StiGame::MouseButtonEventListener,
+    public StiGame::MouseMotionEventListener
 {
     public:
+        static const int VIEW_MOVE_DX;
+        static const int VIEW_MOVE_DY;
+        static const int VIEW_RECT_ZONE;
+
         GameState(AssetManager *m_assets, GameMap *m_gameMap);
         virtual ~GameState();
         void quit(void);
@@ -24,27 +29,37 @@ class GameState :
         void onPaint(SDL_Renderer *renderer);
         void handleEvent(StiGame::KeyEventThrower *src, StiGame::KeyEventArgs *args);
         void handleEvent(StiGame::MouseButtonEventThrower *src, StiGame::MouseButtonEventArgs *args);
+        void handleEvent(StiGame::MouseMotionEventThrower *src, StiGame::MouseMotionEventArgs *args);
         void onResize(int m_width, int m_height);
 
         void setViewPoint(int t_x, int t_y);
+        void moveViewPoint(int dx, int dy);
 
         AssetManager* getAssets(void);
 
     protected:
         void loadSprites(void);
         void drawBaseMap(void);
+        void tickMouseViewMovement(void);
 
         GameMap *gameMap;
         StiGame::SpriteLibrary *sprites;
         AssetManager *assets;
         PlayerMap *pmap; //temp
     private:
+        StiGame::MPoint mousePosition;
         int viewX;
         int viewY;
         TopHud *topHud;
         StiGame::Surface *baseMap;
         StiGame::Color background;
         MiniMap *miniMap;
+
+        //view rectangle for moving
+        StiGame::Rectangle viewRectUp;
+        StiGame::Rectangle viewRectDown;
+        StiGame::Rectangle viewRectLeft;
+        StiGame::Rectangle viewRectRight;
 };
 
 #endif // GAMESTATE_H

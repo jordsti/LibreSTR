@@ -4,6 +4,7 @@
 *.o
 *.obj
 *.user
+*.cfg
 
 #post build copy
 *.pb

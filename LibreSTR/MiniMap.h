@@ -1,7 +1,7 @@
 #ifndef MINIMAP_H
 #define MINIMAP_H
 
-#include "PlayerMap.h"
+#include "ITileMap.h"
 #include <Surface.h>
 
 class GameState;
@@ -9,7 +9,7 @@ class GameState;
 class MiniMap
 {
 public:
-    MiniMap(GameState *m_state, PlayerMap *m_playerMap, int m_width, int m_height, int m_borderWidth);
+    MiniMap(GameState *m_state, ITileMap *m_playerMap, int m_width, int m_height, int m_borderWidth);
 
     virtual ~MiniMap();
 
@@ -33,7 +33,7 @@ private:
     bool hide;
 
     void render(void);
-    PlayerMap *playerMap;
+    ITileMap *playerMap;
     float miniTileWidth;
     float miniTileHeight;
     int width;

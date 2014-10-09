@@ -6,6 +6,8 @@ set(SOURCE_FILES main.cpp
     GameMap.cpp
     GameOverlay.cpp
     GameState.cpp
+    IResource.cpp
+    ITileMap.cpp
     Resource.cpp
     LibreSTRStyle.cpp
     MainMenu.cpp
@@ -15,6 +17,7 @@ set(SOURCE_FILES main.cpp
     Tile.cpp
     TopHud.cpp
     ResourceIdentity.cpp
+    ViewMoveAction.cpp
 )
 
 configure_file(VersionConfig.h.in ${PROJECT_SOURCE_DIR}/LibreSTRVersion.h)

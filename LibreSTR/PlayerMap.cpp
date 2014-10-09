@@ -5,6 +5,7 @@ PlayerMap::PlayerMap(int m_width, int m_height)
     //ctor
     width = m_width;
     height = m_height;
+    defaultTexture = 0;
     initRows();
 }
 
@@ -32,6 +33,36 @@ int PlayerMap::getWidth(void)
 int PlayerMap::getHeight(void)
 {
     return height;
+}
+
+int PlayerMap::getDefaultTextureId(void)
+{
+    return defaultTexture;
+}
+
+void PlayerMap::setDefaultTextureId(int m_defaultTexture)
+{
+    defaultTexture = m_defaultTexture;
+}
+
+std::string PlayerMap::getDefaultTexture(void)
+{
+    return textures[defaultTexture];
+}
+
+std::string PlayerMap::getTexture(int id)
+{
+    return textures[id];
+}
+
+int PlayerMap::getTextureCount(void)
+{
+    return textures.size();
+}
+
+void PlayerMap::addTexture(std::string m_texture)
+{
+    textures.push_back(m_texture);
 }
 
 void PlayerMap::addTile(int row, Tile *tile)

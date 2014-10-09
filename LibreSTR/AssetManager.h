@@ -2,6 +2,7 @@
 #define ASSETMANAGER_H
 
 #include "ResourceIdentity.h"
+#include <ActionBinding.h>
 #include <list>
 
 class AssetManager
@@ -18,11 +19,16 @@ class AssetManager
 
         std::list<std::string> getTextures(void);
 
+
+        StiGame::ActionBinding* getBindings(void);
     protected:
         void loadData(void);
+        void initBindings(void);
 
         ResourceIdentity *resMetal;
         ResourceIdentity *resGaz;
+
+        StiGame::ActionBinding *bindings;
 
         std::string tileNormal;
         std::string tileBlock;

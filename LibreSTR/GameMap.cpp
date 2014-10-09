@@ -50,6 +50,11 @@ GameMap::~GameMap()
     }
 }
 
+int GameMap::getTextureCount()
+{
+    return textures.size();
+}
+
 int GameMap::addTexture(std::string name)
 {
     int index = textures.size();
