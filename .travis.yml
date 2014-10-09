@@ -30,10 +30,10 @@ before_install:
    - ls
    - cd ../../../..
 script: 
-   - mkdir build
-   - cd build
+   - mkdir cmake_build
+   - cd cmake_build
    - cmake  ../ -DCMAKE_BUILD_TYPE:STRING=Release -DTRAVIS_BUILD:STRING=YES
    - make
    - make install
-   - cd ../stigame/StiGame/build/*/Release
+   - cd ../build/*/Release
    - ls
