@@ -20,7 +20,6 @@ GameState::GameState(AssetManager *m_assets, GameMap *m_gameMap) :
     gameMap = m_gameMap;
     pmap = gameMap->GeneratePlayerMap(1);
     miniMap = new MiniMap(this, pmap, 300, 200, 22);
-
     //gameMap = new GameMap();
     //gameMap->load("test.map", assets)
 
@@ -124,10 +123,9 @@ void GameState::onStart(void)
     MouseButtonEventThrower::subscribe(this);
     MouseMotionEventThrower::subscribe(this);
 
-    Building *b1 = new Building();
+    /*Building *b1 = new Building();
     gameMap->forcePlaceBuilding(new Building(), 64, 64);
-    gameMap->forcePlaceBuilding(b1, 6, 6);
-
+    gameMap->forcePlaceBuilding(b1, 6, 6);*/
 
     drawBaseMap();
     running = true;

@@ -4,6 +4,7 @@ project(LibreSTR)
 set(SOURCE_FILES main.cpp
     AssetManager.cpp
     Building.cpp
+    BuildingIdentity.cpp
     GameMap.cpp
     GameOverlay.cpp
     GameState.cpp
