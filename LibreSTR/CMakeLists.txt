@@ -3,6 +3,7 @@ project(LibreSTR)
 
 set(SOURCE_FILES main.cpp
     AssetManager.cpp
+    Building.cpp
     GameMap.cpp
     GameOverlay.cpp
     GameState.cpp
@@ -18,6 +19,7 @@ set(SOURCE_FILES main.cpp
     Tile.cpp
     TopHud.cpp
     ResourceIdentity.cpp
+    Unit.cpp
     ViewMoveAction.cpp
 )
 

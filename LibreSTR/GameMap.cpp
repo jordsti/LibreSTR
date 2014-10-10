@@ -51,6 +51,82 @@ GameMap::~GameMap()
     }
 }
 
+int GameMap::getBuildingsCount(void)
+{
+    return buildings.size();
+}
+
+Building* GameMap::getBuilding(int index)
+{
+    return buildings[index];
+}
+
+bool GameMap::placeBuilding(Building *building, int t_x, int t_y)
+{
+    float t_w = (float)(building->getWidth()) / (float)Tile::TILE_WIDTH;
+    float t_h = (float)(building->getHeight()) / (float)Tile::TILE_HEIGHT;
+
+    int it_w = (int)t_w;
+    int it_h = (int)t_h;
+
+    for(int y=t_y; y<t_y+it_h; y++)
+    {
+        for(int x=t_x; x<t_x+it_w; x++)
+        {
+            Tile *t = get(x, y);
+            if(t->getType() != TT_Normal || t->containsResource())
+            {
+                return false;
+            }
+        }
+    }
+
+    auto vit(buildings.begin()), vend(buildings.end());
+    for(;vit!=vend;++vit)
+    {
+
+        if((*vit)->contains(t_x*Tile::TILE_WIDTH, t_y*Tile::TILE_HEIGHT))
+        {
+            return false;
+        }
+    }
+
+    building->setPoint(t_x * Tile::TILE_WIDTH, t_y * Tile::TILE_HEIGHT);
+    buildings.push_back(building);
+
+    return true;
+}
+
+void GameMap::forcePlaceBuilding(Building *building, int t_x, int t_y)
+{
+    float t_w = (float)(building->getWidth()) / (float)Tile::TILE_WIDTH;
+    float t_h = (float)(building->getHeight()) / (float)Tile::TILE_HEIGHT;
+
+    int it_w = (int)t_w;
+    int it_h = (int)t_h;
+
+    for(int y=t_y; y<t_y+it_h; y++)
+    {
+        for(int x=t_x; x<t_x+it_w; x++)
+        {
+            Tile *t = get(x, y);
+            if(t->getType() != TT_Normal || t->containsResource())
+            {
+                t->setType(TT_Normal);
+                if(t->containsResource())
+                {
+                    Resource *r = t->getResource();
+                    t->setResource(nullptr);
+                    delete r;
+                }
+            }
+        }
+    }
+
+    building->setPoint(t_x * Tile::TILE_WIDTH, t_y * Tile::TILE_HEIGHT);
+    buildings.push_back(building);
+}
+
 int GameMap::getTextureCount()
 {
     return textures.size();

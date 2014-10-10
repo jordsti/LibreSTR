@@ -85,7 +85,6 @@ void GameState::onStart(void)
 {
     sprites = new SpriteLibrary(viewport->getRenderer());
     loadSprites();
-    drawBaseMap();
 
     GameOverlay *overlay = new GameOverlay();
     overlay->setState(this);
@@ -125,6 +124,12 @@ void GameState::onStart(void)
     MouseButtonEventThrower::subscribe(this);
     MouseMotionEventThrower::subscribe(this);
 
+    Building *b1 = new Building();
+    gameMap->forcePlaceBuilding(new Building(), 64, 64);
+    gameMap->forcePlaceBuilding(b1, 6, 6);
+
+
+    drawBaseMap();
     running = true;
 }
 
@@ -224,6 +229,23 @@ void GameState::onPaint(SDL_Renderer *renderer)
 
     Texture tex (renderer, buffer);
     tex.renderCopy(&viewRect, &viewRect);
+
+
+    int mb = gameMap->getBuildingsCount();
+    Rectangle vwRect (viewX, viewY, width, height - topHud->getHeight());
+
+    for(int i=0; i<mb; i++)
+    {
+        Building *b = gameMap->getBuilding(i);
+        Point p2 (b->getX() + b->getWidth(), b->getY() + b->getHeight());
+
+        if(vwRect.contains(&p2) || vwRect.contains(b))
+        {
+            Sprite *sprBuilding = sprites->getSprite(b->getSpriteName());
+            sprBuilding->setPoint(b->getX() - viewX, b->getY() - viewY);
+            sprBuilding->render();
+        }
+    }
 
 
     //Hud
@@ -326,5 +348,7 @@ void GameState::loadSprites(void)
         //std::cout << "Load asset texture : " << (*lit) << std::endl;
         sprites->loadVarFile((*lit));
     }
+
+    sprites->loadVarFile("building");
 
 }
