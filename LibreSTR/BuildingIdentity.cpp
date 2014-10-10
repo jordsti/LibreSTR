@@ -56,7 +56,7 @@ BuildingIdentity::~BuildingIdentity()
 
 }
 
-Building* BuildingIdentity::create(void)
+Building* BuildingIdentity::create(Player *owner)
 {
     return new Building(this);
 }

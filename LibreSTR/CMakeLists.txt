@@ -16,6 +16,7 @@ set(SOURCE_FILES main.cpp
     MapGenerator.cpp
     MiniMap.cpp
     NewGameMenu.cpp
+    Player.cpp
     PlayerMap.cpp
     Tile.cpp
     TopHud.cpp

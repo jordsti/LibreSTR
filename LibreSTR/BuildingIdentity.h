@@ -1,6 +1,8 @@
 #ifndef BUILDINGIDENTITY_H
 #define BUILDINGIDENTITY_H
 #include <string>
+#include "Player.h"
+
 class Building;
 
 class BuildingIdentity
@@ -8,7 +10,7 @@ class BuildingIdentity
 public:
     BuildingIdentity(std::string id_file);
     virtual ~BuildingIdentity();
-    Building* create(void);
+    Building* create(Player *owner);
 
     int getMetalCost(void);
     int getGazCost(void);

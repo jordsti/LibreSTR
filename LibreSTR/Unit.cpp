@@ -64,3 +64,13 @@ int Unit::getCurrentHealth(void)
 {
     return currentHealth;
 }
+
+Player* Unit::getOwner(void)
+{
+    return owner;
+}
+
+void Unit::setOwner(Player *m_owner)
+{
+    owner = m_owner;
+}

@@ -3,6 +3,7 @@
 
 #include <MPoint.h>
 #include <Dimension.h>
+#include "Player.h"
 #include <string>
 
 enum UnitType {
@@ -30,6 +31,8 @@ public:
     bool isDead(void);
     virtual bool contains(int p_x, int p_y) = 0;
     int getId(void);
+    Player* getOwner(void);
+    void setOwner(Player *m_player);
 protected:
     Unit();
     std::string name;
@@ -37,6 +40,7 @@ protected:
     UnitType type;
     int maxHealth;
     int currentHealth;
+    Player *owner;
 private:
     int _id;
 
