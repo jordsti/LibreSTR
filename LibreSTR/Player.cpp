@@ -27,6 +27,19 @@ void Player::initPlayer(void)
     {
         color.setRGB(255, 0, 0);
     }
+
+    metalCount = 0;
+    gazCount = 0;
+}
+
+int Player::getMetalCount(void)
+{
+    return metalCount;
+}
+
+int Player::getGazCount(void)
+{
+    return gazCount;
 }
 
 PlayerColor Player::getPlayerColor(void)

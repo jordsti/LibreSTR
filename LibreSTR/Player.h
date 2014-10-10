@@ -16,8 +16,15 @@ public:
     virtual ~Player();
     PlayerColor getPlayerColor(void);
     StiGame::Color* getColor(void);
+
+    int getMetalCount(void);
+    int getGazCount(void);
+
 protected:
     void initPlayer(void);
+
+    int metalCount;
+    int gazCount;
 
     PlayerColor playerColor;
     StiGame::Color color;

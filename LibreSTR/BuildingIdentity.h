@@ -2,6 +2,7 @@
 #define BUILDINGIDENTITY_H
 #include <string>
 #include "Player.h"
+#include <map>
 
 class Building;
 
@@ -16,10 +17,12 @@ public:
     int getGazCost(void);
     int getMaxHealth(void);
     std::string getName(void);
-    std::string getSpriteName(void);
+    std::string getConstructSprite(PlayerColor playerColor);
+    std::string getSpriteName(PlayerColor playerColor);
     int getWidth(void);
     int getHeight(void);
 
+    std::string getPlacedSprite(void);
 protected:
     int metalCost;
     int gazCost;
@@ -28,6 +31,9 @@ protected:
     std::string spriteName;
     int width;
     int height;
+    std::string placedSprite;
+    std::map<PlayerColor, std::string> constructSprites;
+    std::map<PlayerColor, std::string> sprites;
 };
 
 #endif // BUILDINGIDENTITY_H

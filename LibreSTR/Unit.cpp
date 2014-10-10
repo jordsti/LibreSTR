@@ -18,7 +18,6 @@ Unit::Unit()
     y = 0;
     width = 0;
     height = 0;
-    spriteName = "";
     currentHealth = 1;
     maxHealth = 1;
 }
@@ -45,10 +44,6 @@ std::string Unit::getName(void)
     return name;
 }
 
-std::string Unit::getSpriteName(void)
-{
-    return spriteName;
-}
 
 UnitType Unit::getType(void)
 {

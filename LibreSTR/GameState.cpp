@@ -136,15 +136,20 @@ void GameState::tickMouseViewMovement(void)
     int dx = 0;
     int dy = 0;
 
+    Rectangle miniMapRect(0,
+                          height - miniMap->getHeight(),
+                          miniMap->getWidth(),
+                          miniMap->getHeight());
+
     if(viewRectUp.contains(&mousePosition))
         dy -= VIEW_MOVE_DY;
 
 
-    if(viewRectDown.contains(&mousePosition))
+    if(viewRectDown.contains(&mousePosition) && !miniMapRect.contains(&mousePosition))
         dy += VIEW_MOVE_DY;
 
 
-    if(viewRectLeft.contains(&mousePosition))
+    if(viewRectLeft.contains(&mousePosition) && !miniMapRect.contains(&mousePosition))
         dx -= VIEW_MOVE_DX;
 
 

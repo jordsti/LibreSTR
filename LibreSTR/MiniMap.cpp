@@ -218,3 +218,19 @@ void MiniMap::render(void)
     minimap->blit(closeIcon, &cpt);
 
 }
+
+int MiniMap::getWidth(void)
+{
+    if(hide)
+        return closedImage->getWidth();
+
+    return width;
+}
+
+int MiniMap::getHeight(void)
+{
+    if(hide)
+        return closedImage->getHeight();
+
+    return height;
+}

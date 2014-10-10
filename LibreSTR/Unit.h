@@ -24,7 +24,7 @@ private:
 public:
     virtual ~Unit();
     std::string getName(void);
-    std::string getSpriteName(void);
+    virtual std::string getSpriteName(void) = 0;
     UnitType getType(void);
     int getMaxHealth(void);
     int getCurrentHealth(void);
@@ -36,7 +36,6 @@ public:
 protected:
     Unit();
     std::string name;
-    std::string spriteName;
     UnitType type;
     int maxHealth;
     int currentHealth;

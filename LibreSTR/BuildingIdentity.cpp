@@ -7,14 +7,25 @@ BuildingIdentity::BuildingIdentity(std::string id_file)
     vf.read();
 
     name = vf.getValue("name");
-    spriteName = vf.getValue("spriteName");
     maxHealth = vf.getInt("maxHealth");
     width = vf.getInt("width");
     height = vf.getInt("height");
     metalCost = vf.getInt("metalCost");
     gazCost = vf.getInt("gazCost");
+    placedSprite = vf.getValue("placedSprite");
+
+    constructSprites.insert(make_pair(PC_Blue, vf.getValue("sprite_construct_blue")));
+    constructSprites.insert(make_pair(PC_Red, vf.getValue("sprite_construct_red")));
+
+    sprites.insert(make_pair(PC_Blue, vf.getValue("sprite_blue")));
+    sprites.insert(make_pair(PC_Red, vf.getValue("sprite_red")));
 }
 
+
+std::string BuildingIdentity::getPlacedSprite(void)
+{
+    return placedSprite;
+}
 
 int BuildingIdentity::getMetalCost(void)
 {
@@ -36,9 +47,14 @@ std::string BuildingIdentity::getName(void)
     return name;
 }
 
-std::string BuildingIdentity::getSpriteName(void)
+std::string BuildingIdentity::getSpriteName(PlayerColor playerColor)
 {
-    return spriteName;
+    return sprites[playerColor];
+}
+
+std::string BuildingIdentity::getConstructSprite(PlayerColor playerColor)
+{
+    return constructSprites[playerColor];
 }
 
 int BuildingIdentity::getWidth(void)
@@ -58,5 +74,6 @@ BuildingIdentity::~BuildingIdentity()
 
 Building* BuildingIdentity::create(Player *owner)
 {
-    return new Building(this);
+    //Here all resource cost ARE ALREADY REMOVED FROM THE PLAYER!
+    return new Building(this, owner);
 }

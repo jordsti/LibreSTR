@@ -5,6 +5,7 @@ set(SOURCE_FILES main.cpp
     AssetManager.cpp
     Building.cpp
     BuildingIdentity.cpp
+    BuildingSprite.cpp
     GameMap.cpp
     GameOverlay.cpp
     GameState.cpp
@@ -22,6 +23,7 @@ set(SOURCE_FILES main.cpp
     TopHud.cpp
     ResourceIdentity.cpp
     Unit.cpp
+    UnitSprite.cpp
     ViewMoveAction.cpp
 )
 

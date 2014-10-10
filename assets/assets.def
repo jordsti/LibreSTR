@@ -5,3 +5,6 @@ res_gaz=hydrocarbongaz.res;
 
 tile_normal=grass;
 tile_block=rock;
+
+#building definitions
+base_building=building.res;
