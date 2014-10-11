@@ -2,6 +2,7 @@
 #define ITILEMAP_H
 
 #include "Tile.h"
+#include "Building.h"
 
 class ITileMap
 {
@@ -13,6 +14,8 @@ public:
     virtual int getDefaultTextureId(void) = 0;
     virtual std::string getDefaultTexture(void) = 0;
     virtual int getTextureCount(void) = 0;
+    virtual int getBuildingsCount(void) = 0;
+    virtual Building* getBuilding(int index) = 0;
 protected:
     ITileMap();
     virtual ~ITileMap();

@@ -34,8 +34,22 @@ std::list<std::string> AssetManager::getTextures(void)
     //resources
     textures.push_back(resMetal->getTexture());
     textures.push_back(resGaz->getTexture());
+    //base sprites
+
+    textures.push_back(base->getPlacedSprite());
+    textures.push_back(base->getConstructSprite(PC_Blue));
+    textures.push_back(base->getSpriteName(PC_Blue));
+
+    textures.push_back(base->getPlacedSprite());
+    textures.push_back(base->getConstructSprite(PC_Red));
+    textures.push_back(base->getSpriteName(PC_Red));
 
     return textures;
+}
+
+BuildingIdentity* AssetManager::getBaseIdentity()
+{
+    return base;
 }
 
 ResourceIdentity* AssetManager::getMetalIdentity(void)
@@ -72,6 +86,9 @@ void AssetManager::initBindings()
 
     kmap = new KeyActionMap("view_move_right", SDLK_RIGHT);
     bindings->addBinding(kmap);
+
+    kmap = new KeyActionMap("show_minimap", SDLK_m);
+    bindings->addBinding(kmap);
 }
 
 void AssetManager::loadData(void)
@@ -88,6 +105,11 @@ void AssetManager::loadData(void)
     //loading VFResource
     resMetal = new ResourceIdentity(rmetal);
     resGaz = new ResourceIdentity(rgaz);
+
+    std::string rbase = vf.getValue("base_building");
+
+    p = GamePath::getFilepath(AssetRoot, rbase);
+    base = new BuildingIdentity(p);
 
     p = GamePath::getFilepath(AssetRoot, "bindings.cfg");
     bindings = new ActionBinding(p);

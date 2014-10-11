@@ -30,6 +30,10 @@ class PlayerMap :
         void addTexture(std::string m_texture);
         void setDefaultTextureId(int m_defaultTexture);
 
+        int getBuildingsCount(void);
+        Building* getBuilding(int index);
+        void addBuilding(Building *m_building);
+
     protected:
     private:
         void initRows(void);
@@ -40,6 +44,7 @@ class PlayerMap :
         std::vector<Tile*> tileRefs;
         std::vector<Resource*> resRefs;
         std::vector<std::string> textures;
+        std::vector<Building*> buildings;
 };
 
 #endif // PLAYERMAP_H

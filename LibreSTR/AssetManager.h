@@ -2,6 +2,7 @@
 #define ASSETMANAGER_H
 
 #include "ResourceIdentity.h"
+#include "BuildingIdentity.h"
 #include <ActionBinding.h>
 #include <list>
 
@@ -13,6 +14,7 @@ class AssetManager
 
         ResourceIdentity* getMetalIdentity(void);
         ResourceIdentity* getGazIdentity(void);
+        BuildingIdentity* getBaseIdentity(void);
 
         std::string getTileNormal(void);
         std::string getTileBlock(void);
@@ -27,6 +29,8 @@ class AssetManager
 
         ResourceIdentity *resMetal;
         ResourceIdentity *resGaz;
+
+        BuildingIdentity *base;
 
         StiGame::ActionBinding *bindings;
 

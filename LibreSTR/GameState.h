@@ -5,10 +5,9 @@
 #include <Surface.h>
 
 #include "SpriteLibrary.h"
-#include "GameMap.h"
-#include "AssetManager.h"
 #include "TopHud.h"
 #include "MiniMap.h"
+#include "GameObject.h"
 
 class GameState :
     public StiGame::BaseGameState,
@@ -21,7 +20,7 @@ class GameState :
         static const int VIEW_MOVE_DY;
         static const int VIEW_RECT_ZONE;
 
-        GameState(AssetManager *m_assets, GameMap *m_gameMap);
+        GameState(AssetManager *m_assets);
         virtual ~GameState();
         void quit(void);
         void unload(void);
@@ -42,10 +41,10 @@ class GameState :
         void drawBaseMap(void);
         void tickMouseViewMovement(void);
 
-        GameMap *gameMap;
         StiGame::SpriteLibrary *sprites;
         AssetManager *assets;
         PlayerMap *pmap; //temp
+        GameObject *game;
     private:
         StiGame::MPoint mousePosition;
         int viewX;

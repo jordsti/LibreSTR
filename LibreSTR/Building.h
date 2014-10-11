@@ -18,6 +18,7 @@ public:
     virtual ~Building();
     bool contains(int p_x, int p_y);
     BuildingState getState(void);
+    void setState(BuildingState m_state);
     int getMetalCost(void);
     int getGazCost(void);
     std::string getSpriteName(void);

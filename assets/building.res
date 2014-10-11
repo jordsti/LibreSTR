@@ -8,9 +8,9 @@ gazCost=0;
 #placed sprite
 placedSprite=placed_building;
 #construction sprites
-sprite_construct_blue=notset;
-sprite_construct_red=notset;
+sprite_construct_blue=building_construct_blue;
+sprite_construct_red=building_construct_red;
 #those are builded sprite
-sprite_blue=building;
-sprite_red=building;
+sprite_blue=building_blue;
+sprite_red=building_red;
 #metal and gaz..

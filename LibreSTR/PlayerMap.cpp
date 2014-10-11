@@ -24,6 +24,21 @@ PlayerMap::~PlayerMap()
     }
 }
 
+int PlayerMap::getBuildingsCount(void)
+{
+    return buildings.size();
+}
+
+Building* PlayerMap::getBuilding(int index)
+{
+    //todo
+    return buildings[index];
+}
+
+void PlayerMap::addBuilding(Building *m_building)
+{
+    buildings.push_back(m_building);
+}
 
 int PlayerMap::getWidth(void)
 {

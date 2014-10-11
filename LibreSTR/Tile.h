@@ -32,6 +32,8 @@ class Tile
         void setTextureId(int m_textureId);
         void setResource(Resource *m_resource);
 
+        void cleanResource(void);
+
         Tile* clone(void);
 
     protected:

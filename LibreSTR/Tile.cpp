@@ -104,3 +104,9 @@ void Tile::setResource(Resource *m_resource)
 {
     resource = m_resource;
 }
+
+void Tile::cleanResource(void)
+{
+    delete resource;
+    resource = nullptr;
+}

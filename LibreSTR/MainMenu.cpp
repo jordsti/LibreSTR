@@ -50,7 +50,7 @@ void MainMenu::handleEvent(EventThrower *src, EventArgs *evt)
     if(src == &btnNewGame)
     {
         //todo game state
-        GameState *state = new GameState(assets, MapGenerator::RandomMap(300, 200));
+        GameState *state = new GameState(assets);
         //NewGameMenu *state = new NewGameMenu();
         viewport->push(state);
     }

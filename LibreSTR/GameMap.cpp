@@ -51,6 +51,11 @@ GameMap::~GameMap()
     }
 }
 
+std::vector<StiGame::Point>& GameMap::getPlayerStartingPoints(int index)
+{
+    return startingPoints[index];
+}
+
 int GameMap::getBuildingsCount(void)
 {
     return buildings.size();
@@ -110,16 +115,16 @@ void GameMap::forcePlaceBuilding(Building *building, int t_x, int t_y)
         for(int x=t_x; x<t_x+it_w; x++)
         {
             Tile *t = get(x, y);
-            if(t->getType() != TT_Normal || t->containsResource())
+            std::cout << "Tile forced at " << x << "; " << y << std::endl;
+            std::cout << t->getType() << "; " << t->getTextureId() << "; " << t->containsResource() << std::endl;
+            if(t->getType() != TT_Normal)
             {
+                t->setTextureId(defaultTexture);
                 t->setType(TT_Normal);
-                if(t->containsResource())
-                {
-                    Resource *r = t->getResource();
-                    t->setResource(nullptr);
-                    delete r;
-                }
             }
+
+            t->cleanResource();
+            std::cout << t->getType() << "; " << t->getTextureId() << "; " << t->containsResource() << std::endl;
         }
     }
 
@@ -322,15 +327,32 @@ void GameMap::initTiles()
 PlayerMap* GameMap::GeneratePlayerMap(int playerId)
 {
     PlayerMap *pmap = new PlayerMap(width, height);
+    pmap->setDefaultTextureId(defaultTexture);
+
+    auto tit(textures.begin()), tend(textures.end());
+    for(;tit!=tend;++tit)
+    {
+        pmap->addTexture((*tit));
+    }
 
     for(int y=0; y<height; y++)
     {
-        for(int x=0; x<width; x++)
+            for(int x=0; x<width; x++)
+            {
+                Tile *t = get(x, y)->clone();
+                pmap->addTile(y, t);
+            }
+    }
+
+    auto vit(buildings.begin()), vend(buildings.end());
+    for(;vit!=vend;++vit)
+    {
+        if((*vit)->getOwner()->getId() == playerId)
         {
-            Tile *t = get(x, y)->clone();
-            pmap->addTile(y, t);
+            pmap->addBuilding((*vit));
         }
     }
+
 
     return pmap;
 

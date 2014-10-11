@@ -1,13 +1,29 @@
 #include "Player.h"
 
+int Player::_currentId = 0;
+
+int Player::currentId()
+{
+    _currentId++;
+    return _currentId;
+
+}
+
+void Player::ResetPlayerId(void)
+{
+    _currentId = 0;
+}
+
 Player::Player()
 {
+    _id = currentId();
     playerColor = PC_Blue;
     initPlayer();
 }
 
 Player::Player(PlayerColor m_playerColor)
 {
+    _id = currentId();
     playerColor = m_playerColor;
     initPlayer();
 }
@@ -30,6 +46,11 @@ void Player::initPlayer(void)
 
     metalCount = 0;
     gazCount = 0;
+}
+
+int Player::getId(void)
+{
+    return _id;
 }
 
 int Player::getMetalCount(void)

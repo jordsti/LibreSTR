@@ -9,7 +9,6 @@
 #include "AssetManager.h"
 #include "ITileMap.h"
 #include <MapData.h>
-#include "Building.h"
 
 class GameMap :
         public ITileMap
@@ -48,6 +47,9 @@ class GameMap :
 
         int getDefaultTextureId(void);
         std::string getDefaultTexture(void);
+
+        std::vector<StiGame::Point>& getPlayerStartingPoints(int index);
+
 
         int getTextureCount(void);
     protected:

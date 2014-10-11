@@ -19,6 +19,11 @@ BuildingState Building::getState(void)
     return state;
 }
 
+void Building::setState(BuildingState m_state)
+{
+    state = m_state;
+}
+
 BuildingIdentity* Building::getIdentity(void)
 {
     return _identity;

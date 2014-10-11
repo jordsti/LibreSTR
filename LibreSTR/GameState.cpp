@@ -11,15 +11,17 @@ const int GameState::VIEW_MOVE_DX = 16;
 const int GameState::VIEW_MOVE_DY = 16;
 const int GameState::VIEW_RECT_ZONE = 48;
 
-GameState::GameState(AssetManager *m_assets, GameMap *m_gameMap) :
+GameState::GameState(AssetManager *m_assets) :
     BaseGameState()
 {
     //ctor
-    topHud = new TopHud(m_assets, new Player(PC_Blue));
     assets = m_assets;
-    gameMap = m_gameMap;
-    pmap = gameMap->GeneratePlayerMap(1);
+
+    game = new GameObject(m_assets, 300, 200);
+    game->initGame();
+    pmap = game->getPlayerMap(1);
     miniMap = new MiniMap(this, pmap, 300, 200, 22);
+    topHud = new TopHud(m_assets, game->getPlayer(1));
     //gameMap = new GameMap();
     //gameMap->load("test.map", assets)
 
@@ -39,7 +41,7 @@ GameState::~GameState()
 void GameState::unload(void)
 {
     clearActions();
-    delete gameMap;
+    Player::ResetPlayerId();
     delete miniMap;
     delete sprites;
     delete baseMap;
@@ -187,12 +189,12 @@ void GameState::moveViewPoint(int dx, int dy)
     int tmpX = viewX + dx;
     int tmpY = viewY + dy;
 
-    if((tmpX >= 0 && tmpX <= ((gameMap->getWidth() + 1) * Tile::TILE_WIDTH) - width) && dx != 0)
+    if((tmpX >= 0 && tmpX <= ((pmap->getWidth() + 1) * Tile::TILE_WIDTH) - width) && dx != 0)
     {
         viewX = tmpX;
     }
 
-    if((tmpY >= 0 && tmpY <= ((gameMap->getHeight() + 1) * Tile::TILE_HEIGHT) - (height - topHud->getHeight())) && dy != 0)
+    if((tmpY >= 0 && tmpY <= ((pmap->getHeight() + 1) * Tile::TILE_HEIGHT) - (height - topHud->getHeight())) && dy != 0)
     {
         viewY = tmpY;
     }
@@ -234,18 +236,18 @@ void GameState::onPaint(SDL_Renderer *renderer)
     tex.renderCopy(&viewRect, &viewRect);
 
 
-    int mb = gameMap->getBuildingsCount();
+    int mb = pmap->getBuildingsCount();
     Rectangle vwRect (viewX, viewY, width, height - topHud->getHeight());
 
     for(int i=0; i<mb; i++)
     {
-        Building *b = gameMap->getBuilding(i);
+        Building *b = pmap->getBuilding(i);
         Point p2 (b->getX() + b->getWidth(), b->getY() + b->getHeight());
 
         if(vwRect.contains(&p2) || vwRect.contains(b))
         {
             Sprite *sprBuilding = sprites->getSprite(b->getSpriteName());
-            sprBuilding->setPoint(b->getX() - viewX, b->getY() - viewY);
+            sprBuilding->setPoint(b->getX() - viewX, (b->getY()+Tile::TILE_HEIGHT) - viewY);
             sprBuilding->render();
         }
     }
@@ -284,43 +286,35 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
 
 void GameState::drawBaseMap(void)
 {
-    baseMap = new Surface(gameMap->getWidth() * Tile::TILE_WIDTH, gameMap->getHeight() * Tile::TILE_WIDTH);
+    baseMap = new Surface(pmap->getWidth() * Tile::TILE_WIDTH, pmap->getHeight() * Tile::TILE_WIDTH);
     baseMap->fill(&background);
 
     SDL_Rect dst;
     dst.w = Tile::TILE_WIDTH;
     dst.h = Tile::TILE_HEIGHT;
 
-    Sprite *sprDefault = sprites->getSprite(gameMap->getDefaultTexture());
+    Sprite *sprDefault = sprites->getSprite(pmap->getDefaultTexture());
 
     Surface *sur;
 
-    for(int y=0; y<gameMap->getHeight(); y++)
+    for(int y=0; y<pmap->getHeight(); y++)
     {
         dst.y = y * Tile::TILE_HEIGHT;
-        for(int x=0; x<gameMap->getWidth(); x++)
+        for(int x=0; x<pmap->getWidth(); x++)
         {
             dst.x = x * Tile::TILE_WIDTH;
 
-            Tile *t = gameMap->get(x, y);
+            Tile *t = pmap->get(x, y);
             //draw grass on all tile
             sur = sprDefault->getCurrentSurface();
             baseMap->blit(sur, &dst);
 
-            if(t->getTextureId() != gameMap->getDefaultTextureId())
+            if(t->getTextureId() != pmap->getDefaultTextureId())
             {
-                Sprite *sprTile = sprites->getSprite(gameMap->getTexture(t->getTextureId()));
+                Sprite *sprTile = sprites->getSprite(pmap->getTexture(t->getTextureId()));
                 sur = sprTile->getCurrentSurface();
                 baseMap->blit(sur, &dst);
             }
-
-            /*if(t->getType() == TT_Block)
-            {
-                sur = sprBlock->getCurrentSurface();
-
-                baseMap->blit(sur, &dst);
-                //draw a rock
-            }*/
 
             if(t->containsResource())
             {
@@ -351,7 +345,5 @@ void GameState::loadSprites(void)
         //std::cout << "Load asset texture : " << (*lit) << std::endl;
         sprites->loadVarFile((*lit));
     }
-
-    sprites->loadVarFile("building");
 
 }

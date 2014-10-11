@@ -7,6 +7,7 @@ set(SOURCE_FILES main.cpp
     BuildingIdentity.cpp
     BuildingSprite.cpp
     GameMap.cpp
+    GameObject.cpp
     GameOverlay.cpp
     GameState.cpp
     IResource.cpp

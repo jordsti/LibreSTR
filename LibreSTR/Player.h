@@ -19,7 +19,8 @@ public:
 
     int getMetalCount(void);
     int getGazCount(void);
-
+    int getId(void);
+    static void ResetPlayerId(void);
 protected:
     void initPlayer(void);
 
@@ -28,7 +29,10 @@ protected:
 
     PlayerColor playerColor;
     StiGame::Color color;
-
+private:
+    int _id;
+    static int _currentId;
+    int currentId(void);
 };
 
 #endif // PLAYER_H
