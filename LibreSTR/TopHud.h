@@ -5,17 +5,22 @@
 #include <Label.h>
 #include <Image.h>
 #include <list>
+#include "Player.h"
 
 #include "AssetManager.h"
 class TopHud :
     public StiGame::Gui::Item
 {
 public:
-    TopHud(AssetManager *m_assets);
+    TopHud(AssetManager *m_assets, Player *m_player);
     virtual ~TopHud();
 
     StiGame::Surface* render(void);
+protected:
+    void updateHud(void);
+
 private:
+    Player *player;
     AssetManager *assets;
     StiGame::Gui::Image iconMetal;
     StiGame::Gui::Image iconGaz;

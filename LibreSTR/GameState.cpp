@@ -15,7 +15,7 @@ GameState::GameState(AssetManager *m_assets, GameMap *m_gameMap) :
     BaseGameState()
 {
     //ctor
-    topHud = new TopHud(m_assets);
+    topHud = new TopHud(m_assets, new Player(PC_Blue));
     assets = m_assets;
     gameMap = m_gameMap;
     pmap = gameMap->GeneratePlayerMap(1);
@@ -187,12 +187,12 @@ void GameState::moveViewPoint(int dx, int dy)
     int tmpX = viewX + dx;
     int tmpY = viewY + dy;
 
-    if((tmpX >= 0 && tmpX <= (gameMap->getWidth() * Tile::TILE_WIDTH) - width) && dx != 0)
+    if((tmpX >= 0 && tmpX <= ((gameMap->getWidth() + 1) * Tile::TILE_WIDTH) - width) && dx != 0)
     {
         viewX = tmpX;
     }
 
-    if((tmpY >= 0 && tmpY <= (gameMap->getHeight() * Tile::TILE_HEIGHT) - height - topHud->getHeight()) && dy != 0)
+    if((tmpY >= 0 && tmpY <= ((gameMap->getHeight() + 1) * Tile::TILE_HEIGHT) - (height - topHud->getHeight())) && dy != 0)
     {
         viewY = tmpY;
     }

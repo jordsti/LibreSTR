@@ -78,6 +78,7 @@ std::cout << "Overriding fullscreen resolution to windowed : " << width << "x" <
     MainMenu *mainMenu = new MainMenu(assets);
 
     vp->push(mainMenu);
+    vp->setFps(30);
     vp->startLoop();
 
     return 0;
