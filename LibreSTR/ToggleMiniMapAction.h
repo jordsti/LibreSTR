@@ -2,17 +2,17 @@
 #define TOGGLEMINIMAPACTION_H
 
 #include <TimedGameAction.h>
-#include "GameState.h"
+#include "MiniMap.h"
 
 class ToggleMiniMapAction :
         public StiGame::TimedGameAction
 {
 public:
-    ToggleMiniMapAction(GameState *m_state);
+    ToggleMiniMapAction(MiniMap *m_miniMap);
     virtual ~ToggleMiniMapAction();
 
 protected:
-    GameState *state;
+    MiniMap *miniMap;
     void doAction(void);
 };
 

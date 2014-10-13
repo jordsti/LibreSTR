@@ -1,5 +1,5 @@
 #include "BuildingIdentity.h"
-#include "Building.h"
+#include "MBuilding.h"
 #include <VarFile.h>
 BuildingIdentity::BuildingIdentity(std::string id_file)
 {
@@ -12,6 +12,7 @@ BuildingIdentity::BuildingIdentity(std::string id_file)
     height = vf.getInt("height");
     metalCost = vf.getInt("metalCost");
     gazCost = vf.getInt("gazCost");
+    vision = vf.getInt("vision");
     placedSprite = vf.getValue("placedSprite");
 
     constructSprites.insert(make_pair(PC_Blue, vf.getValue("sprite_construct_blue")));
@@ -40,6 +41,11 @@ int BuildingIdentity::getGazCost(void)
 int BuildingIdentity::getMaxHealth(void)
 {
     return maxHealth;
+}
+
+int BuildingIdentity::getVision()
+{
+    return vision;
 }
 
 std::string BuildingIdentity::getName(void)
@@ -72,8 +78,8 @@ BuildingIdentity::~BuildingIdentity()
 
 }
 
-Building* BuildingIdentity::create(Player *owner)
+MBuilding* BuildingIdentity::create(Player *owner)
 {
     //Here all resource cost ARE ALREADY REMOVED FROM THE PLAYER!
-    return new Building(this, owner);
+    return new MBuilding(this, owner);
 }

@@ -18,12 +18,13 @@ public:
     virtual ~Building();
     bool contains(int p_x, int p_y);
     BuildingState getState(void);
-    void setState(BuildingState m_state);
     int getMetalCost(void);
     int getGazCost(void);
+    int getVision(void);
+    int getCurrentHealth(void);
     std::string getSpriteName(void);
     BuildingIdentity* getIdentity(void);
-private:
+protected:
     BuildingState state;
     BuildingIdentity *_identity;
 

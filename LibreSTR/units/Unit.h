@@ -31,6 +31,7 @@ public:
     bool isDead(void);
     virtual bool contains(int p_x, int p_y) = 0;
     int getId(void);
+    virtual int getVision(void) = 0;
     Player* getOwner(void);
     void setOwner(Player *m_player);
 protected:
@@ -39,6 +40,7 @@ protected:
     UnitType type;
     int maxHealth;
     int currentHealth;
+    int vision;
     Player *owner;
 private:
     int _id;

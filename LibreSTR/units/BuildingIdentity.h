@@ -4,14 +4,15 @@
 #include "Player.h"
 #include <map>
 
-class Building;
+class MBuilding;
 
 class BuildingIdentity
 {
 public:
     BuildingIdentity(std::string id_file);
     virtual ~BuildingIdentity();
-    Building* create(Player *owner);
+    MBuilding* create(Player *owner);
+
 
     int getMetalCost(void);
     int getGazCost(void);
@@ -21,12 +22,14 @@ public:
     std::string getSpriteName(PlayerColor playerColor);
     int getWidth(void);
     int getHeight(void);
+    int getVision(void);
 
     std::string getPlacedSprite(void);
 protected:
     int metalCost;
     int gazCost;
     int maxHealth;
+    int vision;
     std::string name;
     std::string spriteName;
     int width;

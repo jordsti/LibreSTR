@@ -59,12 +59,12 @@ int GameMap::getBuildingsCount(void)
     return buildings.size();
 }
 
-Building* GameMap::getBuilding(int index)
+MBuilding* GameMap::getBuilding(int index)
 {
     return buildings[index];
 }
 
-bool GameMap::placeBuilding(Building *building, int t_x, int t_y)
+bool GameMap::placeBuilding(MBuilding *building, int t_x, int t_y)
 {
     float t_w = (float)(building->getWidth()) / (float)Tile::TILE_WIDTH;
     float t_h = (float)(building->getHeight()) / (float)Tile::TILE_HEIGHT;
@@ -100,7 +100,7 @@ bool GameMap::placeBuilding(Building *building, int t_x, int t_y)
     return true;
 }
 
-void GameMap::forcePlaceBuilding(Building *building, int t_x, int t_y)
+void GameMap::forcePlaceBuilding(MBuilding *building, int t_x, int t_y)
 {
     float t_w = (float)(building->getWidth()) / (float)Tile::TILE_WIDTH;
     float t_h = (float)(building->getHeight()) / (float)Tile::TILE_HEIGHT;

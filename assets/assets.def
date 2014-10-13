@@ -7,4 +7,4 @@ tile_normal=grass;
 tile_block=rock;
 
 #building definitions
-base_building=building.res;
+base_building=base_building.res;

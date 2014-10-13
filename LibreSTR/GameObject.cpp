@@ -2,6 +2,8 @@
 #include "MapGenerator.h"
 #include <iostream>
 #include <map>
+#include "MBuilding.h"
+
 using namespace StiGame;
 
 GameObject::GameObject(AssetManager *m_assets, int mapWidth, int mapHeight)
@@ -58,8 +60,9 @@ void GameObject::initGame(void)
         Player *pl = mit->first;
         Point ptStart = mit->second;
 
-        Building *base = baseId->create(pl);
-        base->setState(BS_Construction);
+        MBuilding *base = baseId->create(pl);
+        base->setState(BS_Builded);
+        base->setCurrentHealth(baseId->getMaxHealth());
         map->forcePlaceBuilding(base, ptStart.getX(), ptStart.getY());
         std::cout << "Placing player " << pl->getId() << "base at " << ptStart.getX() << "; " << ptStart.getY() << std::endl;
 

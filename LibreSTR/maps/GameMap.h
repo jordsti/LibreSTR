@@ -9,6 +9,7 @@
 #include "AssetManager.h"
 #include "ITileMap.h"
 #include <MapData.h>
+#include "MBuilding.h"
 
 class GameMap :
         public ITileMap
@@ -36,10 +37,10 @@ class GameMap :
         void save(std::string output);
         void load(std::string input, AssetManager *asset);
 
-        bool placeBuilding(Building *building, int t_x, int t_y);
-        void forcePlaceBuilding(Building *building, int t_x, int t_y);
+        bool placeBuilding(MBuilding *building, int t_x, int t_y);
+        void forcePlaceBuilding(MBuilding *building, int t_x, int t_y);
         int getBuildingsCount(void);
-        Building* getBuilding(int index);
+        MBuilding* getBuilding(int index);
 
 
         int addTexture(std::string name);
@@ -61,7 +62,7 @@ class GameMap :
         int seed;
         int defaultTexture;
 
-        std::vector< Building* > buildings;
+        std::vector< MBuilding* > buildings;
 
         std::vector< std::vector<Tile*> > tiles;
 

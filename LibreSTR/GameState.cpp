@@ -123,7 +123,7 @@ void GameState::onStart(void)
     vaction = new ViewMoveAction(this, "view_move_right", VIEW_MOVE_DY, 0);
     actions.push_back(vaction);
 
-    ToggleMiniMapAction *taction = new ToggleMiniMapAction(this);
+    ToggleMiniMapAction *taction = new ToggleMiniMapAction(miniMap);
     actions.push_back(taction);
 
     ToggleShowFPSAction *fpsAction = new ToggleShowFPSAction(&lblFps);
@@ -149,6 +149,32 @@ void GameState::onStart(void)
 
     drawBaseMap();
     running = true;
+
+    //set view position
+    Building *playerBase = pmap->getBuilding(0);
+
+    int n_x = playerBase->getX();
+    int n_y = playerBase->getY();
+
+    n_x -= width / 2;
+    n_y -= height / 2;
+
+    if(n_x < 0)
+        n_x = 0;
+    else if(n_x > ((pmap->getWidth()+1) * Tile::TILE_WIDTH) - width)
+        n_x = ((pmap->getWidth()+1) * Tile::TILE_WIDTH) - width;
+
+    if(n_y < 0)
+        n_y = 0;
+    else if(n_y > ((pmap->getHeight()+1) * Tile::TILE_HEIGHT) - height)
+        n_y = ((pmap->getHeight()+1) * Tile::TILE_HEIGHT) - height;
+
+    n_x /= Tile::TILE_WIDTH;
+    n_y /= Tile::TILE_HEIGHT;
+
+    setViewPoint(n_x, n_y);
+    miniMap->setViewPoint(viewX, viewY);
+
 }
 
 MiniMap* GameState::getMiniMap(void)

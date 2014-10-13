@@ -9,9 +9,14 @@ Building::Building(BuildingIdentity *m_identity, Player *m_owner) : Unit()
     type = UT_Building;
     width = _identity->getWidth();
     height = _identity->getHeight();
-    maxHealth = 1; //cuz its placed
-    currentHealth = _identity->getMaxHealth();
+    maxHealth = _identity->getMaxHealth(); //cuz its placed
+    currentHealth = 1;
     name = _identity->getName();
+}
+
+int Building::getCurrentHealth()
+{
+    return currentHealth;
 }
 
 BuildingState Building::getState(void)
@@ -19,10 +24,6 @@ BuildingState Building::getState(void)
     return state;
 }
 
-void Building::setState(BuildingState m_state)
-{
-    state = m_state;
-}
 
 BuildingIdentity* Building::getIdentity(void)
 {
@@ -45,6 +46,11 @@ int Building::getMetalCost(void)
 int Building::getGazCost(void)
 {
     return _identity->getGazCost();
+}
+
+int Building::getVision(void)
+{
+    return _identity->getVision();
 }
 
 std::string Building::getSpriteName()

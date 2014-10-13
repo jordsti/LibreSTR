@@ -5,6 +5,7 @@ width=64;
 height=64;
 metalCost=200;
 gazCost=0;
+vision=120
 #placed sprite
 placedSprite=placed_building;
 #construction sprites
