@@ -247,7 +247,7 @@ void GameState::onPaint(SDL_Renderer *renderer)
         if(vwRect.contains(&p2) || vwRect.contains(b))
         {
             Sprite *sprBuilding = sprites->getSprite(b->getSpriteName());
-            sprBuilding->setPoint(b->getX() - viewX, (b->getY()+Tile::TILE_HEIGHT) - viewY);
+            sprBuilding->setPoint(b->getX() - viewX, (b->getY()+topHud->getHeight()) - viewY);
             sprBuilding->render();
         }
     }

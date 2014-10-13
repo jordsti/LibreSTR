@@ -4,9 +4,6 @@
 #include <map>
 #include <cstring>
 
-//todo
-// -tile texture defined into map header
-//
 const int GameMap::PLAYERS_MAX = 2;
 
 GameMap::GameMap()
@@ -115,8 +112,6 @@ void GameMap::forcePlaceBuilding(Building *building, int t_x, int t_y)
         for(int x=t_x; x<t_x+it_w; x++)
         {
             Tile *t = get(x, y);
-            std::cout << "Tile forced at " << x << "; " << y << std::endl;
-            std::cout << t->getType() << "; " << t->getTextureId() << "; " << t->containsResource() << std::endl;
             if(t->getType() != TT_Normal)
             {
                 t->setTextureId(defaultTexture);
@@ -124,7 +119,6 @@ void GameMap::forcePlaceBuilding(Building *building, int t_x, int t_y)
             }
 
             t->cleanResource();
-            std::cout << t->getType() << "; " << t->getTextureId() << "; " << t->containsResource() << std::endl;
         }
     }
 
