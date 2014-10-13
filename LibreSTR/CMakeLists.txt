@@ -23,6 +23,7 @@ set(SOURCE_FILES main.cpp
     Tile.cpp
     TopHud.cpp
     ToggleMiniMapAction.cpp
+    ToggleShowFPSAction.cpp
     ResourceIdentity.cpp
     Unit.cpp
     UnitSprite.cpp

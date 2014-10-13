@@ -5,6 +5,7 @@
 #include <OverlayGameAction.h>
 #include "ViewMoveAction.h"
 #include "ToggleMiniMapAction.h"
+#include "ToggleShowFPSAction.h"
 
 using namespace StiGame;
 
@@ -23,6 +24,13 @@ GameState::GameState(AssetManager *m_assets) :
     pmap = game->getPlayerMap(1);
     miniMap = new MiniMap(this, pmap, 300, 200, 22);
     topHud = new TopHud(m_assets, game->getPlayer(1));
+
+    textColor.setRGB(250, 250, 250);
+
+    lblFps.setForeground(&textColor);
+    lblFps.setCaption("FPS : 0");
+    lblFps.setVisible(false);
+    lblFps.doAutosize();
     //gameMap = new GameMap();
     //gameMap->load("test.map", assets)
 
@@ -43,11 +51,11 @@ void GameState::unload(void)
 {
     clearActions();
     Player::ResetPlayerId();
-    delete miniMap;
+    delete game;
+    //delete miniMap;
     delete sprites;
     delete baseMap;
     delete topHud;
-    delete pmap;
 }
 
 AssetManager* GameState::getAssets(void)
@@ -81,6 +89,9 @@ void GameState::onResize(int m_width, int m_height)
     viewRectRight.setHeight(m_height);
     viewRectRight.setWidth(VIEW_RECT_ZONE);
     viewRectRight.setX(width - VIEW_RECT_ZONE);
+
+    //lbl fps position
+    lblFps.setPoint(m_width - lblFps.getWidth() - 100, m_height - lblFps.getHeight() - 5);
 }
 
 void GameState::onStart(void)
@@ -114,6 +125,9 @@ void GameState::onStart(void)
 
     ToggleMiniMapAction *taction = new ToggleMiniMapAction(this);
     actions.push_back(taction);
+
+    ToggleShowFPSAction *fpsAction = new ToggleShowFPSAction(&lblFps);
+    actions.push_back(fpsAction);
 
     auto vit(actions.begin()), vend(actions.end());
     for(;vit!=vend;++vit)
@@ -275,6 +289,15 @@ void GameState::onPaint(SDL_Renderer *renderer)
     texMiniMap.setBlendMode(SDL_BLENDMODE_BLEND);
     texMiniMap.setAlphaMod(160);
     texMiniMap.renderCopy(&dst);
+
+    //fps label
+    if(lblFps.isVisible())
+    {
+        lblFps.setCaption("FPS : "+std::to_string(viewport->getFps()));
+        Surface *surLbl = lblFps.render();
+        Texture texLbl (renderer, surLbl);
+        texLbl.renderCopy(&lblFps);
+    }
 
     BaseGameState::onPaint(renderer);
 }

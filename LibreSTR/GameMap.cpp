@@ -2,6 +2,7 @@
 #include <fstream>
 #include <set>
 #include <map>
+#include <cmath>
 #include <cstring>
 
 const int GameMap::PLAYERS_MAX = 2;
@@ -68,8 +69,8 @@ bool GameMap::placeBuilding(Building *building, int t_x, int t_y)
     float t_w = (float)(building->getWidth()) / (float)Tile::TILE_WIDTH;
     float t_h = (float)(building->getHeight()) / (float)Tile::TILE_HEIGHT;
 
-    int it_w = (int)t_w;
-    int it_h = (int)t_h;
+    int it_w = (int)ceil(t_w);
+    int it_h = (int)ceil(t_h);
 
     for(int y=t_y; y<t_y+it_h; y++)
     {
@@ -104,8 +105,8 @@ void GameMap::forcePlaceBuilding(Building *building, int t_x, int t_y)
     float t_w = (float)(building->getWidth()) / (float)Tile::TILE_WIDTH;
     float t_h = (float)(building->getHeight()) / (float)Tile::TILE_HEIGHT;
 
-    int it_w = (int)t_w;
-    int it_h = (int)t_h;
+    int it_w = (int)ceil(t_w);
+    int it_h = (int)ceil(t_h);
 
     for(int y=t_y; y<t_y+it_h; y++)
     {

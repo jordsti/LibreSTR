@@ -20,6 +20,12 @@ GameObject::GameObject(AssetManager *m_assets, int mapWidth, int mapHeight)
 GameObject::~GameObject()
 {
     //some cleaning todo
+    delete map;
+
+    delete playerMaps[1];
+    delete playerMaps[2];
+    delete players[0];
+    delete players[1];
 }
 
 void GameObject::initGame(void)

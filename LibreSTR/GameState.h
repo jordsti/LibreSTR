@@ -50,9 +50,11 @@ class GameState :
         StiGame::MPoint mousePosition;
         int viewX;
         int viewY;
+        StiGame::Gui::Label lblFps;
         TopHud *topHud;
         StiGame::Surface *baseMap;
         StiGame::Color background;
+        StiGame::Color textColor;
         MiniMap *miniMap;
 
         //view rectangle for moving

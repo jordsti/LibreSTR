@@ -89,6 +89,12 @@ void AssetManager::initBindings()
 
     kmap = new KeyActionMap("show_minimap", SDLK_m);
     bindings->addBinding(kmap);
+
+    kmap = new KeyActionMap("show_minimap", SDLK_m);
+    bindings->addBinding(kmap);
+
+    kmap = new KeyActionMap("show_fps", SDLK_f);
+    bindings->addBinding(kmap);
 }
 
 void AssetManager::loadData(void)
@@ -115,7 +121,7 @@ void AssetManager::loadData(void)
     bindings = new ActionBinding(p);
     bindings->read();
 
-    if(bindings->getCount() == 0)
+    if(bindings->getCount() < 6)
     {
         initBindings();
         bindings->write();

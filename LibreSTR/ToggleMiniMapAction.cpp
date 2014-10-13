@@ -1,7 +1,8 @@
 #include "ToggleMiniMapAction.h"
 
-ToggleMiniMapAction::ToggleMiniMapAction(GameState *m_state) : StiGame::BaseGameAction()
+ToggleMiniMapAction::ToggleMiniMapAction(GameState *m_state) : StiGame::TimedGameAction()
 {
+    cooldown = 250; //ms
     name = "show_minimap";
     state = m_state;
 }
