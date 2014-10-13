@@ -4,6 +4,7 @@
 #include "GameOverlay.h"
 #include <OverlayGameAction.h>
 #include "ViewMoveAction.h"
+#include "ToggleMiniMapAction.h"
 
 using namespace StiGame;
 
@@ -111,6 +112,9 @@ void GameState::onStart(void)
     vaction = new ViewMoveAction(this, "view_move_right", VIEW_MOVE_DY, 0);
     actions.push_back(vaction);
 
+    ToggleMiniMapAction *taction = new ToggleMiniMapAction(this);
+    actions.push_back(taction);
+
     auto vit(actions.begin()), vend(actions.end());
     for(;vit!=vend;++vit)
     {
@@ -131,6 +135,11 @@ void GameState::onStart(void)
 
     drawBaseMap();
     running = true;
+}
+
+MiniMap* GameState::getMiniMap(void)
+{
+    return miniMap;
 }
 
 void GameState::tickMouseViewMovement(void)

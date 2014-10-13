@@ -13,7 +13,7 @@ int main(int argc, char** argv)
 {
     // this is the normal behaviour
     bool fullscreen = true;
-    int width = 1366;
+    int width = 1024;
     int height = 768;
 
     Dimension maxDim = Viewport::GetHighestResolution();

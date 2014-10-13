@@ -22,6 +22,7 @@ set(SOURCE_FILES main.cpp
     PlayerMap.cpp
     Tile.cpp
     TopHud.cpp
+    ToggleMiniMapAction.cpp
     ResourceIdentity.cpp
     Unit.cpp
     UnitSprite.cpp

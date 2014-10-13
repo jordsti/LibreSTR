@@ -35,6 +35,7 @@ class GameState :
         void moveViewPoint(int dx, int dy);
 
         AssetManager* getAssets(void);
+        MiniMap* getMiniMap(void);
 
     protected:
         void loadSprites(void);
