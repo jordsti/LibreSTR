@@ -24,6 +24,28 @@ int main(int argc, char** argv)
 
     std::cout << "Max resolution is " << width << "x" << height << std::endl;
 
+
+    //switch parsing
+    int i = 0;
+    while(i < argc)
+    {
+        std::string arg = argv[i];
+
+        if(i==0)
+        {
+            //current path is this needed ? maybe
+        }
+        else
+        {
+            if(arg == "-w" || arg == "-windowed")
+            {
+                fullscreen = false;
+            }
+        }
+
+        i++;
+    }
+
 #ifdef DEBUG
 
 //we don't want to go in fullscreen in debug mode

@@ -12,7 +12,6 @@ public:
     int getRelease(void);
     int getBuild(void);
     std::string getName(void);
-
     std::string getVersionString(void);
 
 protected:
