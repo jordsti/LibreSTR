@@ -13,6 +13,8 @@ public:
     int getBuild(void);
     std::string getName(void);
 
+    std::string getVersionString(void);
+
 protected:
     LibreSTRVersion();
     LibreSTRVersion(int m_major, int m_minor, int m_release, int m_build, std::string m_name);

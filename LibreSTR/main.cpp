@@ -6,6 +6,7 @@
 #include "LibreSTRStyle.h"
 #include "MapGenerator.h"
 #include "AssetManager.h"
+#include "LibreSTRVersion.h"
 
 using namespace StiGame;
 
@@ -63,10 +64,11 @@ std::cout << "Overriding fullscreen resolution to windowed : " << width << "x" <
         }
         std::cout << std::endl;
     }*/
-
+    LibreSTRVersion version = LibreSTRVersion::CurrentVersion();
     Viewport *vp = new Viewport(width, height, fullscreen);
-
-    vp->setTitle("LibreSTR [0.0.0-whatisrts?]");
+    std::string vstr = version.getVersionString();
+    std::string wtitle = "LibreSTR ["+ vstr +"]";
+    vp->setTitle(wtitle.c_str());
 
     //loading asset
     AssetManager *assets = new AssetManager();
