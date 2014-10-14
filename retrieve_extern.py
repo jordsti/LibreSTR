@@ -70,7 +70,8 @@ def extract(zipname, dst = None):
     zp.close()
 
 if __name__ == '__main__':
-    download(url, 'stigame_extern_x86.zip')
-    extract('stigame_extern_x86.zip')
+    if not os.path.exists('lib') or not os.path.exists('bin') or not os.path.exists('include'):
+        download(url, 'stigame_extern_x86.zip')
+        extract('stigame_extern_x86.zip')
 
 
