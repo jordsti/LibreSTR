@@ -13,13 +13,21 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
 
 
 
-if(WIN32)
-    set(SDL2_LIBS_PATH "${PROJECT_SOURCE_DIR}/lib/")
-    set(SDL2_INCLUDE "include/SDL2")
-elseif(UNIX)
-    set(SDL2_LIBS_PATH "/usr/lib/")
-    set(SDL2_INCLUDE "/usr/include/SDL2")
-endif(WIN32)
+if(NOT SDL2_LIBS)
+	if(WIN32)
+		set(SDL2_LIBS "${PROJECT_SOURCE_DIR}/lib/")
+	elseif(UNIX)
+		set(SDL2_LIBS "/usr/lib/")
+	endif(WIN32)
+endif(NOT SDL2_LIBS)
+
+if(NOT SDL2_INCLUDE)
+	if(WIN32)
+		set(SDL2_INCLUDE "include/SDL2")
+	elseif(UNIX)
+		set(SDL2_INCLUDE "/usr/include/SDL2")
+	endif(WIN32)
+endif(NOT SDL2_INCLUDE)
 
 include_directories(${SDL2_INCLUDE})
 include_directories(STRData)
