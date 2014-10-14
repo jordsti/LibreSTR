@@ -4,17 +4,20 @@ project(LibreSTR)
 set(SOURCE_FILES main.cpp
     AssetManager.cpp
     GameObject.cpp
-    GameOverlay.cpp
     GameState.cpp
-    LibreSTRStyle.cpp
     MainMenu.cpp
-    MiniMap.cpp
     NewGameMenu.cpp
     Player.cpp
-    TopHud.cpp
-    ToggleMiniMapAction.cpp
-    ToggleShowFPSAction.cpp
-    ViewMoveAction.cpp
+
+    actions/ToggleMiniMapAction.cpp
+    actions/ToggleShowFPSAction.cpp
+    actions/ViewMoveAction.cpp
+
+
+    gui/LibreSTRStyle.cpp
+    gui/MiniMap.cpp
+    gui/TopHud.cpp
+    gui/GameOverlay.cpp
 
     units/Building.cpp
     units/BuildingIdentity.cpp
@@ -37,8 +40,11 @@ configure_file(VersionConfig.h.in ${PROJECT_SOURCE_DIR}/LibreSTRVersion.h)
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 include_directories(".")
+include_directories(actions)
+include_directories(gui)
 include_directories(units)
 include_directories(maps)
+
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} mingw32 STRData ${SDL2main} ${SDL2} ${SDL2_image} ${SDL2_ttf} ${SDL2_net} ${SDL2_gfx} ${StiGame})

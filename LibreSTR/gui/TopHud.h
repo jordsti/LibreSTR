@@ -16,9 +16,11 @@ public:
     virtual ~TopHud();
 
     StiGame::Surface* render(void);
+
 protected:
     void updateHud(void);
-
+    void renderBackground(void);
+    void resized(void);
 private:
     Player *player;
     AssetManager *assets;
@@ -28,6 +30,10 @@ private:
     StiGame::Gui::Label lblGazCount;
     StiGame::Color textColor;
     std::list<StiGame::Gui::Item*> items;
+    StiGame::Surface *leftImage;
+    StiGame::Surface *bgImage;
+    StiGame::Surface *rightImage;
+    StiGame::Surface *bg;
 };
 
 #endif // TOPHUD_H

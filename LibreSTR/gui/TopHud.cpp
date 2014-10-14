@@ -9,6 +9,12 @@ TopHud::TopHud(AssetManager *m_assets, Player *m_player)
     assets = m_assets;
     player = m_player;
 
+    leftImage = new Surface(GamePath::getFilepath(AssetRoot, "tophud_left.png"));
+    bgImage = new Surface(GamePath::getFilepath(AssetRoot, "tophud_bg.png"));
+    rightImage = new Surface(GamePath::getFilepath(AssetRoot, "tophud_right.png"));
+
+    bg = nullptr;
+
     iconMetal.setImage(GamePath::getFilepath(AssetRoot, assets->getMetalIdentity()->getIcon()));
     iconGaz.setImage(GamePath::getFilepath(AssetRoot, assets->getGazIdentity()->getIcon()));
 
@@ -42,7 +48,14 @@ TopHud::TopHud(AssetManager *m_assets, Player *m_player)
 
 TopHud::~TopHud()
 {
+    delete leftImage;
+    delete bgImage;
+    delete rightImage;
 
+    if(bg != nullptr)
+    {
+        delete bg;
+    }
 }
 
 void TopHud::updateHud(void)
@@ -62,12 +75,56 @@ void TopHud::updateHud(void)
 
 }
 
+void TopHud::resized()
+{
+    renderBackground();
+}
+
+void TopHud::renderBackground()
+{
+    if(bg != nullptr)
+    {
+        delete bg;
+    }
+
+    bg = new Surface(width, height);
+    int ix = 0;
+
+    while(ix < width)
+    {
+        MPoint pt (ix, 0);
+        if(ix == 0)
+        {
+            bg->blit(leftImage, &pt);
+            ix += leftImage->getWidth();
+        }
+        else if(ix < width - rightImage->getWidth())
+        {
+            bg->blit(bgImage, &pt);
+            ix += bgImage->getWidth();
+        }
+        else
+        {
+            pt.setX(width - rightImage->getWidth());
+            bg->blit(rightImage, &pt);
+            ix += rightImage->getWidth();
+        }
+    }
+}
+
 Surface* TopHud::render(void)
 {
+
+    if(bg == nullptr)
+    {
+        renderBackground();
+    }
+
     updateHud();
     Surface *sur = new Surface(width, height);
-
+    Point ptDst (0,0);
     sur->fill(background);
+    sur->blit(bg, &ptDst);
 
     PRect pColorRect;
     pColorRect.setDimension(15, 15);
