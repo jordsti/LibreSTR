@@ -46,7 +46,7 @@ void GameObject::initGame(void)
     for(;vit!=vend;++vit)
     {
         std::vector<Point> startingPoints = map->getPlayerStartingPoints((*vit)->getId());
-        std::cout << (*vit)->getId() << std::endl;
+
         int p = rand() % startingPoints.size();
 
         Point ps = startingPoints[p];
@@ -64,8 +64,6 @@ void GameObject::initGame(void)
         base->setState(BS_Builded);
         base->setCurrentHealth(baseId->getMaxHealth());
         map->forcePlaceBuilding(base, ptStart.getX(), ptStart.getY());
-        std::cout << "Placing player " << pl->getId() << "base at " << ptStart.getX() << "; " << ptStart.getY() << std::endl;
-
 
         PlayerMap *pmap = map->GeneratePlayerMap(pl->getId());
         playerMaps.insert(std::make_pair(pl->getId(), pmap));
