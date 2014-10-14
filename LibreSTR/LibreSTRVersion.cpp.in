@@ -1,0 +1,51 @@
+#include "LibreSTRVersion.h"
+
+LibreSTRVersion LibreSTRVersion ::CurrentVersion(void)
+{
+    LibreSTRVersion v (@LIBRESTR_MAJOR@, @LIBRESTR_MINOR@, @LIBRESTR_RELEASE@, @LIBRESTR_BUILD@, "@LIBRESTR_NAME@");
+    return v;
+}
+
+int LibreSTRVersion::getMajor(void)
+{
+    return major;
+}
+
+int LibreSTRVersion::getMinor(void)
+{
+    return minor;
+}
+
+int LibreSTRVersion::getRelease(void)
+{
+    return release;
+}
+
+int LibreSTRVersion::getBuild(void)
+{
+    return build;
+}
+
+std::string LibreSTRVersion::getName(void)
+{
+    return name;
+}
+
+
+LibreSTRVersion::LibreSTRVersion()
+{
+    minor = 0;
+    major = 0;
+    build = 0;
+    release = 0;
+    name = "";
+}
+
+LibreSTRVersion::LibreSTRVersion(int m_major, int m_minor, int m_release, int m_build, std::string m_name)
+{
+    major = m_major;
+    minor = m_minor;
+    release = m_release;
+    build = m_build;
+    name = m_name;
+}

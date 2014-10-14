@@ -23,8 +23,12 @@ set(SOURCE_FILES main.cpp
     units/BuildingIdentity.cpp
     units/BuildingSprite.cpp
     units/MBuilding.cpp
+    units/GroundUnitIdentity.cpp
+    units/GroundUnit.cpp
+    units/MGroundUnit.cpp
     units/Unit.cpp
     units/UnitSprite.cpp
+
 
     maps/GameMap.cpp
     maps/IResource.cpp
@@ -34,9 +38,11 @@ set(SOURCE_FILES main.cpp
     maps/PlayerMap.cpp
     maps/Tile.cpp
     maps/ResourceIdentity.cpp
+
+    LibreSTRVersion.cpp
 )
 
-configure_file(VersionConfig.h.in ${PROJECT_SOURCE_DIR}/LibreSTRVersion.h)
+configure_file(LibreSTRVersion.cpp.in ${PROJECT_SOURCE_DIR}/LibreSTRVersion.cpp)
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 include_directories(".")

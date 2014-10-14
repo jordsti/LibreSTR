@@ -30,8 +30,8 @@ tools/*/.idea/inspectionProfiles/*
 #ide files
 *.depend
 *.layout
-LibreSTR/LibreSTRVersion.h
-
+#LibreSTR/LibreSTRVersion.h
+LibreSTR/LibreSTRVersion.cpp
 # Compiled Dynamic libraries
 *.so
 *.dylib
