@@ -32,5 +32,3 @@ script:
    - cmake  ../ -DCMAKE_BUILD_TYPE:STRING=Release -DTRAVIS_BUILD:STRING=YES
    - make
    - make install
-   - cd ../build/*/Release
-   - ls
