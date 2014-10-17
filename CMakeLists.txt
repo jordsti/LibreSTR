@@ -49,6 +49,12 @@ else(TRAVIS_BUILD)
 	include_directories(../stigame/StiGame)
 endif(TRAVIS_BUILD)
 
+if(NOT STIGAME_INCLUDE)
+	include_directories(stigame/StiGame/)
+else(NOT STIGAME_INCLUDE)
+	include_directories(${STIGAME_INCLUDE})
+endif(NOT STIGAME_INCLUDE)
+
 
 find_library(SDL2 NAMES "SDL2" PATHS ${SDL2_LIBS})
 find_library(SDL2_image NAMES "SDL2_image" PATHS ${SDL2_LIBS})
