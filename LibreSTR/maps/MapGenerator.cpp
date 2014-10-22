@@ -10,6 +10,7 @@ const int MapGenerator::MAX_ITERATION = 1024;
 const int MapGenerator::N_TILES = 48;
 const int MapGenerator::METAL_TILES = 10;
 const int MapGenerator::GAZ_TILES = 2;
+const int MapGenerator::RES_POINT_OFFSET = 15;
 
 AssetManager* MapGenerator::assets = nullptr;
 
@@ -74,42 +75,42 @@ GameMap* MapGenerator::RandomMap(int width, int height, int seed)
     //player 2 is right
     //0,0
     std::list<StiGame::Point> pts;
-    StiGame::Point p1 (LIMIT_OFFSET, LIMIT_OFFSET);
+    StiGame::Point p1 (RES_POINT_OFFSET, RES_POINT_OFFSET);
     pts.push_back(p1);
     gmap->addStartPoint(1, p1);
 
     //width, height
-    StiGame::Point p2 (width - LIMIT_OFFSET, height - LIMIT_OFFSET);
+    StiGame::Point p2 (width - RES_POINT_OFFSET, height - RES_POINT_OFFSET);
     pts.push_back(p2);
     gmap->addStartPoint(2, p2);
 
     //0, height
-    StiGame::Point p3 (LIMIT_OFFSET, height - LIMIT_OFFSET);
+    StiGame::Point p3 (RES_POINT_OFFSET, height - RES_POINT_OFFSET);
     pts.push_back(p3);
     gmap->addStartPoint(1, p3);
 
     //width, 0
-    StiGame::Point p4 (width - LIMIT_OFFSET, LIMIT_OFFSET);
+    StiGame::Point p4 (width - RES_POINT_OFFSET, RES_POINT_OFFSET);
     pts.push_back(p4);
     gmap->addStartPoint(2, p4);
 
     //each middle
     // width/2, 0
     // not good for a start point
-    pts.push_back(StiGame::Point(width/2, LIMIT_OFFSET));
+    pts.push_back(StiGame::Point(width/2, RES_POINT_OFFSET));
 
     // width/2, height
     // not good for a start point
-    pts.push_back(StiGame::Point(width/2, height - LIMIT_OFFSET));
+    pts.push_back(StiGame::Point(width/2, height - RES_POINT_OFFSET));
 
     // 0, height/2
 
-    StiGame::Point p5 (LIMIT_OFFSET, height/2);
+    StiGame::Point p5 (RES_POINT_OFFSET, height/2);
     pts.push_back(p5);
     gmap->addStartPoint(1, p5);
 
     // width, height/2
-    StiGame::Point p6 (width - LIMIT_OFFSET, height/2);
+    StiGame::Point p6 (width - RES_POINT_OFFSET, height/2);
     pts.push_back(p6);
     gmap->addStartPoint(2, p6);
 
@@ -126,8 +127,8 @@ GameMap* MapGenerator::RandomMap(int width, int height, int seed)
 
     for(int i=0; i<nb; i++)
     {
-        int x = (rand() % (width-LIMIT_OFFSET*2)) + LIMIT_OFFSET;
-        int y = (rand() % (height-LIMIT_OFFSET*2)) + LIMIT_OFFSET;
+        int x = (rand() % (width-RES_POINT_OFFSET*2)) + RES_POINT_OFFSET;
+        int y = (rand() % (height-RES_POINT_OFFSET*2)) + RES_POINT_OFFSET;
         StiGame::Point rpt (x, y);
         pts.push_back(rpt);
     }

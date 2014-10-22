@@ -17,6 +17,7 @@ class MapGenerator
         static const int N_TILES;
         static const int METAL_TILES;
         static const int GAZ_TILES;
+        static const int RES_POINT_OFFSET;
 
         static void setAssets(AssetManager *m_assets);
 
