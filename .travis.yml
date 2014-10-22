@@ -26,14 +26,9 @@ before_install:
    - make
    - make install
    - cd ..
-   - cd stigame/build/*/Release
-   - ls
-   - cd ../../../..
 script: 
    - mkdir cmake_build
    - cd cmake_build
    - cmake  ../ -DCMAKE_BUILD_TYPE:STRING=Release -DTRAVIS_BUILD:STRING=YES
    - make
    - make install
-   - cd ../build/*/Release
-   - ls

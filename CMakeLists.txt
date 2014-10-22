@@ -15,6 +15,11 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -DDEBUG")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2 -DRELEASE")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
 
+if(NOT STIGAME_PATH)
+        set(STIGAME_PATH "${PROJECT_SOURCE_DIR}/../stigame/build/${CMAKE_BUILD_TYPE}/*/")
+else(NOT STIGAME_PATH)
+        set(STIGAME_PATH "${PROJECT_SOURCE_DIR}/${STIGAME_PATH}")
+endif(NOT STIGAME_PATH)
 
 
 if(NOT SDL2_LIBS)
@@ -44,6 +49,12 @@ else(TRAVIS_BUILD)
 	include_directories(../stigame/StiGame)
 endif(TRAVIS_BUILD)
 
+if(NOT STIGAME_INCLUDE)
+	include_directories(stigame/StiGame/)
+else(NOT STIGAME_INCLUDE)
+	include_directories(${STIGAME_INCLUDE})
+endif(NOT STIGAME_INCLUDE)
+
 
 find_library(SDL2 NAMES "SDL2" PATHS ${SDL2_LIBS})
 find_library(SDL2_image NAMES "SDL2_image" PATHS ${SDL2_LIBS})
@@ -51,7 +62,8 @@ find_library(SDL2_gfx NAMES "SDL2_gfx" PATHS ${SDL2_LIBS})
 find_library(SDL2_ttf NAMES "SDL2_ttf" PATHS ${SDL2_LIBS})
 find_library(SDL2_net NAMES "SDL2_net" PATHS ${SDL2_LIBS})
 find_library(SDL2main NAMES "SDL2main" PATHS ${SDL2_LIBS})
-find_library(StiGame NAMES "StiGame" PATHS ${PROJECT_SOURCE_DIR}/../stigame/build/${CMAKE_BUILD_TYPE}/*/ FORCE)
+find_library(StiGame NAMES "StiGame" PATHS ${STIGAME_PATH} FORCE)
+
 if(NOT StiGame)
         find_library(StiGame NAMES "StiGame" PATHS ${PROJECT_SOURCE_DIR}/stigame/build/${CMAKE_BUILD_TYPE}/*/ FORCE)
 endif(NOT StiGame)
