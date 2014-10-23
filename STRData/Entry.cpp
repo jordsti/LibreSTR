@@ -26,6 +26,18 @@ bool Entry::endsWith(std::string m_suffix)
     }
 }
 
+std::string Entry::getNameWithoutExtension(void)
+{
+    size_t fs = name.find_last_of('.');
+    if(fs != std::string::npos)
+    {
+        std::string rs = name.substr(0, fs);
+        return rs;
+    }
+
+    return name;
+}
+
 std::string Entry::getName(void)
 {
     return name;

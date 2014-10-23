@@ -3,6 +3,9 @@ project(MapEditor)
 
 set(SOURCE_FILES main.cpp
             MapEditMainMenu.cpp
+            MapFileVO.cpp
+            NewMapState.cpp
+            MapSizeVO.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

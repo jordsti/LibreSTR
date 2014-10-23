@@ -20,7 +20,7 @@ public:
     std::string getPath(void);
     virtual EntryType type(void) = 0;
     bool endsWith(std::string m_suffix);
-
+    std::string getNameWithoutExtension(void);
     virtual ~Entry();
 
 protected:

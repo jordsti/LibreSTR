@@ -1,5 +1,6 @@
 #include <Viewport.h>
 #include <iostream>
+#include "MapEditMainMenu.h"
 using namespace StiGame;
 
 int main(int argc, char **argv)
@@ -22,6 +23,8 @@ int main(int argc, char **argv)
     Viewport *vp = new Viewport(width, height, false);
     vp->setTitle("LibreSTR - MapEditor");
 
+    MapEditMainMenu *menu = new MapEditMainMenu();
+    vp->push(menu);
 
 
     vp->startLoop();

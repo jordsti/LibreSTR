@@ -11,5 +11,4 @@ This is a final university project. This game will be in 2D and will use SDL2 li
 
 
 ### To Do
- - StiGame Viewport, add static method to get all video resolution, highest mode and lowest mode
- - Game Start Up in fullscreen, add switch to disable fullscreen and don't do this in debug mode !
+  - StiGame : Gui::List add draw border option

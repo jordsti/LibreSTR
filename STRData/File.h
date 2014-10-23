@@ -12,7 +12,6 @@ public:
     File(std::string m_name, std::string m_parent);
     virtual ~File();
     EntryType type(void);
-    bool endsWith(std::string m_suffix);
 private:
 
 };

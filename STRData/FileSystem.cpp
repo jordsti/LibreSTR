@@ -20,7 +20,6 @@ FileSystem::FileSystem()
 
 #ifdef __unix__
 //POSIX implementation
-//TODO and test
 std::vector<Entry*> FileSystem::ListDirectory(std::string m_path)
 {
     std::string unix_path;
@@ -31,21 +30,39 @@ std::vector<Entry*> FileSystem::ListDirectory(std::string m_path)
     }
     else
     {
-        //need to add a wildcard for win32
-        unix_path = m_path + "*";
+        unix_path = m_path;
     }
 
     std::vector<Entry*> root;
-    /*DIR *dir = opendir(unix_path.c_str());
+    DIR *dir = opendir(unix_path.c_str());
 
     if(dir)
     {
         dirent *ent;
-        while((ent == readdir(dir)))
+        while(ent)
         {
+            std::string name (ent->d_name);
+            if(name != "." && name != ".." && name.size() > 0)
+            {
+                if(ent->d_type == DT_DIR)
+                {
+                    //directory
+                    Directory *_dir = new Directory(name, m_path);
+                    root.push_back(_dir);
+                }
+                else
+                {
+                    //file
+                    File *_file = new File(name, m_path);
+                    root.push_back(_file);
+                }
+            }
 
+            ent = readdir(dir);
         }
-    }*/
+
+        closedir(dir);
+    }
 
     return root;
 }
