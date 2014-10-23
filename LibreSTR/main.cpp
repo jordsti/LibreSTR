@@ -8,6 +8,8 @@
 #include "AssetManager.h"
 #include "LibreSTRVersion.h"
 
+#include "FileSystem.h"
+
 using namespace StiGame;
 
 int main(int argc, char** argv)
