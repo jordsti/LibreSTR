@@ -104,7 +104,8 @@ void MapEditMainMenu::initComponents(void)
     btnNewMap.setCaption("New Map");
     btnQuit.setCaption("Quit");
 
-    listMaps.setFixedSize(200, 400);
+    listMaps.setFixedSize(500, 350);
+    listMaps.setDrawBorder(true);
 
     lblTitle.setFont(style->getBigFont());
     lblTitle.setCaption("LibreSTR Map Editor");

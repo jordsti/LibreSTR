@@ -1,5 +1,7 @@
 #include "NewMapState.h"
 #include "MapEditMainMenu.h"
+#include "MapData.h"
+#include <iostream>
 using namespace StiGame;
 using namespace Gui;
 
@@ -20,12 +22,32 @@ void NewMapState::handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *ev
         MapEditMainMenu *state = new MapEditMainMenu();
         viewport->push(state);
     }
+    else if(src == &btnCreate)
+    {
+        Dimension *mapSize = (dynamic_cast<MapSizeVO*>(listSizes.getSelectedItem()))->getDimension();
+
+        STRData::MapData *mp = new STRData::MapData(mapSize->getWidth(), mapSize->getHeight());
+        //todo
+
+    }
 }
 
 void NewMapState::onResize(int m_width, int m_height)
 {
 
     MPoint curpt;
+
+    curpt.setPoint(5, 50);
+
+    lblSizes.setPoint(&curpt);
+
+    curpt.setY(curpt.getY() + lblSizes.getHeight() + 5);
+
+    listSizes.setPoint(&curpt);
+
+    curpt.setY(curpt.getY() + listSizes.getHeight() + 5);
+
+    btnCreate.setPoint(&curpt);
 
     curpt.setPoint(5, m_height - BTN_HEIGHT - 5);
 
@@ -65,16 +87,27 @@ void NewMapState::initComponents(void)
     listSizes.add(vo4);
 
     listSizes.setSelectedIndex(0);
+    listSizes.setDrawBorder(true);
+
 
     lblTitle.setFont(style->getBigFont());
     lblTitle.setCaption("New Map ...");
     lblTitle.setPoint(5, 10);
 
+    lblSizes.setCaption("Sizes :");
+    lblSizes.doAutosize();
+
     btnBack.setFixedSize(BTN_WIDTH, BTN_HEIGHT);
     btnBack.setCaption("Back");
     btnBack.subscribe(this);
 
+    btnCreate.setFixedSize(BTN_WIDTH, BTN_HEIGHT);
+    btnCreate.setCaption("Create");
+    btnCreate.subscribe(this);
+
     add(&listSizes);
     add(&lblTitle);
     add(&btnBack);
+    add(&lblSizes);
+    add(&btnCreate);
 }

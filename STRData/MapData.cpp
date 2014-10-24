@@ -16,6 +16,18 @@ MapData::MapData(int m_width, int m_height)
     width = m_width;
     height = m_height;
 
+    for(int y=0; y<height; y++)
+    {
+        std::vector< TileInfo > row;
+        for(int x=0; x<width; x++)
+        {
+            TileInfo ti;
+            ti.texture_id =0;
+            ti.type = TT_Normal;
+            row.push_back(ti);
+        }
+        tiles.push_back(row);
+    }
 }
 
 MapData::~MapData()

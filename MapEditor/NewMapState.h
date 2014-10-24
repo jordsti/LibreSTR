@@ -28,9 +28,11 @@ protected:
     int mapWidth;
     int mapHeight;
     std::vector<MapSizeVO*> mapSizes;
+    StiGame::Gui::Label lblSizes;
     StiGame::Gui::List listSizes;
     StiGame::Gui::Label lblTitle;
     StiGame::Gui::Button btnBack;
+    StiGame::Gui::Button btnCreate;
 };
 
 #endif // NEWMAPSTATE_H

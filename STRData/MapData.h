@@ -8,6 +8,18 @@ namespace STRData
 
 const int TEXTURE_NAME_LENGTH = 32;
 
+enum ResourceType {
+    RT_NOT_DEFINED = 0,
+    RT_METAL = 1,
+    RT_GAZ = 2
+};
+
+enum TileType {
+    TT_Normal,
+    TT_Water,
+    TT_Block
+};
+
 struct MapHeader
 {
     int width;
