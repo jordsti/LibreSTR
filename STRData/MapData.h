@@ -1,3 +1,6 @@
+#ifndef MAPDATA_H
+#define MAPDATA_H
+
 #include <vector>
 #include <string>
 #include <iostream>
@@ -7,6 +10,9 @@ namespace STRData
 {
 
 const int TEXTURE_NAME_LENGTH = 32;
+const int TILE_WIDTH = 32;
+const int TILE_HEIGHT = 32;
+
 
 enum ResourceType {
     RT_NOT_DEFINED = 0,
@@ -86,3 +92,5 @@ protected:
 };
 
 }
+
+#endif

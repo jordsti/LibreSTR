@@ -1,6 +1,7 @@
 #include "NewMapState.h"
 #include "MapEditMainMenu.h"
 #include "MapData.h"
+#include "MapEditState.h"
 #include <iostream>
 using namespace StiGame;
 using namespace Gui;
@@ -15,20 +16,27 @@ NewMapState::~NewMapState()
 
 }
 
-void NewMapState::handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *evt)
+bool NewMapState::handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *evt)
 {
     if(src == &btnBack)
     {
+        running = false;
         MapEditMainMenu *state = new MapEditMainMenu();
         viewport->push(state);
+        return true;
     }
     else if(src == &btnCreate)
     {
+        running = false;
         Dimension *mapSize = (dynamic_cast<MapSizeVO*>(listSizes.getSelectedItem()))->getDimension();
 
-        STRData::MapData *mp = new STRData::MapData(mapSize->getWidth(), mapSize->getHeight());
+        //STRData::MapData *mp = new STRData::MapData(mapSize->getWidth(), mapSize->getHeight());
         //todo
+        MEMap *map = new MEMap(mapSize->getWidth(), mapSize->getHeight());
 
+        MapEditState *state = new MapEditState(map);
+        viewport->push(state);
+        return true;
     }
 }
 
@@ -63,6 +71,9 @@ void NewMapState::unload()
         listSizes.remove((*vit));
         delete (*vit);
     }
+
+    GuiState::unload();
+
 }
 
 void NewMapState::initComponents(void)

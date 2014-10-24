@@ -20,7 +20,7 @@ public:
     void onStart(void);
     void onResize(int m_width, int m_height);
 
-    void handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *args);
+    bool handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *args);
     void handleEvent(StiGame::Gui::SelectionEventThrower *src, StiGame::Gui::SelectionEventArgs *args);
 
 protected:

@@ -35,7 +35,7 @@ void NewGameMenu::onResize(int m_width, int m_height)
     GuiState::onResize(m_width, m_height);
 }
 
-void NewGameMenu::handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *args)
+bool NewGameMenu::handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *args)
 {
     if(src == &btnStart)
     {
@@ -45,6 +45,8 @@ void NewGameMenu::handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *ar
     {
 
     }
+
+    return false;
 }
 
 void NewGameMenu::handleEvent(SelectionEventThrower *src, SelectionEventArgs *args)

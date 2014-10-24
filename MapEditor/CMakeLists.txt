@@ -2,10 +2,15 @@ cmake_minimum_required(VERSION 2.8)
 project(MapEditor)
 
 set(SOURCE_FILES main.cpp
+            EditItem.cpp
             MapEditMainMenu.cpp
             MapFileVO.cpp
             NewMapState.cpp
             MapSizeVO.cpp
+            METile.cpp
+            MEMap.cpp
+            MapEditState.cpp
+            MapItem.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

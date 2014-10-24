@@ -30,7 +30,7 @@ GameOverlay::~GameOverlay()
 }
 
 
-void GameOverlay::handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *args)
+bool GameOverlay::handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *args)
 {
     if(src == &resumeButton)
     {
@@ -51,6 +51,8 @@ void GameOverlay::handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *ar
         state->closeGameMenu();
         state->quit();
     }
+
+    return false;
 }
 
 void GameOverlay::setState(GameState *m_state)

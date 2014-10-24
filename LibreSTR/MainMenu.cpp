@@ -45,7 +45,7 @@ void MainMenu::initComponents(void)
 }
 
 
-void MainMenu::handleEvent(EventThrower *src, EventArgs *evt)
+bool MainMenu::handleEvent(EventThrower *src, EventArgs *evt)
 {
     if(src == &btnNewGame)
     {
@@ -58,6 +58,8 @@ void MainMenu::handleEvent(EventThrower *src, EventArgs *evt)
     {
         running = false;
     }
+
+    return false;
 }
 
 void MainMenu::onResize(int m_width, int m_height)

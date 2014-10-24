@@ -23,7 +23,7 @@ public:
     MapEditMainMenu();
     virtual ~MapEditMainMenu();
     void onResize(int m_width, int m_height);
-    void handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *evt);
+    bool handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *evt);
     void handleEvent(StiGame::Gui::SelectionEventThrower *src, StiGame::Gui::SelectionEventArgs *args);
     void unload(void);
 protected:

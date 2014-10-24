@@ -21,7 +21,7 @@ public:
     NewMapState();
     virtual ~NewMapState();
     void onResize(int m_width, int m_height);
-    void handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *evt);
+    bool handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *evt);
     void unload(void);
 protected:
     void initComponents(void);

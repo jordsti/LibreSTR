@@ -17,6 +17,7 @@ MapEditMainMenu::MapEditMainMenu() : GuiState()
 
 MapEditMainMenu::~MapEditMainMenu()
 {
+
 }
 
 void MapEditMainMenu::onResize(int m_width, int m_height)
@@ -55,9 +56,11 @@ void MapEditMainMenu::unload(void)
         listMaps.remove((*vit));
         delete (*vit);
     }
+
+    GuiState::unload();
 }
 
-void MapEditMainMenu::handleEvent(EventThrower *src, EventArgs *evt)
+bool MapEditMainMenu::handleEvent(EventThrower *src, EventArgs *evt)
 {
     if(src == &btnQuit)
     {
@@ -75,7 +78,10 @@ void MapEditMainMenu::handleEvent(EventThrower *src, EventArgs *evt)
     {
         NewMapState *state = new NewMapState();
         viewport->push(state);
+        return true;
     }
+
+    return false;
 }
 
 void MapEditMainMenu::handleEvent(SelectionEventThrower *src, SelectionEventArgs *args)

@@ -3,8 +3,8 @@
 res_metal=titanium.res;
 res_gaz=hydrocarbongaz.res;
 
-tile_normal=grass;
-tile_block=rock;
+tile_normal=tile/grass;
+tile_block=tile/rock;
 
 #building definitions
 base_building=base_building.res;

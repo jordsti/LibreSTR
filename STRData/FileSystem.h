@@ -3,7 +3,7 @@
 #include "Directory.h"
 #include "File.h"
 #include <vector>
-
+//this will be moved into StiGame in not that long
 namespace FS
 {
 
