@@ -12,6 +12,51 @@ MapEditState::MapEditState(MEMap *m_map)
 {
     map = m_map;
     mapItem = nullptr;
+    selectionStarted = false;
+}
+
+void MapEditState::handleEvent(StiGame::MouseMotionEventThrower *src, StiGame::MouseMotionEventArgs *args)
+{
+    if(selectionStarted)
+    {
+        int t_w = (args->getX() - selectionStart.getX()) / map->getTileDimension()->getWidth();
+        t_w++;
+
+        int t_h = (args->getY() - selectionStart.getY()) / map->getTileDimension()->getHeight();
+        t_h++;
+        mapItem->setSelectRectangleSize(t_w, t_h);
+    }
+}
+
+void MapEditState::handleEvent(StiGame::MouseButtonEventThrower *src, StiGame::MouseButtonEventArgs *args)
+{
+    if(args->getSDLEvent()->button.state == SDL_PRESSED && !selectionStarted)
+    {
+        selectionStarted = true;
+        selectionStart.setPoint(args->getX(), args->getY());
+        mapItem->setSelectRectangle((selectionStart.getX()/ map->getTileDimension()->getWidth()) + mapItem->getPosition()->getX(),
+                                    (selectionStart.getY() / map->getTileDimension()->getHeight()) + mapItem->getPosition()->getY(),
+                                    1, 1);
+    }
+    else
+    {
+        if(selectionStart.getX() >= 0 && selectionStart.getY() >= 0 && selectionStarted)
+        {
+
+            int t_w = (args->getX() - selectionStart.getX()) / map->getTileDimension()->getWidth();
+            t_w++;
+
+            int t_h = (args->getY() - selectionStart.getY()) / map->getTileDimension()->getHeight();
+            t_h++;
+
+            mapItem->setSelectRectangle((selectionStart.getX()/ map->getTileDimension()->getWidth()) + mapItem->getPosition()->getX(),
+                                        (selectionStart.getY() / map->getTileDimension()->getHeight()) + mapItem->getPosition()->getY(),
+                                            t_w, t_h);
+
+            selectionStarted = false;
+
+        }
+    }
 }
 
 MapEditState::~MapEditState()
@@ -37,7 +82,11 @@ void MapEditState::onStart(void)
     mapItem = new MapItem(map, sprites, defTex);
     mapItem->setDimension(width, height);
 
+    mapItem->setSelectRectangle(0, 0, 0, 0);
+
     KeyEventThrower::subscribe(this);
+    MouseButtonEventThrower::subscribe(this);
+    MouseMotionEventThrower::subscribe(this);
 
     add(mapItem);
     add(&editItem);

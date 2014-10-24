@@ -1,5 +1,5 @@
 #include "MapItem.h"
-
+#include "PRect.h"
 using namespace StiGame;
 using namespace Gui;
 
@@ -12,11 +12,31 @@ MapItem::MapItem(MEMap *m_map, StiGame::SpriteLibrary *m_sprites, std::string m_
     //in tiles !
     viewPoint.setPoint(0, 0);
     background = new Color(0, 0, 0);
+    selectColor.setRGBA(0, 0, 200, 150);
+    borderSelectColor.setRGB(0, 0, 200);
 }
 
 MapItem::~MapItem()
 {
 
+}
+
+void MapItem::setSelectRectangle(int r_x, int r_y, int r_width, int r_height)
+{
+    if(r_x < map->getWidth() &&
+            r_y < map->getHeight() &&
+            r_x + r_width < map->getWidth() &&
+            r_y + r_height < map->getHeight() &&
+            r_x >= 0 &&
+            r_y >= 0)
+    {
+        selectRectangle.setRectangle(r_x, r_y, r_width, r_height);
+    }
+}
+
+void MapItem::setSelectRectangleSize(int m_width, int m_height)
+{
+    setSelectRectangle(selectRectangle.getX(), selectRectangle.getY(), m_width, m_height);
 }
 
 StiGame::Surface* MapItem::render(void)
@@ -58,6 +78,22 @@ StiGame::Surface* MapItem::render(void)
                 }
             }
         }
+    }
+
+    if(selectRectangle.getWidth() > 0 && selectRectangle.getHeight() > 0)
+    {
+        Surface rectSur = Surface(selectRectangle.getWidth() * map->getTileDimension()->getWidth(), selectRectangle.getHeight() * map->getTileDimension()->getHeight());
+        rectSur.fill(&selectColor);
+        //to add into stigame
+        SDL_SetSurfaceBlendMode(rectSur.getSDLSurface(), SDL_BLENDMODE_ADD);
+        Point pt ((selectRectangle.getX() * map->getTileDimension()->getWidth()) - viewPoint.getX() * map->getTileDimension()->getWidth(),
+                  (selectRectangle.getY() * map->getTileDimension()->getHeight()) - viewPoint.getY()* map->getTileDimension()->getHeight());
+
+        PRect border (pt.getX(), pt.getY(), selectRectangle.getWidth() * map->getTileDimension()->getWidth(), selectRectangle.getHeight() * map->getTileDimension()->getHeight());
+
+        buffer->blit(&rectSur, &pt);
+        buffer->draw(&border, &borderSelectColor);
+
     }
 
     return buffer;
