@@ -42,18 +42,24 @@ include_directories(${SDL2_INCLUDE})
 include_directories(STRData)
 
 if(TRAVIS_BUILD)
-	include_directories(stigame/StiGame/)
+    set(STIGAME_INCLUDE "stigame/StiGame/")
     #need sdl2_gfx header
     include_directories("${PROJECT_SOURCE_DIR}/include/SDL2")
-else(TRAVIS_BUILD)
-	include_directories(../stigame/StiGame)
 endif(TRAVIS_BUILD)
 
 if(NOT STIGAME_INCLUDE)
-	include_directories(stigame/StiGame/)
-else(NOT STIGAME_INCLUDE)
-	include_directories(${STIGAME_INCLUDE})
+        set(STIGAME_INCLUDE "${PROJECT_SOURCE_DIR}/../stigame/StiGame")
 endif(NOT STIGAME_INCLUDE)
+
+include_directories("${STIGAME_INCLUDE}")
+include_directories("${STIGAME_INCLUDE}/core")
+include_directories("${STIGAME_INCLUDE}/bindings")
+include_directories("${STIGAME_INCLUDE}/events")
+include_directories("${STIGAME_INCLUDE}/gui")
+include_directories("${STIGAME_INCLUDE}/files")
+include_directories("${STIGAME_INCLUDE}/primitives")
+include_directories("${STIGAME_INCLUDE}/network")
+include_directories("${STIGAME_INCLUDE}/sprites")
 
 
 find_library(SDL2 NAMES "SDL2" PATHS ${SDL2_LIBS})

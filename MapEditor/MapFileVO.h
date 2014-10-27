@@ -8,12 +8,12 @@ class MapFileVO :
         public StiGame::Gui::ValueObject
 {
 public:
-    MapFileVO(int m_id, FS::Entry *m_fileEntry);
+    MapFileVO(int m_id, StiGame::FS::Entry *m_fileEntry);
     virtual ~MapFileVO();
-    FS::Entry *getFileEntry(void);
+    StiGame::FS::Entry *getFileEntry(void);
 
 protected:
-    FS::Entry *fileEntry;
+    StiGame::FS::Entry *fileEntry;
 };
 
 #endif // MAPFILEVO_H

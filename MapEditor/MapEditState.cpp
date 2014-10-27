@@ -36,7 +36,8 @@ void MapEditState::handleEvent(StiGame::MouseButtonEventThrower *src, StiGame::M
         selectionStart.setPoint(args->getX(), args->getY());
         mapItem->setSelectRectangle((selectionStart.getX()/ map->getTileDimension()->getWidth()) + mapItem->getPosition()->getX(),
                                     (selectionStart.getY() / map->getTileDimension()->getHeight()) + mapItem->getPosition()->getY(),
-                                    1, 1);
+                                    1,
+                                    1);
     }
     else
     {
@@ -51,7 +52,8 @@ void MapEditState::handleEvent(StiGame::MouseButtonEventThrower *src, StiGame::M
 
             mapItem->setSelectRectangle((selectionStart.getX()/ map->getTileDimension()->getWidth()) + mapItem->getPosition()->getX(),
                                         (selectionStart.getY() / map->getTileDimension()->getHeight()) + mapItem->getPosition()->getY(),
-                                            t_w, t_h);
+                                            t_w,
+                                            t_h);
 
             selectionStarted = false;
 

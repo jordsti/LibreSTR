@@ -5,7 +5,6 @@
 #include "NewMapState.h"
 
 using namespace StiGame;
-
 using namespace Gui;
 using namespace FS;
 
