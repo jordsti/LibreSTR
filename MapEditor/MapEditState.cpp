@@ -24,6 +24,9 @@ void MapEditState::handleEvent(StiGame::MouseMotionEventThrower *src, StiGame::M
 
         int t_h = (args->getY() - selectionStart.getY()) / map->getTileDimension()->getHeight();
         t_h++;
+        //todo
+        //inverse rectangle
+
         mapItem->setSelectRectangleSize(t_w, t_h);
     }
 }

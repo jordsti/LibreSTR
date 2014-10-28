@@ -85,7 +85,7 @@ StiGame::Surface* MapItem::render(void)
         Surface rectSur = Surface(selectRectangle.getWidth() * map->getTileDimension()->getWidth(), selectRectangle.getHeight() * map->getTileDimension()->getHeight());
         rectSur.fill(&selectColor);
         //to add into stigame
-        SDL_SetSurfaceBlendMode(rectSur.getSDLSurface(), SDL_BLENDMODE_ADD);
+        rectSur.setBlendMode(SDL_BLENDMODE_ADD);
         Point pt ((selectRectangle.getX() * map->getTileDimension()->getWidth()) - viewPoint.getX() * map->getTileDimension()->getWidth(),
                   (selectRectangle.getY() * map->getTileDimension()->getHeight()) - viewPoint.getY()* map->getTileDimension()->getHeight());
 
