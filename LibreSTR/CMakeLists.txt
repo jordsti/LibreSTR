@@ -18,6 +18,8 @@ set(SOURCE_FILES main.cpp
     gui/MiniMap.cpp
     gui/TopHud.cpp
     gui/GameOverlay.cpp
+    gui/RadialMenu.cpp
+    gui/RadialItem.cpp
 
     units/Building.cpp
     units/BuildingIdentity.cpp
