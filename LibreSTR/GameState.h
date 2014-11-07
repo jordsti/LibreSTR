@@ -8,6 +8,7 @@
 #include "TopHud.h"
 #include "MiniMap.h"
 #include "GameObject.h"
+#include "RadialMenu.h"
 
 class GameState :
     public StiGame::BaseGameState,
@@ -41,6 +42,7 @@ class GameState :
         void loadSprites(void);
         void drawBaseMap(void);
         void tickMouseViewMovement(void);
+        void renderGui(SDL_Renderer *renderer);
 
         StiGame::SpriteLibrary *sprites;
         AssetManager *assets;
@@ -56,6 +58,8 @@ class GameState :
         StiGame::Color background;
         StiGame::Color textColor;
         MiniMap *miniMap;
+
+        RadialMenu baseMenu;
 
         //view rectangle for moving
         StiGame::Rectangle viewRectUp;

@@ -6,6 +6,7 @@
 #include "ViewMoveAction.h"
 #include "ToggleMiniMapAction.h"
 #include "ToggleShowFPSAction.h"
+#include "GamePath.h"
 
 using namespace StiGame;
 
@@ -37,6 +38,20 @@ GameState::GameState(AssetManager *m_assets) :
     background.setRGB(0, 0, 0);
     viewX = 0;
     viewY = 0;
+
+    //todo
+    //baseMenu.setVisible(false);
+    baseMenu.setCaption("Base Action");
+    baseMenu.setCloseIcon(GamePath::getFilepath(AssetRoot, "close_radial.png"));
+    baseMenu.setDimension(300, 300);
+    RadialItem *ri = new RadialItem("Create Worker", GamePath::getFilepath(AssetRoot, "worker16.png"), GamePath::getFilepath(AssetRoot, "worker16.png"));
+    baseMenu.addItem(ri);
+    /*baseMenu.addItem(ri);
+    baseMenu.addItem(ri);
+    baseMenu.addItem(ri);
+    baseMenu.addItem(ri);
+    baseMenu.addItem(ri);*/
+
 
 }
 
@@ -159,18 +174,18 @@ void GameState::onStart(void)
     n_x -= width / 2;
     n_y -= height / 2;
 
+    n_x /= Tile::TILE_WIDTH;
+    n_y /= Tile::TILE_HEIGHT;
+
     if(n_x < 0)
         n_x = 0;
-    else if(n_x > ((pmap->getWidth()+1) * Tile::TILE_WIDTH) - width)
-        n_x = ((pmap->getWidth()+1) * Tile::TILE_WIDTH) - width;
+    else if(n_x > pmap->getWidth() - (width/Tile::TILE_WIDTH))
+        n_x = pmap->getWidth() - (width/Tile::TILE_WIDTH);
 
     if(n_y < 0)
         n_y = 0;
-    else if(n_y > ((pmap->getHeight()+1) * Tile::TILE_HEIGHT) - height)
-        n_y = ((pmap->getHeight()+1) * Tile::TILE_HEIGHT) - height;
-
-    n_x /= Tile::TILE_WIDTH;
-    n_y /= Tile::TILE_HEIGHT;
+    else if(n_y > pmap->getHeight() - (height/Tile::TILE_HEIGHT))
+        n_y = pmap->getHeight() - (height/Tile::TILE_HEIGHT);
 
     setViewPoint(n_x, n_y);
     miniMap->setViewPoint(viewX, viewY);
@@ -301,7 +316,13 @@ void GameState::onPaint(SDL_Renderer *renderer)
         }
     }
 
+    renderGui(renderer);
 
+    BaseGameState::onPaint(renderer);
+}
+
+void GameState::renderGui(SDL_Renderer *renderer)
+{
     //Hud
     Surface *surHud = topHud->render();
 
@@ -325,7 +346,17 @@ void GameState::onPaint(SDL_Renderer *renderer)
         texLbl.renderCopy(&lblFps);
     }
 
-    BaseGameState::onPaint(renderer);
+    if(baseMenu.isVisible())
+    {
+        //test radial menu section
+        Surface *rmenu = baseMenu.render();
+        Texture texR (renderer, rmenu);
+        texR.setBlendMode(SDL_BLENDMODE_ADD);
+        Point rdst (0,0);
+        texR.renderCopy(&rdst);
+    }
+
+
 }
 
 void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *args)
