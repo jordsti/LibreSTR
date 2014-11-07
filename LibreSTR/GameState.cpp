@@ -43,8 +43,12 @@ GameState::GameState(AssetManager *m_assets) :
     //baseMenu.setVisible(false);
     baseMenu.setCaption("Base Action");
     baseMenu.setCloseIcon(GamePath::getFilepath(AssetRoot, "close_radial.png"));
-    baseMenu.setDimension(300, 300);
-    RadialItem *ri = new RadialItem("Create Worker", GamePath::getFilepath(AssetRoot, "worker16.png"), GamePath::getFilepath(AssetRoot, "worker16.png"));
+    baseMenu.setDimension(200, 300);
+    baseMenu.setPoint(30, 30);
+    RadialItem *ri = new RadialItem(1, "Create Worker", GamePath::getFilepath(AssetRoot, "worker16.png"), GamePath::getFilepath(AssetRoot, "worker16_hover.png"));
+    baseMenu.addItem(ri);
+    baseMenu.addItem(ri);
+    baseMenu.addItem(ri);
     baseMenu.addItem(ri);
     /*baseMenu.addItem(ri);
     baseMenu.addItem(ri);
@@ -52,7 +56,7 @@ GameState::GameState(AssetManager *m_assets) :
     baseMenu.addItem(ri);
     baseMenu.addItem(ri);*/
 
-
+    baseMenu.subscribe(this);
 }
 
 
@@ -61,6 +65,10 @@ GameState::~GameState()
     //dtor
 }
 
+void GameState::handleEvent(StiGame::Gui::SelectionEventThrower *src, StiGame::Gui::SelectionEventArgs *args)
+{
+    std::cout << "Selection Event: " << args->getSelection()->getText() << std::endl;
+}
 
 void GameState::unload(void)
 {
@@ -243,9 +251,18 @@ void GameState::handleEvent(KeyEventThrower *src, KeyEventArgs *args)
     }
 }
 
-void GameState::handleEvent(StiGame::MouseMotionEventThrower *src, StiGame::MouseMotionEventArgs *args)
+void GameState::handleEvent(MouseMotionEventThrower *src, MouseMotionEventArgs *args)
 {
     mousePosition.setPoint(args->getX(), args->getY());
+
+    MPoint pt (args->getX(), args->getY());
+
+    if(baseMenu.isVisible() && baseMenu.contains(&pt))
+    {
+        Point rpt (pt.getX() - baseMenu.getX(), pt.getY() - baseMenu.getY());
+        baseMenu.onMouseMotion(&rpt);
+    }
+
 }
 
 void GameState::moveViewPoint(int dx, int dy)
@@ -352,8 +369,7 @@ void GameState::renderGui(SDL_Renderer *renderer)
         Surface *rmenu = baseMenu.render();
         Texture texR (renderer, rmenu);
         texR.setBlendMode(SDL_BLENDMODE_ADD);
-        Point rdst (0,0);
-        texR.renderCopy(&rdst);
+        texR.renderCopy(&baseMenu);
     }
 
 
@@ -361,6 +377,7 @@ void GameState::renderGui(SDL_Renderer *renderer)
 
 void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *args)
 {
+    Point mpt (args->getX(), args->getY());
     if(args->getMouseButton() == MB_LEFT && !args->isDown())
     {
         Dimension d = miniMap->getDimension();
@@ -370,6 +387,13 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
             Point pt (args->getX(),args->getY() - (height - d.getHeight()));
             miniMap->mouseClick(pt);
         }
+
+        if(baseMenu.isVisible() && baseMenu.contains(&mpt))
+        {
+            Point rpt (mpt.getX() - baseMenu.getX(), mpt.getY() - baseMenu.getY());
+            baseMenu.onClick(&rpt);
+        }
+
     }
 }
 

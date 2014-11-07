@@ -3,8 +3,10 @@
 #include <Angle.h>
 #include <cmath>
 
+#include <iostream>
+
 const int RadialMenu::DEFAULT_RADIUS = 120;
-const int RadialMenu::DEFAULT_DEGREE_OFFSET = 25;
+const int RadialMenu::DEFAULT_DEGREE_OFFSET = 30;
 
 using namespace StiGame;
 using namespace Gui;
@@ -42,6 +44,11 @@ RadialMenu::~RadialMenu()
     {
         delete (*vit2);
     }
+}
+
+void RadialMenu::onMouseMotion(StiGame::Point *relp)
+{
+    mousePoint.setPoint(relp);
 }
 
 void RadialMenu::setCloseIcon(std::string iconPath)
@@ -113,6 +120,42 @@ RadialItem* RadialMenu::getItem(int index)
     return items[index];
 }
 
+void RadialMenu::onClick(StiGame::Point *relp)
+{
+    mousePoint.setPoint(relp);
+
+    auto vit(icons.begin()), vend(icons.end());
+    int i=0;
+    Math::Angle *angle =  Math::TK::CreateAngle(Math::AU_DEGREE, 0);
+    Rectangle tRect;
+    for(;vit!=vend;++vit)
+    {
+        angle->setAngle((i+1)*degreeOffset);
+        ItemSurface *surs = (*vit);
+
+        //center to center radius
+        int _length = (int)Math::TK::Pythagoras(surs->normal->getWidth(), surs->normal->getHeight());
+        int _radius = radius - (_length/2);
+
+        int x = (int)((float)_radius * cos(angle->getAngle(Math::AU_RADIAN))) + (width/2 - _length/2);
+        int y = (int)((float)_radius*sin(angle->getAngle(Math::AU_RADIAN)));
+
+        tRect.setPoint(x, y);
+        tRect.setDimension(surs->normal->getWidth(), surs->normal->getHeight());
+
+        if(tRect.contains(relp))
+        {
+            //throw event
+            RadialItem *item = items[i];
+            SelectionEventArgs args (item);
+            publish(this, &args);
+        }
+
+        //hover not handled at the moment
+        i++;
+    }
+}
+
 StiGame::Surface* RadialMenu::render(void)
 {
     Surface *buffer = new Surface(width, height);
@@ -127,20 +170,34 @@ StiGame::Surface* RadialMenu::render(void)
     auto vit(icons.begin()), vend(icons.end());
     int i=1;
     Math::Angle *angle =  Math::TK::CreateAngle(Math::AU_DEGREE, 0);
-
+    Rectangle tRect;
     for(;vit!=vend;++vit)
     {
-        //30 degs by items
         angle->setAngle(i*degreeOffset);
         ItemSurface *surs = (*vit);
-        int x = (int)((float)radius*cos(angle->getAngle(Math::AU_RADIAN))) + (width - surs->normal->getWidth())/2;
-        int y = (int)((float)radius*sin(angle->getAngle(Math::AU_RADIAN)));
+
+        //center to center radius
+        int _length = (int)Math::TK::Pythagoras(surs->normal->getWidth(), surs->normal->getHeight());
+        int _radius = radius - (_length/2);
+
+        int x = (int)((float)_radius * cos(angle->getAngle(Math::AU_RADIAN))) + (width/2 - _length/2);
+        int y = (int)((float)_radius*sin(angle->getAngle(Math::AU_RADIAN)));
 
         dst.setPoint(x, y);
+        tRect.setPoint(&dst);
+        tRect.setDimension(surs->normal->getWidth(), surs->normal->getHeight());
+
+        if(tRect.contains(&mousePoint))
+        {
+            //mouse hover
+            buffer->blit(surs->hover, &dst);
+        }
+        else
+        {
+            buffer->blit(surs->normal, &dst);
+        }
+
         //hover not handled at the moment
-
-        buffer->blit(surs->normal, &dst);
-
         i++;
     }
 

@@ -2,6 +2,7 @@
 #define RADIALMENU_H
 #include <Item.h>
 #include <Font.h>
+#include <SelectionEventThrower.h>
 #include <vector>
 #include "RadialItem.h"
 #include <StringRenderer.h>
@@ -12,7 +13,8 @@ struct ItemSurface {
 };
 
 class RadialMenu :
-        public StiGame::Gui::Item
+        public StiGame::Gui::Item,
+        public StiGame::Gui::SelectionEventThrower
 {
 public:
     static const int DEFAULT_RADIUS;
@@ -39,11 +41,14 @@ public:
     StiGame::Surface* render(void);
 
     void setCloseIcon(std::string iconPath);
+    void onMouseMotion(StiGame::Point *relp);
+    void onClick(StiGame::Point *relp);
 
 protected:
     void renderCaption(void);
 
 private:
+    StiGame::MPoint mousePoint;
     StiGame::Surface *closeIcon;
     StiGame::StringRenderer renderer;
     std::string caption;

@@ -9,12 +9,14 @@
 #include "MiniMap.h"
 #include "GameObject.h"
 #include "RadialMenu.h"
+#include "SelectionEventListener.h"
 
 class GameState :
     public StiGame::BaseGameState,
     public StiGame::KeyEventListener,
     public StiGame::MouseButtonEventListener,
-    public StiGame::MouseMotionEventListener
+    public StiGame::MouseMotionEventListener,
+    public StiGame::Gui::SelectionEventListener
 {
     public:
         static const int VIEW_MOVE_DX;
@@ -30,6 +32,7 @@ class GameState :
         void handleEvent(StiGame::KeyEventThrower *src, StiGame::KeyEventArgs *args);
         void handleEvent(StiGame::MouseButtonEventThrower *src, StiGame::MouseButtonEventArgs *args);
         void handleEvent(StiGame::MouseMotionEventThrower *src, StiGame::MouseMotionEventArgs *args);
+        void handleEvent(StiGame::Gui::SelectionEventThrower *src, StiGame::Gui::SelectionEventArgs *args);
         void onResize(int m_width, int m_height);
 
         void setViewPoint(int t_x, int t_y);
