@@ -12,8 +12,8 @@
 using namespace StiGame;
 using namespace Gui;
 
-const int GameState::VIEW_MOVE_DX = 16;
-const int GameState::VIEW_MOVE_DY = 16;
+const int GameState::VIEW_MOVE_DX = 32;
+const int GameState::VIEW_MOVE_DY = 32;
 const int GameState::VIEW_RECT_ZONE = 48;
 
 GameState::GameState(AssetManager *m_assets) :
@@ -47,9 +47,9 @@ GameState::GameState(AssetManager *m_assets) :
     baseMenu.setPoint(30, 30);
     RadialItem *ri = new RadialItem(1, "Create Worker", GamePath::getFilepath(AssetRoot, "worker16.png"), GamePath::getFilepath(AssetRoot, "worker16_hover.png"));
     baseMenu.addItem(ri);
+    /*baseMenu.addItem(ri);
     baseMenu.addItem(ri);
-    baseMenu.addItem(ri);
-    baseMenu.addItem(ri);
+    baseMenu.addItem(ri);*/
     baseMenu.setVisible(false);
 
     console.setVisible(false);
@@ -61,9 +61,12 @@ GameState::GameState(AssetManager *m_assets) :
     _items.push_back(&lblFps);
     _items.push_back(&baseMenu);
     _items.push_back(&console);
+    _items.push_back(&unitInfo);
 
     baseMenu.subscribe(this);
 
+    selectColor.setRGBA(10, 10, 120, 120);
+    multiselect = false;
 }
 
 
@@ -120,6 +123,10 @@ void GameState::onResize(int m_width, int m_height)
     viewRectRight.setHeight(m_height);
     viewRectRight.setWidth(VIEW_RECT_ZONE);
     viewRectRight.setX(width - VIEW_RECT_ZONE);
+
+
+    //unit info panel
+    unitInfo.setPoint(width - unitInfo.getWidth(), height - unitInfo.getHeight());
 
     //lbl fps position
     lblFps.setPoint(m_width - lblFps.getWidth() - 100, m_height - lblFps.getHeight() - 5);
@@ -282,6 +289,11 @@ void GameState::handleEvent(MouseMotionEventThrower *src, MouseMotionEventArgs *
             (*vit)->onMouseMotion(&dpt);
         }
     }
+
+    if(multiselect)
+    {
+        selectRect.setDimension(args->getX() - selectStartPt.getX(), args->getY() - selectStartPt.getY());
+    }
 }
 
 void GameState::moveViewPoint(int dx, int dy)
@@ -395,11 +407,29 @@ void GameState::renderGui(SDL_Renderer *renderer)
         }
     }
 
+    //draw select rectangle
+
+    if(multiselect && selectRect.getWidth() > 0 && selectRect.getHeight() > 0)
+    {
+        Rectangle relRect;
+        relRect.setPoint(selectRect.getX() - viewX, (selectRect.getY() - viewY) + topHud->getHeight());
+        relRect.setDimension(selectRect.getWidth(), selectRect.getHeight());
+
+        Surface *isur = new Surface(relRect.getWidth(), relRect.getHeight());
+        isur->fill(&selectColor);
+
+        Texture itex (renderer, isur);
+        itex.setBlendMode(SDL_BLENDMODE_BLEND);
+        itex.setAlphaMod(120);
+        itex.renderCopy(&relRect);
+    }
+
 }
 
 void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *args)
 {
     Point mpt (args->getX(), args->getY());
+    bool unitSelected = false;
     if(args->getMouseButton() == MB_LEFT && !args->isDown())
     {
         Dimension d = miniMap->getDimension();
@@ -408,6 +438,7 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
         {
             Point pt (args->getX(),args->getY() - (height - d.getHeight()));
             miniMap->mouseClick(pt);
+            return;
         }
 
         auto vit(_items.begin()), vend(_items.end());
@@ -421,6 +452,15 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
             }
         }
 
+    }
+
+    if(args->getMouseButton() == MB_LEFT && !args->isDown() && multiselect)
+    {
+        multiselect = false;
+    }
+    else if(args->getMouseButton() == MB_LEFT && args->isDown() && !multiselect)
+    {
+        //single selection case
         Point gamePoint (mpt.getX() + viewX, (mpt.getY() - topHud->getHeight()) + viewY);
 
         int ucount = pmap->getBuildingsCount();
@@ -431,10 +471,27 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
 
             if(bRect.contains(&gamePoint))
             {
-                std::cout << b->getName() << std::endl;
+                //std::cout << b->getName() << std::endl;
+
+                selectedUnits.clear();
+                selectedUnits.push_back(b);
+
+                unitInfo.setUnit(b);
+                unitInfo.setVisible(true);
+                return;
             }
 
         }
+
+        //no return, clearing selection
+        unitInfo.setUnit(nullptr);
+        unitInfo.setVisible(false);
+
+        //multiselect
+        multiselect = true;
+        selectRect.setPoint(viewX + args->getX(), viewY + (args->getY() - topHud->getHeight()));
+        selectRect.setDimension(0, 0);
+        selectStartPt.setPoint(args->getX(), args->getY());
     }
 }
 

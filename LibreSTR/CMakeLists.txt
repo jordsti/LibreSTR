@@ -22,6 +22,7 @@ set(SOURCE_FILES main.cpp
     gui/GameOverlay.cpp
     gui/RadialMenu.cpp
     gui/RadialItem.cpp
+    gui/UnitInfoPanel.cpp
 
     units/Building.cpp
     units/BuildingIdentity.cpp

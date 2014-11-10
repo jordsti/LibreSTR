@@ -6,7 +6,8 @@
 using namespace StiGame;
 using namespace Gui;
 
-Console::Console()
+Console::Console() :
+    Item("Console")
 {
     font = new Font(GamePath::getFilepath(AssetRoot, "font-fw.ttf").c_str(), 12);
     consoleBackground.setRGBA(50, 50, 50, 150);
@@ -35,7 +36,6 @@ void Console::resized(void)
 
 Console::~Console()
 {
-    //todo
     auto vit(lines.begin()), vend(lines.end());
     for(;vit!=vend;++vit)
     {

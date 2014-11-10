@@ -11,6 +11,7 @@
 #include "RadialMenu.h"
 #include "Console.h"
 #include "SelectionEventListener.h"
+#include "UnitInfoPanel.h"
 
 
 class GameState :
@@ -58,14 +59,15 @@ class GameState :
         int viewX;
         int viewY;
         StiGame::Gui::Label lblFps;
-        TopHud *topHud;
         StiGame::Surface *baseMap;
         StiGame::Color background;
         StiGame::Color textColor;
+
         MiniMap *miniMap;
         Console console;
-
+        TopHud *topHud;
         RadialMenu baseMenu;
+        UnitInfoPanel unitInfo;
 
         //view rectangle for moving
         StiGame::Rectangle viewRectUp;
@@ -74,6 +76,13 @@ class GameState :
         StiGame::Rectangle viewRectRight;
 
         std::vector < StiGame::Gui::Item* > _items;
+
+        bool multiselect;
+        StiGame::MPoint selectStartPt;
+        StiGame::Color selectColor;
+        StiGame::Rectangle selectRect;
+
+        std::vector < Unit* > selectedUnits;
 };
 
 #endif // GAMESTATE_H
