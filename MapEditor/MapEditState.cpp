@@ -101,6 +101,8 @@ void MapEditState::onStart(void)
 
 void MapEditState::onResize(int m_width, int m_height)
 {
+    GuiState::onResize(m_width, m_height);
+
     editItem.setWidth(m_width);
     if(mapItem != nullptr)
     {
