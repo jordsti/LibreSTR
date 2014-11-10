@@ -9,6 +9,7 @@
 #include "MiniMap.h"
 #include "GameObject.h"
 #include "RadialMenu.h"
+#include "Console.h"
 
 class GameState :
     public StiGame::BaseGameState,
@@ -58,6 +59,7 @@ class GameState :
         StiGame::Color background;
         StiGame::Color textColor;
         MiniMap *miniMap;
+        Console console;
 
         RadialMenu baseMenu;
 
@@ -66,6 +68,8 @@ class GameState :
         StiGame::Rectangle viewRectDown;
         StiGame::Rectangle viewRectLeft;
         StiGame::Rectangle viewRectRight;
+
+        std::vector < StiGame::Gui::Item* > _items;
 };
 
 #endif // GAMESTATE_H

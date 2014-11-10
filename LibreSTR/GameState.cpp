@@ -6,9 +6,11 @@
 #include "ViewMoveAction.h"
 #include "ToggleMiniMapAction.h"
 #include "ToggleShowFPSAction.h"
+#include "ToggleConsole.h"
 #include "GamePath.h"
 
 using namespace StiGame;
+using namespace Gui;
 
 const int GameState::VIEW_MOVE_DX = 16;
 const int GameState::VIEW_MOVE_DY = 16;
@@ -32,8 +34,6 @@ GameState::GameState(AssetManager *m_assets) :
     lblFps.setCaption("FPS : 0");
     lblFps.setVisible(false);
     lblFps.doAutosize();
-    //gameMap = new GameMap();
-    //gameMap->load("test.map", assets)
 
     background.setRGB(0, 0, 0);
     viewX = 0;
@@ -46,13 +46,17 @@ GameState::GameState(AssetManager *m_assets) :
     baseMenu.setDimension(300, 300);
     RadialItem *ri = new RadialItem("Create Worker", GamePath::getFilepath(AssetRoot, "worker16.png"), GamePath::getFilepath(AssetRoot, "worker16.png"));
     baseMenu.addItem(ri);
-    /*baseMenu.addItem(ri);
-    baseMenu.addItem(ri);
-    baseMenu.addItem(ri);
-    baseMenu.addItem(ri);
-    baseMenu.addItem(ri);*/
+    baseMenu.setVisible(false);
 
+    console.setVisible(false);
+    console.pushLine("LibreSTR Game State initializing...");
 
+    std::string map_info = "Map size : " + std::to_string(pmap->getWidth()) + "x" + std::to_string(pmap->getHeight());
+    console.pushLine(map_info);
+
+    _items.push_back(&lblFps);
+    _items.push_back(&baseMenu);
+    _items.push_back(&console);
 }
 
 
@@ -66,6 +70,7 @@ void GameState::unload(void)
 {
     clearActions();
     Player::ResetPlayerId();
+    viewport->clearPreviousStates();
     delete game;
     //delete miniMap;
     delete sprites;
@@ -107,6 +112,11 @@ void GameState::onResize(int m_width, int m_height)
 
     //lbl fps position
     lblFps.setPoint(m_width - lblFps.getWidth() - 100, m_height - lblFps.getHeight() - 5);
+
+    console.setDimension(m_width/2, m_height/2);
+    console.setPoint(32, 32);
+    std::string cline = "Setting view dimension to : " + std::to_string(m_width) + "x" + std::to_string(m_height);
+    console.pushLine(cline);
 }
 
 void GameState::onStart(void)
@@ -143,6 +153,9 @@ void GameState::onStart(void)
 
     ToggleShowFPSAction *fpsAction = new ToggleShowFPSAction(&lblFps);
     actions.push_back(fpsAction);
+
+    ToggleConsole *toggleConsole = new ToggleConsole(&console);
+    actions.push_back(toggleConsole);
 
     auto vit(actions.begin()), vend(actions.end());
     for(;vit!=vend;++vit)
@@ -337,25 +350,23 @@ void GameState::renderGui(SDL_Renderer *renderer)
     texMiniMap.setAlphaMod(160);
     texMiniMap.renderCopy(&dst);
 
-    //fps label
     if(lblFps.isVisible())
     {
         lblFps.setCaption("FPS : "+std::to_string(viewport->getFps()));
-        Surface *surLbl = lblFps.render();
-        Texture texLbl (renderer, surLbl);
-        texLbl.renderCopy(&lblFps);
     }
 
-    if(baseMenu.isVisible())
+    auto vit(_items.begin()), vend(_items.end());
+    for(;vit!=vend;++vit)
     {
-        //test radial menu section
-        Surface *rmenu = baseMenu.render();
-        Texture texR (renderer, rmenu);
-        texR.setBlendMode(SDL_BLENDMODE_ADD);
-        Point rdst (0,0);
-        texR.renderCopy(&rdst);
+        Item *i = (*vit);
+        if(i->isVisible())
+        {
+            Surface *isur = i->render();
+            Texture itex (renderer, isur);
+            itex.setBlendMode(SDL_BLENDMODE_ADD);
+            itex.renderCopy(i);
+        }
     }
-
 
 }
 

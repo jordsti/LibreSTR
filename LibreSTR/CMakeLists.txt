@@ -9,11 +9,13 @@ set(SOURCE_FILES main.cpp
     NewGameMenu.cpp
     Player.cpp
 
+    actions/ToggleConsole.cpp
     actions/ToggleMiniMapAction.cpp
     actions/ToggleShowFPSAction.cpp
     actions/ViewMoveAction.cpp
 
 
+    gui/Console.cpp
     gui/LibreSTRStyle.cpp
     gui/MiniMap.cpp
     gui/TopHud.cpp

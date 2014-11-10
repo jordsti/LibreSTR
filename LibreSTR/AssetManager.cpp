@@ -95,6 +95,9 @@ void AssetManager::initBindings()
 
     kmap = new KeyActionMap("show_fps", SDLK_f);
     bindings->addBinding(kmap);
+
+    kmap = new KeyActionMap("toggle_console", SDLK_c);
+    bindings->addBinding(kmap);
 }
 
 void AssetManager::loadData(void)
