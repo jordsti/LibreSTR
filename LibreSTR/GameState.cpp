@@ -43,8 +43,12 @@ GameState::GameState(AssetManager *m_assets) :
     //baseMenu.setVisible(false);
     baseMenu.setCaption("Base Action");
     baseMenu.setCloseIcon(GamePath::getFilepath(AssetRoot, "close_radial.png"));
-    baseMenu.setDimension(300, 300);
-    RadialItem *ri = new RadialItem("Create Worker", GamePath::getFilepath(AssetRoot, "worker16.png"), GamePath::getFilepath(AssetRoot, "worker16.png"));
+    baseMenu.setDimension(200, 300);
+    baseMenu.setPoint(30, 30);
+    RadialItem *ri = new RadialItem(1, "Create Worker", GamePath::getFilepath(AssetRoot, "worker16.png"), GamePath::getFilepath(AssetRoot, "worker16_hover.png"));
+    baseMenu.addItem(ri);
+    baseMenu.addItem(ri);
+    baseMenu.addItem(ri);
     baseMenu.addItem(ri);
     baseMenu.setVisible(false);
 
@@ -57,6 +61,9 @@ GameState::GameState(AssetManager *m_assets) :
     _items.push_back(&lblFps);
     _items.push_back(&baseMenu);
     _items.push_back(&console);
+
+    baseMenu.subscribe(this);
+
 }
 
 
@@ -65,6 +72,10 @@ GameState::~GameState()
     //dtor
 }
 
+void GameState::handleEvent(StiGame::Gui::SelectionEventThrower *src, StiGame::Gui::SelectionEventArgs *args)
+{
+    std::cout << "Selection Event: " << args->getSelection()->getText() << std::endl;
+}
 
 void GameState::unload(void)
 {
@@ -256,9 +267,21 @@ void GameState::handleEvent(KeyEventThrower *src, KeyEventArgs *args)
     }
 }
 
-void GameState::handleEvent(StiGame::MouseMotionEventThrower *src, StiGame::MouseMotionEventArgs *args)
+void GameState::handleEvent(MouseMotionEventThrower *src, MouseMotionEventArgs *args)
 {
     mousePosition.setPoint(args->getX(), args->getY());
+
+    MPoint pt (args->getX(), args->getY());
+
+    auto vit(_items.begin()), vend(_items.end());
+    for(;vit!=vend;++vit)
+    {
+        if((*vit)->isVisible() && (*vit)->contains(&pt))
+        {
+            Point dpt = (*vit)->diffPoint(&pt);
+            (*vit)->onMouseMotion(&dpt);
+        }
+    }
 }
 
 void GameState::moveViewPoint(int dx, int dy)
@@ -275,6 +298,9 @@ void GameState::moveViewPoint(int dx, int dy)
     {
         viewY = tmpY;
     }
+
+    std::string moveView = "Moving view point to : " + std::to_string(viewX) + "; " + std::to_string(viewY);
+    console.pushLine(moveView);
 
     miniMap->setViewPoint(viewX, viewY);
 }
@@ -363,7 +389,8 @@ void GameState::renderGui(SDL_Renderer *renderer)
         {
             Surface *isur = i->render();
             Texture itex (renderer, isur);
-            itex.setBlendMode(SDL_BLENDMODE_ADD);
+            itex.setBlendMode(SDL_BLENDMODE_BLEND);
+            itex.setAlphaMod(150);
             itex.renderCopy(i);
         }
     }
@@ -372,6 +399,7 @@ void GameState::renderGui(SDL_Renderer *renderer)
 
 void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *args)
 {
+    Point mpt (args->getX(), args->getY());
     if(args->getMouseButton() == MB_LEFT && !args->isDown())
     {
         Dimension d = miniMap->getDimension();
@@ -380,6 +408,32 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
         {
             Point pt (args->getX(),args->getY() - (height - d.getHeight()));
             miniMap->mouseClick(pt);
+        }
+
+        auto vit(_items.begin()), vend(_items.end());
+        for(;vit!=vend;++vit)
+        {
+            if((*vit)->isVisible() && (*vit)->contains(&mpt))
+            {
+                //todo add diff point method into stigame
+                Point rpt = (*vit)->diffPoint(&mpt);
+                (*vit)->onClick(&rpt);
+            }
+        }
+
+        Point gamePoint (mpt.getX() + viewX, (mpt.getY() - topHud->getHeight()) + viewY);
+
+        int ucount = pmap->getBuildingsCount();
+        for(int i=0; i<ucount; i++)
+        {
+            Building *b = pmap->getBuilding(i);
+            Rectangle bRect (b->getX(), b->getY(), b->getWidth(), b->getHeight());
+
+            if(bRect.contains(&gamePoint))
+            {
+                std::cout << b->getName() << std::endl;
+            }
+
         }
     }
 }

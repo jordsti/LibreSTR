@@ -1,6 +1,7 @@
 #include "Console.h"
 #include <GamePath.h>
 #include "PRect.h"
+#include <iostream>
 
 using namespace StiGame;
 using namespace Gui;
@@ -19,6 +20,7 @@ Console::Console()
     consoleHeader = font->renderText("Console", foreground);
 
     lineHeight = DEFAULT_LINE_HEIGHT;
+    lineBuffer = DEFAULT_LINE_BUFFER;
 
     textBox.setFont(font);
     textBox.setForeground(foreground);
@@ -45,12 +47,37 @@ Console::~Console()
     delete font;
 }
 
+void Console::prune(void)
+{
+    if(lines.size() > lineBuffer)
+    {
+        //some little cleaning
+        auto vit(lines.begin()), vend(lines.end());
+        int i=0;
+        int indexKeep = lines.size() - lineBuffer;
+        for(;vit!=vend;++vit)
+        {
+            if(i < indexKeep)
+            {
+                delete (*vit)->surface;
+                delete (*vit);
+
+                lines.erase(vit);
+            }
+
+            i++;
+        }
+    }
+}
+
 void Console::pushLine(std::string line)
 {
     ConsoleLine *cl = new ConsoleLine();
     cl->text = line;
     cl->surface = font->renderText(line, &textColor);
     lines.push_back(cl);
+
+    prune();
 }
 
 StiGame::Surface* Console::render(void)
@@ -86,6 +113,23 @@ StiGame::Surface* Console::render(void)
             buffer->blit((*vit)->surface, &dst);
             c_y += lineHeight;
         }
+    }
+    else
+    {
+        //inverse drawing
+        c_y = height - (textBox.getHeight() + 5);
+        int offset = lines.size() - 1;
+        for(int i=0; i < lineCount; i++)
+        {
+            int index = offset - i;
+
+            ConsoleLine *cl = lines[index];
+
+            dst.setPoint(7, c_y);
+            buffer->blit(cl->surface, &dst);
+            c_y -= lineHeight;
+        }
+
     }
 
     //drawing textbox

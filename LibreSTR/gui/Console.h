@@ -16,6 +16,7 @@ class Console :
 {
 public:
     static const int DEFAULT_LINE_HEIGHT = 13;
+    static const int DEFAULT_LINE_BUFFER = 60;
 
     Console();
     virtual ~Console();
@@ -24,8 +25,10 @@ public:
     void pushLine(std::string line);
 
     void resized(void);
+    void prune(void);
 
 private:
+    int lineBuffer;
     int lineHeight;
     StiGame::Surface* consoleHeader;
     StiGame::Color consoleBackground;
