@@ -65,7 +65,7 @@ void TopHud::updateHud(void)
 
     if(nMetal != lblMetalCount.getCaption())
     {
-        lblMetalCount.setCaption(nGaz);
+        lblMetalCount.setCaption(nMetal);
     }
 
     if(nGaz != lblGazCount.getCaption())
