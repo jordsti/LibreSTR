@@ -29,11 +29,14 @@ public:
     int getMaxHealth(void);
     int getCurrentHealth(void);
     bool isDead(void);
-    virtual bool contains(int p_x, int p_y) = 0;
+    virtual bool contains(int p_x, int p_y);
     int getId(void);
     virtual int getVision(void) = 0;
     Player* getOwner(void);
     void setOwner(Player *m_player);
+
+    StiGame::Point middle(void);
+
 protected:
     Unit();
     std::string name;

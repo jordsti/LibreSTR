@@ -10,6 +10,7 @@
 #include "ITileMap.h"
 #include <MapData.h>
 #include "MBuilding.h"
+#include "MGroundUnit.h"
 
 class GameMap :
         public ITileMap
@@ -42,6 +43,10 @@ class GameMap :
         int getBuildingsCount(void);
         MBuilding* getBuilding(int index);
 
+        int getGroundUnitsCount(void);
+        MGroundUnit* getGroundUnit(int index);
+        bool placeUnit(MGroundUnit *unit, int pt_x, int pt_y);
+
 
         int addTexture(std::string name);
         std::string getTexture(int id);
@@ -63,6 +68,7 @@ class GameMap :
         int defaultTexture;
 
         std::vector< MBuilding* > buildings;
+        std::vector< MGroundUnit* > units;
 
         std::vector< std::vector<Tile*> > tiles;
 

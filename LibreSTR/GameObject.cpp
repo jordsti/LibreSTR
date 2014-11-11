@@ -40,6 +40,7 @@ void GameObject::initGame(void)
      */
 
     BuildingIdentity *baseId = assets->getBaseIdentity();
+    GroundUnitIdentity *workerId = assets->getWorkerIdentity();
     std::map<Player*, Point> playerStartPts;
 
     auto vit(players.begin()), vend(players.end());
@@ -54,16 +55,23 @@ void GameObject::initGame(void)
         playerStartPts.insert(std::make_pair((*vit), ps));
     }
 
+    //placing units
     auto mit(playerStartPts.begin()), mend(playerStartPts.end());
     for(;mit!=mend;++mit)
     {
         Player *pl = mit->first;
         Point ptStart = mit->second;
 
+        //base building
         MBuilding *base = baseId->create(pl);
         base->setState(BS_Builded);
         base->setCurrentHealth(baseId->getMaxHealth());
         map->forcePlaceBuilding(base, ptStart.getX(), ptStart.getY());
+
+        //workers
+        MGroundUnit *wunit = workerId->create(pl);
+
+        map->placeUnit(wunit, ptStart.getX() + 64, ptStart.getY() + 64);
 
         PlayerMap *pmap = map->GeneratePlayerMap(pl->getId());
         playerMaps.insert(std::make_pair(pl->getId(), pmap));

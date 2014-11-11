@@ -3,6 +3,13 @@
 
 #include "Unit.h"
 #include "GroundUnitIdentity.h"
+#include <map>
+
+enum GroundUnitState : int {
+    GUS_Idle,
+    GUS_Attacking,
+    GUS_Working
+};
 
 class GroundUnit :
         public Unit
@@ -14,9 +21,12 @@ public:
     int getVision(void);
     std::string getSpriteName(void);
     GroundUnitIdentity* getIdentity(void);
-protected:
+    int getSize(void);
+    GroundUnitState getState(void);
 
+protected:
     GroundUnitIdentity *identity;
+    GroundUnitState state;
 };
 
 #endif // GROUNDUNIT_H

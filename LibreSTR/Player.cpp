@@ -44,7 +44,7 @@ void Player::initPlayer(void)
         color.setRGB(255, 0, 0);
     }
 
-    metalCount = 0;
+    metalCount = 200;
     gazCount = 0;
 }
 

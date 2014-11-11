@@ -8,3 +8,5 @@ tile_block=tile/rock;
 
 #building definitions
 base_building=base_building.res;
+
+worker=worker.res;

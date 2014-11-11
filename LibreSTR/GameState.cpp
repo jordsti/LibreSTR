@@ -65,6 +65,8 @@ GameState::GameState(AssetManager *m_assets) :
 
     baseMenu.subscribe(this);
 
+    unitInfo.setVisible(false);
+
     selectColor.setRGBA(10, 10, 120, 120);
     multiselect = false;
 }

@@ -3,8 +3,10 @@
 
 #include <string>
 #include "Player.h"
+#include <map>
 
 class MGroundUnit;
+enum GroundUnitState : int;
 
 class GroundUnitIdentity
 {
@@ -24,6 +26,8 @@ public:
     int getMaxHealth(void);
     int getMovementSpeed(void);
 
+    std::string getSprite(PlayerColor color, GroundUnitState state);
+
 protected:
     std::string name;
     int metalCost;
@@ -33,8 +37,8 @@ protected:
     int height;
     int vision;
     int maxHealth;
-    int movemenSpeed;
-
+    int movementSpeed;
+    std::map< GroundUnitState, std::map< PlayerColor, std::string > > sprites;
 };
 
 #endif // GROUNDUNITIDENTITY_H

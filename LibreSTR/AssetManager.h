@@ -3,6 +3,7 @@
 
 #include "ResourceIdentity.h"
 #include "BuildingIdentity.h"
+#include "GroundUnitIdentity.h"
 #include <ActionBinding.h>
 #include <list>
 
@@ -14,7 +15,11 @@ class AssetManager
 
         ResourceIdentity* getMetalIdentity(void);
         ResourceIdentity* getGazIdentity(void);
+
         BuildingIdentity* getBaseIdentity(void);
+
+        GroundUnitIdentity* getWorkerIdentity(void);
+
 
         std::string getTileNormal(void);
         std::string getTileBlock(void);
@@ -31,6 +36,8 @@ class AssetManager
         ResourceIdentity *resGaz;
 
         BuildingIdentity *base;
+
+        GroundUnitIdentity *worker;
 
         StiGame::ActionBinding *bindings;
 

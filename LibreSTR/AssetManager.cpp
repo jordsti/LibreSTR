@@ -72,6 +72,11 @@ std::string AssetManager::getTileBlock(void)
     return tileBlock;
 }
 
+GroundUnitIdentity* AssetManager::getWorkerIdentity()
+{
+    return worker;
+}
+
 void AssetManager::initBindings()
 {
     KeyActionMap *kmap;
@@ -119,6 +124,10 @@ void AssetManager::loadData(void)
 
     p = GamePath::getFilepath(AssetRoot, rbase);
     base = new BuildingIdentity(p);
+
+    std::string rworker = vf.getValue("worker");
+    p = GamePath::getFilepath(AssetRoot, rworker);
+    worker = new GroundUnitIdentity(p);
 
     p = GamePath::getFilepath(AssetRoot, "bindings.cfg");
     bindings = new ActionBinding(p);

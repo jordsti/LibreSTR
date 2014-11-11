@@ -9,3 +9,8 @@ MGroundUnit::~MGroundUnit()
 {
 
 }
+
+void MGroundUnit::setState(GroundUnitState m_state)
+{
+    state = m_state;
+}

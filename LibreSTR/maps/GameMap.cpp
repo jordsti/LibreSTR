@@ -54,6 +54,16 @@ std::vector<StiGame::Point>& GameMap::getPlayerStartingPoints(int index)
     return startingPoints[index];
 }
 
+int GameMap::getGroundUnitsCount(void)
+{
+    return units.size();
+}
+
+MGroundUnit* GameMap::getGroundUnit(int index)
+{
+    return units[index];
+}
+
 int GameMap::getBuildingsCount(void)
 {
     return buildings.size();
@@ -62,6 +72,36 @@ int GameMap::getBuildingsCount(void)
 MBuilding* GameMap::getBuilding(int index)
 {
     return buildings[index];
+}
+
+bool GameMap::placeUnit(MGroundUnit *unit, int pt_x, int pt_y)
+{
+    unit->setPoint(pt_x, pt_y);
+    StiGame::Point mpt = unit->middle();
+
+    //not inside a building
+    auto vit(buildings.begin()), vend(buildings.end());
+    for(;vit!=vend;++vit)
+    {
+        if((*vit)->contains(mpt.getX(), mpt.getY()))
+        {
+            return false;
+        }
+    }
+
+    auto vit2(units.begin()), vend2(units.end());
+    for(;vit2!=vend2;++vit2)
+    {
+        int length = (int)(*vit2)->distanceWith(&mpt);
+        if(length < unit->getSize())
+        {
+            return false;
+        }
+    }
+
+    //placing
+    units.push_back(unit);
+    return true;
 }
 
 bool GameMap::placeBuilding(MBuilding *building, int t_x, int t_y)
