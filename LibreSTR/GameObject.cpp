@@ -15,8 +15,8 @@ GameObject::GameObject(AssetManager *m_assets, int mapWidth, int mapHeight)
 
     //generating player
 
-    players.push_back(new Player(PC_Blue));
-    players.push_back(new Player(PC_Red));
+    players.push_back(new MPlayer(PC_Blue));
+    players.push_back(new MPlayer(PC_Red));
 }
 
 GameObject::~GameObject()

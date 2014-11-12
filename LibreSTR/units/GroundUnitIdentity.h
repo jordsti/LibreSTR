@@ -25,6 +25,7 @@ public:
     int getVision(void);
     int getMaxHealth(void);
     int getMovementSpeed(void);
+    int getProductionTime(void);
 
     std::string getSprite(PlayerColor color, GroundUnitState state);
 
@@ -38,6 +39,7 @@ protected:
     int vision;
     int maxHealth;
     int movementSpeed;
+    int productionTime;
     std::map< GroundUnitState, std::map< PlayerColor, std::string > > sprites;
 };
 

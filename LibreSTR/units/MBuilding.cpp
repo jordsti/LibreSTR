@@ -19,3 +19,8 @@ void MBuilding::setCurrentHealth(int m_currentHealth)
 {
     currentHealth = m_currentHealth;
 }
+
+void MBuilding::addJob(Job *m_job)
+{
+    jobs.push_back(m_job);
+}

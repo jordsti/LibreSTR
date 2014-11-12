@@ -8,6 +8,7 @@ set(SOURCE_FILES main.cpp
     MainMenu.cpp
     NewGameMenu.cpp
     Player.cpp
+    MPlayer.cpp
 
     actions/ToggleConsole.cpp
     actions/ToggleMiniMapAction.cpp
@@ -33,6 +34,8 @@ set(SOURCE_FILES main.cpp
     units/MGroundUnit.cpp
     units/Unit.cpp
     units/UnitSprite.cpp
+    units/Job.cpp
+    units/CreateWorkerJob.cpp
 
 
     maps/GameMap.cpp

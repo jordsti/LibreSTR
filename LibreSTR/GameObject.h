@@ -3,6 +3,7 @@
 
 #include "GameMap.h"
 #include "AssetManager.h"
+#include "MPlayer.h"
 
 class GameObject
 {
@@ -20,7 +21,7 @@ public:
 private:
     AssetManager *assets;
     GameMap *map;
-    std::vector<Player*> players;
+    std::vector<MPlayer*> players;
     std::map<int, PlayerMap*> playerMaps;
 };
 

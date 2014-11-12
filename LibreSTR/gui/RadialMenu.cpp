@@ -177,6 +177,7 @@ StiGame::Surface* RadialMenu::render(void)
 {
     Surface *buffer = new Surface(width, height);
     buffer->fill(background);
+    buffer->makeTransparent();
     //writing caption at the top
     Surface *surCaption = renderer.getSurface();
 

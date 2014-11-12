@@ -12,6 +12,8 @@ public:
 
     void setState(BuildingState m_state);
     void setCurrentHealth(int m_currentHealth);
+
+    void addJob(Job *m_job);
 };
 
 #endif // MBUILDING_H

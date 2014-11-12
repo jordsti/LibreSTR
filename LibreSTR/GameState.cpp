@@ -395,6 +395,17 @@ void GameState::renderGui(SDL_Renderer *renderer)
         lblFps.setCaption("FPS : "+std::to_string(viewport->getFps()));
     }
 
+    //base building menu
+    if(selectedUnits.size() == 1 && baseMenu.isVisible())
+    {
+        Unit *unitSelected = selectedUnits[0];
+        if(unitSelected->getType() == UT_Building)
+        {
+            Point pt (unitSelected->getX() - viewX, (unitSelected->getY() + topHud->getHeight()) - viewY);
+            baseMenu.setPoint(&pt);
+        }
+    }
+
     auto vit(_items.begin()), vend(_items.end());
     for(;vit!=vend;++vit)
     {
@@ -480,6 +491,8 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
 
                 unitInfo.setUnit(b);
                 unitInfo.setVisible(true);
+
+                baseMenu.setVisible(true);
                 return;
             }
 
@@ -488,12 +501,14 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
         //no return, clearing selection
         unitInfo.setUnit(nullptr);
         unitInfo.setVisible(false);
+        //baseMenu.setVisible(false);
 
         //multiselect
         multiselect = true;
         selectRect.setPoint(viewX + args->getX(), viewY + (args->getY() - topHud->getHeight()));
         selectRect.setDimension(0, 0);
         selectStartPt.setPoint(args->getX(), args->getY());
+
     }
 }
 

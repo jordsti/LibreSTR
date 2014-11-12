@@ -71,6 +71,33 @@ std::string Building::getSpriteName()
     return "";
 }
 
+int Building::getJobCount(void)
+{
+    return jobs.size();
+}
+
+Job* Building::getJob(int index)
+{
+    return jobs[index];
+}
+
+void Building::tickJob(int ms)
+{
+    if(jobs.size() > 0)
+    {
+        Job *current = jobs[0];
+        if(!current->isCompleted())
+        {
+            current->tick(ms);
+        }
+        else
+        {
+            jobs.erase(jobs.begin());
+            tickJob(ms);
+        }
+    }
+}
+
 Building::~Building()
 {
 }

@@ -16,6 +16,7 @@ GroundUnitIdentity::GroundUnitIdentity(std::string vf_file)
     vision = vf.getInt("vision");
     maxHealth = vf.getInt("maxHealth");
     movementSpeed = vf.getInt("movementSpeed");
+    productionTime = vf.getInt("productionTime");
 
     std::map<PlayerColor, std::string> map1;
     sprites.insert(std::make_pair(GUS_Idle, map1));
@@ -30,6 +31,7 @@ GroundUnitIdentity::GroundUnitIdentity(std::string vf_file)
     sprites[GUS_Idle].insert(std::make_pair(PC_Blue, idle_blue));
     sprites[GUS_Idle].insert(std::make_pair(PC_Red, idle_red));
 }
+
 
 GroundUnitIdentity::~GroundUnitIdentity()
 {
@@ -88,4 +90,9 @@ int GroundUnitIdentity::getMaxHealth(void)
 int GroundUnitIdentity::getMovementSpeed(void)
 {
     return movementSpeed;
+}
+
+int GroundUnitIdentity::getProductionTime(void)
+{
+    return productionTime;
 }
