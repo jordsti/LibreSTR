@@ -39,14 +39,13 @@ GameState::GameState(AssetManager *m_assets) :
     viewX = 0;
     viewY = 0;
 
-    //todo
-    //baseMenu.setVisible(false);
+    //base building menu
     baseMenu.setCaption("Base Action");
     baseMenu.setCloseIcon(GamePath::getFilepath(AssetRoot, "close_radial.png"));
     baseMenu.setDimension(200, 300);
     baseMenu.setPoint(30, 30);
-    RadialItem *ri = new RadialItem(1, "Create Worker", GamePath::getFilepath(AssetRoot, "worker16.png"), GamePath::getFilepath(AssetRoot, "worker16_hover.png"));
-    baseMenu.addItem(ri);
+    baseCreateWorker = new RadialItem(0, "Create Worker", GamePath::getFilepath(AssetRoot, "worker16.png"), GamePath::getFilepath(AssetRoot, "worker16_hover.png"));
+    baseMenu.addItem(baseCreateWorker);
     /*baseMenu.addItem(ri);
     baseMenu.addItem(ri);
     baseMenu.addItem(ri);*/

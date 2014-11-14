@@ -20,7 +20,49 @@ void MBuilding::setCurrentHealth(int m_currentHealth)
     currentHealth = m_currentHealth;
 }
 
-void MBuilding::addJob(Job *m_job)
+void MBuilding::addEmitter(JobEmitter *m_emitter)
 {
-    jobs.push_back(m_job);
+    emitters.push_back(m_emitter);
+}
+
+void MBuilding::emitJob(int index)
+{
+    if(index < emitters.size())
+    {
+        JobEmitter *emitter = emitters[index];
+
+        Job *newJob = emitter->emitJob();
+
+        if(currentJob == nullptr)
+        {
+            currentJob = newJob;
+        }
+        else
+        {
+            jobsQueue.push(newJob);
+        }
+
+    }
+}
+
+void MBuilding::tickJob(int ms)
+{
+    if(currentJob != nullptr)
+    {
+        currentJob->tick(ms);
+        if(currentJob->isCompleted() || currentJob->isCancelled())
+        {
+            //todo
+            //delete the job here
+            currentJob = nullptr;
+
+            //takin next item in the queue
+            if(jobsQueue.size() > 0)
+            {
+                currentJob = jobsQueue.front();
+
+                jobsQueue.pop();
+            }
+        }
+    }
 }

@@ -4,12 +4,15 @@
 #include "Player.h"
 #include <map>
 
+
+enum BuildingType : int;
+
 class MBuilding;
 
 class BuildingIdentity
 {
 public:
-    BuildingIdentity(std::string id_file);
+    BuildingIdentity(BuildingType m_buildingType, std::string id_file);
     virtual ~BuildingIdentity();
     MBuilding* create(Player *owner);
 
@@ -25,6 +28,10 @@ public:
     int getVision(void);
 
     std::string getPlacedSprite(void);
+
+
+    BuildingType getBuildingType(void);
+
 protected:
     int metalCost;
     int gazCost;
@@ -37,6 +44,8 @@ protected:
     std::string placedSprite;
     std::map<PlayerColor, std::string> constructSprites;
     std::map<PlayerColor, std::string> sprites;
+
+    BuildingType buildingType;
 };
 
 #endif // BUILDINGIDENTITY_H

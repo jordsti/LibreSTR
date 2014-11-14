@@ -66,8 +66,12 @@ class GameState :
         MiniMap *miniMap;
         Console console;
         TopHud *topHud;
-        RadialMenu baseMenu;
         UnitInfoPanel unitInfo;
+
+        //main base menu
+        RadialMenu baseMenu;
+        RadialItem *baseCreateWorker;
+
 
         //view rectangle for moving
         StiGame::Rectangle viewRectUp;

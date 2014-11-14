@@ -13,7 +13,10 @@ public:
     void setState(BuildingState m_state);
     void setCurrentHealth(int m_currentHealth);
 
-    void addJob(Job *m_job);
+    void addEmitter(JobEmitter *m_emitter);
+    void emitJob(int index);
+
+    void tickJob(int ms);
 };
 
 #endif // MBUILDING_H

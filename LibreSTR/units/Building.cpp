@@ -12,6 +12,7 @@ Building::Building(BuildingIdentity *m_identity, Player *m_owner) : Unit()
     maxHealth = _identity->getMaxHealth(); //cuz its placed
     currentHealth = 1;
     name = _identity->getName();
+    currentJob = nullptr;
 }
 
 int Building::getCurrentHealth()
@@ -71,31 +72,25 @@ std::string Building::getSpriteName()
     return "";
 }
 
-int Building::getJobCount(void)
+int Building::getJobEmittersCount(void)
 {
-    return jobs.size();
+    return emitters.size();
 }
 
-Job* Building::getJob(int index)
+JobEmitter* Building::getJobEmitter(int index)
 {
-    return jobs[index];
+    return emitters[index];
 }
 
-void Building::tickJob(int ms)
+Job* Building::getCurrentJob(void)
 {
-    if(jobs.size() > 0)
-    {
-        Job *current = jobs[0];
-        if(!current->isCompleted())
-        {
-            current->tick(ms);
-        }
-        else
-        {
-            jobs.erase(jobs.begin());
-            tickJob(ms);
-        }
-    }
+    return currentJob;
+}
+
+
+BuildingType Building::getBuldingType(void)
+{
+    return _identity->getBuildingType();
 }
 
 Building::~Building()

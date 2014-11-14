@@ -1,7 +1,8 @@
 #include "BuildingIdentity.h"
 #include "MBuilding.h"
 #include <VarFile.h>
-BuildingIdentity::BuildingIdentity(std::string id_file)
+
+BuildingIdentity::BuildingIdentity(BuildingType m_buildingType, std::string id_file)
 {
     StiGame::VarFile vf (id_file);
     vf.read();
@@ -20,8 +21,14 @@ BuildingIdentity::BuildingIdentity(std::string id_file)
 
     sprites.insert(make_pair(PC_Blue, vf.getValue("sprite_blue")));
     sprites.insert(make_pair(PC_Red, vf.getValue("sprite_red")));
+
+    buildingType = m_buildingType;
 }
 
+BuildingType BuildingIdentity::getBuildingType(void)
+{
+    return buildingType;
+}
 
 std::string BuildingIdentity::getPlacedSprite(void)
 {

@@ -34,8 +34,10 @@ set(SOURCE_FILES main.cpp
     units/MGroundUnit.cpp
     units/Unit.cpp
     units/UnitSprite.cpp
+    units/JobEmitter.cpp
     units/Job.cpp
-    units/CreateWorkerJob.cpp
+    units/CreateUnitJob.cpp
+    units/CreateUnitEmitter.cpp
 
 
     maps/GameMap.cpp

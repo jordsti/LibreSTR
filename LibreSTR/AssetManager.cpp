@@ -2,6 +2,7 @@
 #include <VarFile.h>
 #include <GamePath.h>
 #include <KeyActionMap.h>
+#include <Building.h>
 
 using namespace StiGame;
 
@@ -123,7 +124,7 @@ void AssetManager::loadData(void)
     std::string rbase = vf.getValue("base_building");
 
     p = GamePath::getFilepath(AssetRoot, rbase);
-    base = new BuildingIdentity(p);
+    base = new BuildingIdentity(BT_Base , p);
 
     std::string rworker = vf.getValue("worker");
     p = GamePath::getFilepath(AssetRoot, rworker);

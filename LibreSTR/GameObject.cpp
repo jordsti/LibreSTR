@@ -3,6 +3,7 @@
 #include <iostream>
 #include <map>
 #include "MBuilding.h"
+#include "CreateUnitEmitter.h"
 
 using namespace StiGame;
 
@@ -41,7 +42,7 @@ void GameObject::initGame(void)
 
     BuildingIdentity *baseId = assets->getBaseIdentity();
     GroundUnitIdentity *workerId = assets->getWorkerIdentity();
-    std::map<Player*, Point> playerStartPts;
+    std::map<MPlayer*, Point> playerStartPts;
 
     auto vit(players.begin()), vend(players.end());
     for(;vit!=vend;++vit)
@@ -59,11 +60,15 @@ void GameObject::initGame(void)
     auto mit(playerStartPts.begin()), mend(playerStartPts.end());
     for(;mit!=mend;++mit)
     {
-        Player *pl = mit->first;
+        MPlayer *pl = mit->first;
         Point ptStart = mit->second;
 
         //base building
         MBuilding *base = baseId->create(pl);
+        //adding worker emitter
+
+        CreateUnitEmitter *workerEmitter = new CreateUnitEmitter(pl, assets->getWorkerIdentity(), map);
+        base->addEmitter(workerEmitter);
         base->setState(BS_Builded);
         base->setCurrentHealth(baseId->getMaxHealth());
         map->forcePlaceBuilding(base, ptStart.getX(), ptStart.getY());

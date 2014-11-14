@@ -3,13 +3,19 @@
 
 #include "Unit.h"
 #include "BuildingIdentity.h"
-#include "Job.h"
+#include "JobEmitter.h"
 #include <vector>
+#include <queue>
 
-enum BuildingState {
+enum BuildingState : int {
     BS_Placed,
     BS_Construction,
     BS_Builded
+};
+
+enum BuildingType : int {
+    BT_Base,
+    BT_Barrack
 };
 
 class Building :
@@ -26,12 +32,19 @@ public:
     int getCurrentHealth(void);
     std::string getSpriteName(void);
     BuildingIdentity* getIdentity(void);
-    int getJobCount(void);
-    Job* getJob(int index);
-    void tickJob(int ms);
+
+    int getJobEmittersCount(void);
+    JobEmitter* getJobEmitter(int index);
+
+    Job* getCurrentJob(void);
+
+    BuildingType getBuldingType(void);
 
 protected:
-    std::vector<Job*> jobs;
+    std::vector<JobEmitter*> emitters;
+    std::queue<Job*> jobsQueue;
+
+    Job *currentJob;
 
     BuildingState state;
     BuildingIdentity *_identity;
