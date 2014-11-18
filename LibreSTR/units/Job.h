@@ -14,6 +14,7 @@ public:
     bool isCancelled(void);
     int getTimeElapsed(void);
     int getTimeNeeded(void);
+    void start(void);
 
 protected:
     Job(std::string m_name);

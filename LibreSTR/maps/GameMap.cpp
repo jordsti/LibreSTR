@@ -74,6 +74,21 @@ MBuilding* GameMap::getBuilding(int index)
     return buildings[index];
 }
 
+MBuilding* GameMap::getBuildingById(int id)
+{
+    MBuilding *b = nullptr;
+    auto vit(buildings.begin()), vend(buildings.end());
+    for(;vit!=vend;++vit)
+    {
+        if((*vit)->getId() == id)
+        {
+            return (*vit);
+        }
+    }
+
+    return b;
+}
+
 void GameMap::tickUnits(int ms)
 {
     auto vit(buildings.begin()), vend(buildings.end());

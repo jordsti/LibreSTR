@@ -67,6 +67,7 @@ class GameState :
         Console console;
         TopHud *topHud;
         UnitInfoPanel unitInfo;
+        Player *currentPlayer;
 
         //main base menu
         RadialMenu baseMenu;

@@ -23,6 +23,14 @@ Job::~Job()
 
 }
 
+void Job::start(void)
+{
+    if(timeElapsed == 0)
+    {
+        onStart();
+    }
+}
+
 void Job::cancel(void)
 {
     if(cancelable)
@@ -47,11 +55,6 @@ void Job::tick(int ms)
     if(cancelled && cancelable)
     {
         return;
-    }
-
-    if(timeElapsed == 0)
-    {
-        onStart();
     }
 
     timeElapsed += ms;

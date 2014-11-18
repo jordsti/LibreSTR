@@ -3,7 +3,7 @@
 CreateUnitJob::CreateUnitJob(MPlayer *m_player, GroundUnitIdentity *m_identity, GameMap *m_gameMap) :
     Job("Create Unit")
 {
-    timeNeeded = identity->getProductionTime();
+    timeNeeded = m_identity->getProductionTime();
     player = m_player;
     identity = m_identity;
     gameMap = m_gameMap;

@@ -20,12 +20,16 @@ public:
 
     void tick(void);
 
+    bool createWorker(Player *player, Building *base);
+
+    std::string getGameError(void);
 private:
     long long lastTickMs;
     AssetManager *assets;
     GameMap *map;
     std::vector<MPlayer*> players;
     std::map<int, PlayerMap*> playerMaps;
+    std::string gameError;
 };
 
 #endif // GAMEOBJECT_H

@@ -32,7 +32,7 @@ void MBuilding::emitJob(int index)
         JobEmitter *emitter = emitters[index];
 
         Job *newJob = emitter->emitJob();
-
+        newJob->start();
         if(currentJob == nullptr)
         {
             currentJob = newJob;

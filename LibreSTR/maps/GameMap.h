@@ -42,6 +42,7 @@ class GameMap :
         void forcePlaceBuilding(MBuilding *building, int t_x, int t_y);
         int getBuildingsCount(void);
         MBuilding* getBuilding(int index);
+        MBuilding* getBuildingById(int id);
         void tickUnits(int ms);
 
         int getGroundUnitsCount(void);

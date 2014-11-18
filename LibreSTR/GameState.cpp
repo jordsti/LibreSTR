@@ -28,6 +28,8 @@ GameState::GameState(AssetManager *m_assets) :
     miniMap = new MiniMap(this, pmap, 300, 200, 22);
     topHud = new TopHud(m_assets, game->getPlayer(1));
 
+    currentPlayer = game->getPlayer(1);
+
     textColor.setRGB(250, 250, 250);
 
     lblFps.setForeground(&textColor);
@@ -44,11 +46,9 @@ GameState::GameState(AssetManager *m_assets) :
     baseMenu.setCloseIcon(GamePath::getFilepath(AssetRoot, "close_radial.png"));
     baseMenu.setDimension(200, 300);
     baseMenu.setPoint(30, 30);
+
     baseCreateWorker = new RadialItem(0, "Create Worker", GamePath::getFilepath(AssetRoot, "worker16.png"), GamePath::getFilepath(AssetRoot, "worker16_hover.png"));
     baseMenu.addItem(baseCreateWorker);
-    /*baseMenu.addItem(ri);
-    baseMenu.addItem(ri);
-    baseMenu.addItem(ri);*/
     baseMenu.setVisible(false);
 
     console.setVisible(false);
@@ -78,7 +78,29 @@ GameState::~GameState()
 
 void GameState::handleEvent(StiGame::Gui::SelectionEventThrower *src, StiGame::Gui::SelectionEventArgs *args)
 {
-    std::cout << "Selection Event: " << args->getSelection()->getText() << std::endl;
+    if(src == &baseMenu)
+    {
+        //radial base menu
+        if(selectedUnits.size() == 1)
+        {
+            Unit *unit = selectedUnits[0];
+            if(unit->getType() == UT_Building)
+            {
+                Building *b = dynamic_cast<Building*>(unit);
+
+                if(game->createWorker(currentPlayer, b))
+                {
+                    //closing radial menu
+                    baseMenu.setVisible(false);
+                }
+                else
+                {
+                    std::string errorMsg = game->getGameError();
+                    std::cout << errorMsg << std::endl;
+                }
+            }
+        }
+    }
 }
 
 void GameState::unload(void)

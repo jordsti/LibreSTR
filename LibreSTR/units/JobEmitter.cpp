@@ -9,3 +9,8 @@ JobEmitter::~JobEmitter()
 {
 
 }
+
+Job* JobEmitter::emitJob(void)
+{
+    return nullptr;
+}

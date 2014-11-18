@@ -16,4 +16,5 @@ CreateUnitEmitter::~CreateUnitEmitter()
 Job* CreateUnitEmitter::emitJob(void)
 {
     CreateUnitJob *job = new CreateUnitJob(owner, identity, gameMap);
+    return job;
 }

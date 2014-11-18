@@ -102,6 +102,13 @@ void GameObject::initGame(void)
     }
 }
 
+std::string GameObject::getGameError(void)
+{
+    std::string msg = gameError;
+    gameError = "";
+    return msg;
+}
+
 Player* GameObject::getPlayer(int index)
 {
     auto vit(players.begin()), vend(players.end());
@@ -119,4 +126,44 @@ Player* GameObject::getPlayer(int index)
 PlayerMap* GameObject::getPlayerMap(int index)
 {
     return playerMaps[index];
+}
+
+bool GameObject::createWorker(Player *player, Building *base)
+{
+    if(base->getBuldingType() == BT_Base)
+    {
+        if(base->getOwner() == player)
+        {
+            GroundUnitIdentity *workerId = assets->getWorkerIdentity();
+            //population constraint to be added here
+            if(player->getMetalCount() >= workerId->getMetalCost()
+               && player->getGazCount() >= workerId->getGazCost())
+            {
+                //job id 0
+
+                MBuilding *mbase = map->getBuildingById(base->getId());
+
+                if(mbase != nullptr)
+                {
+                    mbase->emitJob(0);
+                }
+
+                return true;
+            }
+            else
+            {
+                gameError = "Not enough ressources !";
+            }
+        }
+        else
+        {
+            gameError = "This is not your building !";
+        }
+    }
+    else
+    {
+        gameError =  "Invalid building type !";
+    }
+
+    return false;
 }

@@ -8,7 +8,7 @@ public:
     JobEmitter();
     virtual ~JobEmitter();
 
-    virtual Job* emitJob() = 0;
+    virtual Job* emitJob(void);
 };
 
 #endif // JOBEMITTER_H
