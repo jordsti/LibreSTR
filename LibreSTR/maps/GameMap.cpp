@@ -74,6 +74,15 @@ MBuilding* GameMap::getBuilding(int index)
     return buildings[index];
 }
 
+void GameMap::tickUnits(int ms)
+{
+    auto vit(buildings.begin()), vend(buildings.end());
+    for(;vit!=vend;++vit)
+    {
+        (*vit)->tickJob(ms);
+    }
+}
+
 bool GameMap::placeUnit(MGroundUnit *unit, int pt_x, int pt_y)
 {
     unit->setPoint(pt_x, pt_y);

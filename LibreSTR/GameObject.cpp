@@ -4,6 +4,7 @@
 #include <map>
 #include "MBuilding.h"
 #include "CreateUnitEmitter.h"
+#include <TimeTools.h>
 
 using namespace StiGame;
 
@@ -18,6 +19,8 @@ GameObject::GameObject(AssetManager *m_assets, int mapWidth, int mapHeight)
 
     players.push_back(new MPlayer(PC_Blue));
     players.push_back(new MPlayer(PC_Red));
+
+    lastTickMs = 0;
 }
 
 GameObject::~GameObject()
@@ -29,6 +32,22 @@ GameObject::~GameObject()
     delete playerMaps[2];
     delete players[0];
     delete players[1];
+}
+
+void GameObject::tick(void)
+{
+    //game tick
+    if(lastTickMs == 0)
+    {
+        lastTickMs = StiGame::Time::GetMsTimestamp();
+        return;
+    }
+
+    long long _now = StiGame::Time::GetMsTimestamp();
+    int _delta = (int)(_now - lastTickMs);
+    lastTickMs = _now;
+
+    map->tickUnits(_delta);
 }
 
 void GameObject::initGame(void)

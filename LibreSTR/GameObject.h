@@ -18,7 +18,10 @@ public:
 
     void initGame(void);
 
+    void tick(void);
+
 private:
+    long long lastTickMs;
     AssetManager *assets;
     GameMap *map;
     std::vector<MPlayer*> players;

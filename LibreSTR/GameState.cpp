@@ -330,6 +330,8 @@ void GameState::onPaint(SDL_Renderer *renderer)
     tickActions();
     tickMouseViewMovement();
 
+    game->tick();
+
     SDL_Rect mapRect;
     SDL_Rect viewRect;
 
