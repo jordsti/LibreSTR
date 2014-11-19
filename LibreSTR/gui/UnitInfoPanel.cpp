@@ -1,4 +1,5 @@
 #include "UnitInfoPanel.h"
+#include "Building.h"
 using namespace StiGame;
 using namespace Gui;
 
@@ -13,6 +14,7 @@ UnitInfoPanel::UnitInfoPanel() : Item("UnitInfoPanel")
     lblName.setPoint(5, 10);
     lblType.setPoint(5, 30);
     lblHealth.setPoint(5, 50);
+    lblInfo.setPoint(5, 70);
 }
 
 UnitInfoPanel::~UnitInfoPanel()
@@ -35,6 +37,22 @@ UnitInfoPanel::~UnitInfoPanel()
         }
 
         lblHealth.setCaption("Health: "+std::to_string(unit->getMaxHealth())+"/"+std::to_string(unit->getCurrentHealth()));
+
+        if(unit->getType() == UT_Building)
+        {
+            Building *b = dynamic_cast<Building*>(unit);
+            Job *currentJob = b->getCurrentJob();
+            if(currentJob != nullptr)
+            {
+                int pc = (int)(((float)currentJob->getTimeElapsed() / (float)currentJob->getTimeNeeded())*100.0f);
+                int secNeeded = currentJob->getTimeNeeded() / 1000;
+                lblInfo.setCaption("Job Progress : " + std::to_string(pc) + " % (" + std::to_string(secNeeded) + "sec)");
+            }
+            else
+            {
+                lblInfo.setCaption("Idle");
+            }
+        }
      }
  }
 
@@ -55,6 +73,10 @@ StiGame::Surface* UnitInfoPanel::render(void)
 
     lbl = lblHealth.render();
     buffer->blit(lbl, &lblHealth);
+    delete lbl;
+
+    lbl = lblInfo.render();
+    buffer->blit(lbl, &lblInfo);
     delete lbl;
 
     return buffer;

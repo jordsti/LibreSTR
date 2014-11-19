@@ -25,6 +25,7 @@ private:
     StiGame::Gui::Label lblName;
     StiGame::Gui::Label lblType;
     StiGame::Gui::Label lblHealth;
+    StiGame::Gui::Label lblInfo;
 };
 
 #endif // UNITINFOPANEL_H

@@ -13,7 +13,7 @@ public:
     CreateUnitEmitter(MPlayer *m_owner, GroundUnitIdentity *m_identity, GameMap *m_gameMap);
     virtual ~CreateUnitEmitter();
 
-    Job* emitJob(void);
+    Job* emitJob(Building *building);
 
 private:
     MPlayer *owner;

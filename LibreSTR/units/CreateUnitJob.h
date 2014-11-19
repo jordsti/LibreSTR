@@ -10,7 +10,7 @@ class CreateUnitJob :
         public Job
 {
 public:
-    CreateUnitJob(MPlayer *m_player, GroundUnitIdentity *identity, GameMap *m_gampeMap);
+    CreateUnitJob(MPlayer *m_player, Building *m_srcBuilding, GroundUnitIdentity *identity, GameMap *m_gampeMap);
     virtual ~CreateUnitJob();
 
 protected:
@@ -22,6 +22,7 @@ private:
     MPlayer *player;
     GroundUnitIdentity *identity;
     GameMap *gameMap;
+    Building *srcBuilding;
 };
 
 #endif // CREATEUNITJOB_H

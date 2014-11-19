@@ -98,7 +98,7 @@ void GameMap::tickUnits(int ms)
     }
 }
 
-bool GameMap::placeUnit(MGroundUnit *unit, int pt_x, int pt_y)
+bool GameMap::placeGroundUnit(MGroundUnit *unit, int pt_x, int pt_y)
 {
     unit->setPoint(pt_x, pt_y);
     StiGame::Point mpt = unit->middle();

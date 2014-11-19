@@ -95,7 +95,7 @@ void GameObject::initGame(void)
         //workers
         MGroundUnit *wunit = workerId->create(pl);
 
-        map->placeUnit(wunit, ptStart.getX() + 64, ptStart.getY() + 64);
+        map->placeGroundUnit(wunit, ptStart.getX() + 64, ptStart.getY() + 64);
 
         PlayerMap *pmap = map->GeneratePlayerMap(pl->getId());
         playerMaps.insert(std::make_pair(pl->getId(), pmap));

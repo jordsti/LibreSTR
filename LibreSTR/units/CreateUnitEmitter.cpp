@@ -13,8 +13,8 @@ CreateUnitEmitter::~CreateUnitEmitter()
 
 }
 
-Job* CreateUnitEmitter::emitJob(void)
+Job* CreateUnitEmitter::emitJob(Building *building)
 {
-    CreateUnitJob *job = new CreateUnitJob(owner, identity, gameMap);
+    CreateUnitJob *job = new CreateUnitJob(owner, building, identity, gameMap);
     return job;
 }

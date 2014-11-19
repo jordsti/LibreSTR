@@ -12,6 +12,7 @@
 #include "Console.h"
 #include "SelectionEventListener.h"
 #include "UnitInfoPanel.h"
+#include "ErrorLabel.h"
 
 
 class GameState :
@@ -68,6 +69,9 @@ class GameState :
         TopHud *topHud;
         UnitInfoPanel unitInfo;
         Player *currentPlayer;
+
+        //ErrorLabel
+        ErrorLabel lblError;
 
         //main base menu
         RadialMenu baseMenu;

@@ -47,8 +47,7 @@ class GameMap :
 
         int getGroundUnitsCount(void);
         MGroundUnit* getGroundUnit(int index);
-        bool placeUnit(MGroundUnit *unit, int pt_x, int pt_y);
-
+        bool placeGroundUnit(MGroundUnit *unit, int pt_x, int pt_y);
 
         int addTexture(std::string name);
         std::string getTexture(int id);

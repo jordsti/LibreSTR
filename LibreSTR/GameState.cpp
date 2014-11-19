@@ -61,6 +61,7 @@ GameState::GameState(AssetManager *m_assets) :
     _items.push_back(&baseMenu);
     _items.push_back(&console);
     _items.push_back(&unitInfo);
+    _items.push_back(&lblError);
 
     baseMenu.subscribe(this);
 
@@ -68,6 +69,9 @@ GameState::GameState(AssetManager *m_assets) :
 
     selectColor.setRGBA(10, 10, 120, 120);
     multiselect = false;
+
+    lblError.setPoint(5, topHud->getHeight() + 2);
+    lblError.setVisible(false);
 }
 
 
@@ -96,7 +100,9 @@ void GameState::handleEvent(StiGame::Gui::SelectionEventThrower *src, StiGame::G
                 else
                 {
                     std::string errorMsg = game->getGameError();
-                    std::cout << errorMsg << std::endl;
+                    //std::cout << errorMsg << std::endl;
+                    lblError.setCaption(errorMsg);
+                    lblError.setVisible(true);
                 }
             }
         }
