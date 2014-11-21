@@ -33,7 +33,7 @@ class GameMap :
 
         void addStartPoint(int player, StiGame::Point& pt);
 
-        PlayerMap* GeneratePlayerMap(int playerId);
+        PlayerMap* generatePlayerMap(int playerId);
 
         void save(std::string output);
         void load(std::string input, AssetManager *asset);
@@ -47,7 +47,7 @@ class GameMap :
 
         int getGroundUnitsCount(void);
         MGroundUnit* getGroundUnit(int index);
-        bool placeGroundUnit(MGroundUnit *unit, int pt_x, int pt_y);
+        bool placeGroundUnit(MGroundUnit *unit, int pt_x, int pt_y, bool updatePlayerMap = true);
 
         int addTexture(std::string name);
         std::string getTexture(int id);
@@ -76,6 +76,8 @@ class GameMap :
         std::map<int, std::vector<StiGame::Point>> startingPoints;
 
         std::vector< std::string > textures;
+
+        std::map<int, PlayerMap*> playerMaps;
 
     private:
 };

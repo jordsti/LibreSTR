@@ -4,6 +4,7 @@
 #include <Item.h>
 #include <TextBox.h>
 #include <vector>
+#include "ILogStream.h"
 
 struct ConsoleLine
 {
@@ -12,7 +13,8 @@ struct ConsoleLine
 };
 
 class Console :
-        public StiGame::Gui::Item
+        public StiGame::Gui::Item,
+        public ILogStream
 {
 public:
     static const int DEFAULT_LINE_HEIGHT = 13;

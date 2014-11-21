@@ -19,6 +19,7 @@ set(SOURCE_FILES main.cpp
     gui/Console.cpp
     gui/ErrorLabel.cpp
     gui/LibreSTRStyle.cpp
+    gui/ILogStream.cpp
     gui/MiniMap.cpp
     gui/TopHud.cpp
     gui/GameOverlay.cpp

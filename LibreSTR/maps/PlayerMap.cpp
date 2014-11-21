@@ -24,6 +24,49 @@ PlayerMap::~PlayerMap()
     }
 }
 
+bool PlayerMap::containsBuilding(Building *building)
+{
+    auto vit(buildings.begin()), vend(buildings.end());
+    for(;vit!=vend;++vit)
+    {
+        if((*vit)->getId() == building->getId())
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool PlayerMap::containsGroundUnit(GroundUnit *unit)
+{
+    auto vit(units.begin()), vend(units.end());
+    for(;vit!=vend;++vit)
+    {
+        if((*vit)->getId() == unit->getId())
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+int PlayerMap::getGroundUnitsCount(void)
+{
+    return units.size();
+}
+
+GroundUnit* PlayerMap::getGroundUnit(int index)
+{
+    return units[index];
+}
+
+void PlayerMap::addGroundUnit(GroundUnit *m_unit)
+{
+    units.push_back(m_unit);
+}
+
 int PlayerMap::getBuildingsCount(void)
 {
     return buildings.size();

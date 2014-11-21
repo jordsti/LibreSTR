@@ -22,7 +22,7 @@ GameState::GameState(AssetManager *m_assets) :
     //ctor
     assets = m_assets;
 
-    game = new GameObject(m_assets, 300, 200);
+    game = new GameObject(m_assets, 300, 200, &console);
     game->initGame();
     pmap = game->getPlayerMap(1);
     miniMap = new MiniMap(this, pmap, 300, 200, 22);
@@ -397,6 +397,22 @@ void GameState::onPaint(SDL_Renderer *renderer)
             sprBuilding->render();
         }
     }
+    int mu = pmap->getGroundUnitsCount();
+    for(int i=0; i<mu; i++)
+    {
+        GroundUnit *u = pmap->getGroundUnit(i);
+        Point middlePt = u->middle();
+        Point endPt = u->maxPoint();
+
+        if(vwRect.contains(u) ||
+           vwRect.contains(&middlePt) ||
+           vwRect.contains(&endPt))
+        {
+            Sprite *sprUnit = sprites->getSprite(u->getSpriteName());
+            sprUnit->setPoint(u->getX() - viewX, (u->getY()+topHud->getHeight()) - viewY);
+            sprUnit->render();
+        }
+    }
 
     renderGui(renderer);
 
@@ -525,6 +541,24 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
                 return;
             }
 
+        }
+
+        //units check
+        ucount = pmap->getGroundUnitsCount();
+        for(int i=0; i<ucount; i++)
+        {
+            GroundUnit *u = pmap->getGroundUnit(i);
+            Rectangle uRect (u->getX(), u->getY(), u->getWidth(), u->getHeight());
+
+            if(uRect.contains(&gamePoint))
+            {
+                selectedUnits.clear();
+                selectedUnits.push_back(u);
+
+                unitInfo.setUnit(u);
+                unitInfo.setVisible(true);
+                return;
+            }
         }
 
         //no return, clearing selection

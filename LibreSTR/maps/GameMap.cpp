@@ -98,10 +98,21 @@ void GameMap::tickUnits(int ms)
     }
 }
 
-bool GameMap::placeGroundUnit(MGroundUnit *unit, int pt_x, int pt_y)
+bool GameMap::placeGroundUnit(MGroundUnit *unit, int pt_x, int pt_y, bool updatePlayerMap)
 {
     unit->setPoint(pt_x, pt_y);
     StiGame::Point mpt = unit->middle();
+
+    //need to check if tile doesn't contains a ressource or is a block
+
+    StiGame::Point tilePt (mpt.getX() / Tile::TILE_WIDTH, mpt.getY() / Tile::TILE_HEIGHT);
+
+    Tile *tile = get(tilePt.getX(), tilePt.getY());
+
+    if(tile->containsResource() || tile->getType() == TT_Block)
+    {
+        return false;
+    }
 
     //not inside a building
     auto vit(buildings.begin()), vend(buildings.end());
@@ -112,6 +123,8 @@ bool GameMap::placeGroundUnit(MGroundUnit *unit, int pt_x, int pt_y)
             return false;
         }
     }
+
+    //no collision with exsiting unit
 
     auto vit2(units.begin()), vend2(units.end());
     for(;vit2!=vend2;++vit2)
@@ -125,6 +138,18 @@ bool GameMap::placeGroundUnit(MGroundUnit *unit, int pt_x, int pt_y)
 
     //placing
     units.push_back(unit);
+
+    //placing this into player map
+    if(playerMaps.size() > 0 && updatePlayerMap)
+    {
+        PlayerMap *pmap = playerMaps[unit->getOwner()->getId()];
+        if(!pmap->containsGroundUnit(unit))
+        {
+            pmap->addGroundUnit(unit);
+        }
+    }
+
+
     return true;
 }
 
@@ -383,7 +408,7 @@ void GameMap::initTiles()
     }
 }
 
-PlayerMap* GameMap::GeneratePlayerMap(int playerId)
+PlayerMap* GameMap::generatePlayerMap(int playerId)
 {
     PlayerMap *pmap = new PlayerMap(width, height);
     pmap->setDefaultTextureId(defaultTexture);
@@ -412,6 +437,16 @@ PlayerMap* GameMap::GeneratePlayerMap(int playerId)
         }
     }
 
+    auto vit2(units.begin()), vend2(units.end());
+    for(;vit2!=vend2;++vit2)
+    {
+        if((*vit2)->getOwner()->getId() == playerId)
+        {
+            pmap->addGroundUnit((*vit2));
+        }
+    }
+
+    playerMaps.insert(std::make_pair(playerId, pmap));
 
     return pmap;
 

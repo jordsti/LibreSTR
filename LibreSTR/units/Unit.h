@@ -36,6 +36,7 @@ public:
     void setOwner(Player *m_player);
 
     StiGame::Point middle(void);
+    StiGame::Point maxPoint(void);
 
 protected:
     Unit();

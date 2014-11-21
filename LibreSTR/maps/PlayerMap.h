@@ -34,6 +34,13 @@ class PlayerMap :
         Building* getBuilding(int index);
         void addBuilding(Building *m_building);
 
+        int getGroundUnitsCount(void);
+        GroundUnit* getGroundUnit(int index);
+        void addGroundUnit(GroundUnit *m_unit);
+
+        bool containsBuilding(Building *building);
+        bool containsGroundUnit(GroundUnit *unit);
+
     protected:
     private:
         void initRows(void);
@@ -45,6 +52,7 @@ class PlayerMap :
         std::vector<Resource*> resRefs;
         std::vector<std::string> textures;
         std::vector<Building*> buildings;
+        std::vector<GroundUnit*> units;
 };
 
 #endif // PLAYERMAP_H

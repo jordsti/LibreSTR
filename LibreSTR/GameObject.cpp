@@ -8,7 +8,7 @@
 
 using namespace StiGame;
 
-GameObject::GameObject(AssetManager *m_assets, int mapWidth, int mapHeight)
+GameObject::GameObject(AssetManager *m_assets, int mapWidth, int mapHeight, ILogStream *m_logStream)
 {
     assets = m_assets;
     //generating a random map by default
@@ -19,6 +19,8 @@ GameObject::GameObject(AssetManager *m_assets, int mapWidth, int mapHeight)
 
     players.push_back(new MPlayer(PC_Blue));
     players.push_back(new MPlayer(PC_Red));
+
+    logStream = m_logStream;
 
     lastTickMs = 0;
 }
@@ -58,6 +60,7 @@ void GameObject::initGame(void)
      *  be ready for starting the Game
      *
      */
+    logStream->pushLine("Initializing game...");
 
     BuildingIdentity *baseId = assets->getBaseIdentity();
     GroundUnitIdentity *workerId = assets->getWorkerIdentity();
@@ -74,6 +77,8 @@ void GameObject::initGame(void)
 
         playerStartPts.insert(std::make_pair((*vit), ps));
     }
+
+    logStream->pushLine("Choosing players starting point");
 
     //placing units
     auto mit(playerStartPts.begin()), mend(playerStartPts.end());
@@ -95,11 +100,13 @@ void GameObject::initGame(void)
         //workers
         MGroundUnit *wunit = workerId->create(pl);
 
-        map->placeGroundUnit(wunit, ptStart.getX() + 64, ptStart.getY() + 64);
+        map->placeGroundUnit(wunit, ptStart.getX() * Tile::TILE_WIDTH + 64, ptStart.getY() * Tile::TILE_HEIGHT + 64, false);
 
-        PlayerMap *pmap = map->GeneratePlayerMap(pl->getId());
+        PlayerMap *pmap = map->generatePlayerMap(pl->getId());
         playerMaps.insert(std::make_pair(pl->getId(), pmap));
     }
+
+    logStream->pushLine("Starting units placed");
 }
 
 std::string GameObject::getGameError(void)
@@ -107,6 +114,12 @@ std::string GameObject::getGameError(void)
     std::string msg = gameError;
     gameError = "";
     return msg;
+}
+
+void GameObject::publishError(std::string m_error)
+{
+    gameError = m_error;
+    logStream->pushLine("Error : "+gameError);
 }
 
 Player* GameObject::getPlayer(int index)
@@ -152,17 +165,17 @@ bool GameObject::createWorker(Player *player, Building *base)
             }
             else
             {
-                gameError = "Not enough ressources !";
+                publishError("Not enough ressources !");
             }
         }
         else
         {
-            gameError = "This is not your building !";
+            publishError("This is not your building !");
         }
     }
     else
     {
-        gameError =  "Invalid building type !";
+        publishError("Invalid building type !");
     }
 
     return false;

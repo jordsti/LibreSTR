@@ -10,6 +10,8 @@ GroundUnit::GroundUnit(GroundUnitIdentity *m_identity, Player *m_owner)
     width = identity->getWidth();
     height = identity->getHeight();
     vision = identity->getVision();
+    maxHealth = identity->getMaxHealth();
+    currentHealth = identity->getMaxHealth();
     state = GUS_Idle;
 }
 

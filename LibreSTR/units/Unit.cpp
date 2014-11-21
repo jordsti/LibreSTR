@@ -80,3 +80,9 @@ StiGame::Point Unit::middle(void)
     StiGame::Point pt (x + width/2, y + height/2);
     return pt;
 }
+
+StiGame::Point Unit::maxPoint(void)
+{
+    StiGame::Point pt (x + width, y + height);
+    return pt;
+}

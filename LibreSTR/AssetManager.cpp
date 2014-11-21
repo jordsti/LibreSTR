@@ -3,6 +3,7 @@
 #include <GamePath.h>
 #include <KeyActionMap.h>
 #include <Building.h>
+#include <GroundUnit.h>
 
 using namespace StiGame;
 
@@ -44,6 +45,9 @@ std::list<std::string> AssetManager::getTextures(void)
     textures.push_back(base->getPlacedSprite());
     textures.push_back(base->getConstructSprite(PC_Red));
     textures.push_back(base->getSpriteName(PC_Red));
+
+    textures.push_back(worker->getSprite(PC_Red, GUS_Idle));
+    textures.push_back(worker->getSprite(PC_Blue, GUS_Idle));
 
     return textures;
 }

@@ -10,4 +10,4 @@ maxHealth=75;
 movementSpeed=8;
 sprite_idle_blue=worker_blue;
 sprite_idle_red=worker_blue;
-productionTime=30000;
+productionTime=10000;
