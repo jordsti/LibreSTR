@@ -18,6 +18,10 @@ GroundUnitIdentity::GroundUnitIdentity(std::string vf_file)
     movementSpeed = vf.getInt("movementSpeed");
     productionTime = vf.getInt("productionTime");
 
+    icon = vf.getValue("icon");
+    radialIcon = vf.getValue("radialIcon");
+    radialHoverIcon = vf.getValue("radialHoverIcon");
+
     std::map<PlayerColor, std::string> map1;
     sprites.insert(std::make_pair(GUS_Idle, map1));
     std::map<PlayerColor, std::string> map2;
@@ -40,6 +44,21 @@ GroundUnitIdentity::~GroundUnitIdentity()
 MGroundUnit* GroundUnitIdentity::create(Player *owner)
 {
     return new MGroundUnit(this, owner);
+}
+
+std::string GroundUnitIdentity::getIcon(void)
+{
+    return icon;
+}
+
+std::string GroundUnitIdentity::getRadialIcon(void)
+{
+    return radialIcon;
+}
+
+std::string GroundUnitIdentity::getRadialHoverIcon(void)
+{
+    return radialHoverIcon;
 }
 
 std::string GroundUnitIdentity::getSprite(PlayerColor color, GroundUnitState state)

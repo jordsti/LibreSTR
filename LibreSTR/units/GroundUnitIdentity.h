@@ -27,10 +27,18 @@ public:
     int getMovementSpeed(void);
     int getProductionTime(void);
 
+    std::string getIcon(void);
+    std::string getRadialIcon(void);
+    std::string getRadialHoverIcon(void);
+
+
     std::string getSprite(PlayerColor color, GroundUnitState state);
 
 protected:
     std::string name;
+    std::string icon;
+    std::string radialIcon;
+    std::string radialHoverIcon;
     int metalCost;
     int gazCost;
     int attackRange;

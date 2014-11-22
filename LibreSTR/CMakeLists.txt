@@ -26,6 +26,7 @@ set(SOURCE_FILES main.cpp
     gui/RadialMenu.cpp
     gui/RadialItem.cpp
     gui/UnitInfoPanel.cpp
+    gui/MultiSelectionPanel.cpp
 
     units/Building.cpp
     units/BuildingIdentity.cpp

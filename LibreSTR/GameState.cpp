@@ -47,7 +47,11 @@ GameState::GameState(AssetManager *m_assets) :
     baseMenu.setDimension(200, 300);
     baseMenu.setPoint(30, 30);
 
-    baseCreateWorker = new RadialItem(0, "Create Worker", GamePath::getFilepath(AssetRoot, "worker16.png"), GamePath::getFilepath(AssetRoot, "worker16_hover.png"));
+    baseCreateWorker = new RadialItem(0,
+                                      "Create Worker",
+                                      GamePath::getFilepath(AssetRoot, assets->getWorkerIdentity()->getRadialIcon()),
+                                      GamePath::getFilepath(AssetRoot, assets->getWorkerIdentity()->getRadialHoverIcon()));
+
     baseMenu.addItem(baseCreateWorker);
     baseMenu.setVisible(false);
 
@@ -515,6 +519,20 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
     if(args->getMouseButton() == MB_LEFT && !args->isDown() && multiselect)
     {
         multiselect = false;
+        //todo completing multiselect
+        selectedUnits.clear();
+        int uc = pmap->getGroundUnitsCount();
+        for(int i=0; i<uc; i++)
+        {
+            GroundUnit *unit = pmap->getGroundUnit(i);
+
+            Point mpt = unit->middle();
+
+            if(selectRect.contains(&mpt))
+            {
+                selectedUnits.push_back(unit);
+            }
+        }
     }
     else if(args->getMouseButton() == MB_LEFT && args->isDown() && !multiselect)
     {
