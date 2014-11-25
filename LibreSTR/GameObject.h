@@ -21,6 +21,8 @@ public:
 
     void tick(void);
 
+    void moveGroundUnit(Unit *groundUnit, StiGame::Point *targetPt);
+
     bool createWorker(Player *player, Building *base);
 
     std::string getGameError(void);

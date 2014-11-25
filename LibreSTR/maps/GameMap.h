@@ -27,6 +27,7 @@ class GameMap :
         int getSeed(void);
 
         Tile* get(int x, int y);
+        Tile* get(StiGame::Point& pt);
 
         bool contains(int x, int y);
         bool contains(StiGame::Point& pt);
@@ -46,6 +47,7 @@ class GameMap :
         void tickUnits(int ms);
 
         int getGroundUnitsCount(void);
+        MGroundUnit* getGroundUnitById(int id);
         MGroundUnit* getGroundUnit(int index);
         bool placeGroundUnit(MGroundUnit *unit, int pt_x, int pt_y, bool updatePlayerMap = true);
 

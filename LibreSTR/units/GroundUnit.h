@@ -3,6 +3,7 @@
 
 #include "Unit.h"
 #include "GroundUnitIdentity.h"
+#include "Task.h"
 #include <map>
 
 enum GroundUnitState : int {
@@ -24,9 +25,13 @@ public:
     int getSize(void);
     GroundUnitState getState(void);
 
+    Task* getTask(void);
+    bool isWorking(void);
+
 protected:
     GroundUnitIdentity *identity;
     GroundUnitState state;
+    Task *currentTask;
 };
 
 #endif // GROUNDUNIT_H

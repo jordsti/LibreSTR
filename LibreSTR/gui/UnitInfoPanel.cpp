@@ -1,5 +1,6 @@
 #include "UnitInfoPanel.h"
 #include "Building.h"
+#include "GroundUnit.h"
 using namespace StiGame;
 using namespace Gui;
 
@@ -34,6 +35,17 @@ UnitInfoPanel::~UnitInfoPanel()
         else if(unit->getType() == UT_Ground)
         {
             lblType.setCaption("Ground Unit");
+
+            GroundUnit *gunit = dynamic_cast<GroundUnit*>(unit);
+            if(gunit->isWorking())
+            {
+                Task *current = gunit->getTask();
+                lblInfo.setCaption(current->getCaption());
+            }
+            else
+            {
+                lblInfo.setCaption("Idle");
+            }
         }
 
         lblHealth.setCaption("Health: "+std::to_string(unit->getMaxHealth())+"/"+std::to_string(unit->getCurrentHealth()));

@@ -41,6 +41,9 @@ set(SOURCE_FILES main.cpp
     units/Job.cpp
     units/CreateUnitJob.cpp
     units/CreateUnitEmitter.cpp
+    units/Task.cpp
+    units/MoveTask.cpp
+
 
 
     maps/GameMap.cpp

@@ -516,6 +516,41 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
 
     }
 
+    if(args->getMouseButton() == MB_RIGHT && !args->isDown())
+    {
+        if(selectedUnits.size() > 0)
+        {
+            //units deplacement
+            StiGame::Point targetPt (viewX + args->getX(), viewY + (args->getY() - topHud->getHeight()));
+
+            auto vit(selectedUnits.begin()), vend(selectedUnits.end());
+            Unit *firstUnit = nullptr;
+            for(;vit!=vend;++vit)
+            {
+                if(firstUnit == nullptr)
+                {
+                    firstUnit = (*vit);
+                }
+
+                Unit *unit = (*vit);
+                if(unit->getType() == UT_Ground)
+                {
+                    if(firstUnit != unit)
+                    {
+                        StiGame::Point dpt = firstUnit->diffPoint(unit);
+                        StiGame::Point dtpt (targetPt.getX() + dpt.getX(), targetPt.getY() + dpt.getY());
+                        game->moveGroundUnit(unit, &dtpt);
+                    }
+                    else
+                    {
+                        game->moveGroundUnit(unit, &targetPt);
+                    }
+                }
+            }
+
+        }
+    }
+
     if(args->getMouseButton() == MB_LEFT && !args->isDown() && multiselect)
     {
         multiselect = false;

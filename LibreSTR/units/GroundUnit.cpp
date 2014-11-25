@@ -12,6 +12,7 @@ GroundUnit::GroundUnit(GroundUnitIdentity *m_identity, Player *m_owner)
     vision = identity->getVision();
     maxHealth = identity->getMaxHealth();
     currentHealth = identity->getMaxHealth();
+    currentTask = nullptr;
     state = GUS_Idle;
 }
 
@@ -47,4 +48,14 @@ std::string GroundUnit::getSpriteName(void)
 GroundUnitIdentity* GroundUnit::getIdentity(void)
 {
     return identity;
+}
+
+Task* GroundUnit::getTask(void)
+{
+    return currentTask;
+}
+
+bool GroundUnit::isWorking(void)
+{
+    return currentTask != nullptr;
 }

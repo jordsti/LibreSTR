@@ -64,6 +64,20 @@ MGroundUnit* GameMap::getGroundUnit(int index)
     return units[index];
 }
 
+MGroundUnit* GameMap::getGroundUnitById(int id)
+{
+    auto vit(units.begin()), vend(units.end());
+    for(;vit!=vend;++vit)
+    {
+        if((*vit)->getId() == id)
+        {
+            return (*vit);
+        }
+    }
+
+    return nullptr;
+}
+
 int GameMap::getBuildingsCount(void)
 {
     return buildings.size();
@@ -95,6 +109,12 @@ void GameMap::tickUnits(int ms)
     for(;vit!=vend;++vit)
     {
         (*vit)->tickJob(ms);
+    }
+
+    auto vit2(units.begin()), vend2(units.end());
+    for(;vit2!=vend2;++vit2)
+    {
+        (*vit2)->tickTask(ms);
     }
 }
 
@@ -477,3 +497,9 @@ Tile* GameMap::get(int x, int y)
     return tiles[y][x];
 }
 
+Tile* GameMap::get(StiGame::Point& pt)
+{
+    int x = pt.getX();
+    int y = pt.getY();
+    return get(x, y);
+}

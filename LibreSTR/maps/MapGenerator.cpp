@@ -49,7 +49,7 @@ GameMap* MapGenerator::RandomMap(int width, int height, int seed)
         {
             Tile *t = gmap->get(x, y);
 
-            int i = rand() % 30;
+            int i = rand() % 50;
 
             if(i >= 0 && i <= 2)
             {

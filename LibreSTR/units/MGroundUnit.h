@@ -9,6 +9,11 @@ public:
     virtual ~MGroundUnit();
 
     void setState(GroundUnitState m_state);
+
+    void pushTask(Task *m_task);
+
+
+    void tickTask(int ms);
 };
 
 #endif // MGROUNDUNIT_H
