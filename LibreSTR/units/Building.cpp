@@ -36,7 +36,7 @@ bool Building::contains(int p_x, int p_y)
     return (p_x >= x &&
             p_x <= x + width &&
             p_y >= y &&
-            p_y <= height);
+            p_y <= y + height);
 }
 
 int Building::getMetalCost(void)

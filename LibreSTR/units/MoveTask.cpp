@@ -25,7 +25,7 @@ void MoveTask::doStep(void)
         StiGame::MPoint tmpTargetPt (endPoint.getX(), endPoint.getY());
         StiGame::MPoint finalPt;
         bool moveOk = false;
-        int initStep = 4;
+        int initStep = unit->getIdentity()->getMovementStep();
         int moveStep = initStep;
         while(!moveOk)
         {
@@ -64,13 +64,24 @@ void MoveTask::doStep(void)
 
             nx = currentPt.getX() + dx*moveStep;
             ny = currentPt.getY() + dy*moveStep;
-
+            StiGame::Point pxPt(nx, ny);
             StiGame::Point proTilePt (nx / Tile::TILE_WIDTH, ny / Tile::TILE_HEIGHT);
 
             if(currentTilePt.equals(&proTilePt))
             {
-                finalPt.setPoint(nx, ny);
-                break;
+                if(!map->buildingsContains(&pxPt))
+                {
+                    finalPt.setPoint(nx, ny);
+                    break;
+                }
+                else
+                {
+                    dx = (rand() % 3) - 1;
+                    dy = (rand() % 3) - 1;
+
+                    tmpTargetPt.setPoint(currentPt.getX() + (dx * Tile::TILE_WIDTH), currentPt.getY() + (dy * Tile::TILE_HEIGHT));
+
+                }
             }
             else
             {

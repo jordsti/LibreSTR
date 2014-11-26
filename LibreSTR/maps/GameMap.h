@@ -46,6 +46,8 @@ class GameMap :
         MBuilding* getBuildingById(int id);
         void tickUnits(int ms);
 
+        bool buildingsContains(StiGame::Point *pt);
+
         int getGroundUnitsCount(void);
         MGroundUnit* getGroundUnitById(int id);
         MGroundUnit* getGroundUnit(int index);

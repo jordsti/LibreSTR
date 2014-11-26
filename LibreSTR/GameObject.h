@@ -22,12 +22,15 @@ public:
     void tick(void);
 
     void moveGroundUnit(Unit *groundUnit, StiGame::Point *targetPt);
+    void harvestResource(Unit *groundUnit, StiGame::Point *targetPt);
 
     bool createWorker(Player *player, Building *base);
 
     std::string getGameError(void);
 private:
     void publishError(std::string m_error);
+
+    MPlayer* getMPlayer(int id);
 
     long long lastTickMs;
     AssetManager *assets;

@@ -6,6 +6,7 @@
 #include "CreateUnitEmitter.h"
 #include <TimeTools.h>
 #include "MoveTask.h"
+#include "HarvestTask.h"
 
 using namespace StiGame;
 
@@ -66,6 +67,40 @@ void GameObject::moveGroundUnit(Unit *groundUnit, StiGame::Point *targetPt)
                             "; "+std::to_string(targetPt->getY())
                             );
         _unit->pushTask(moveTask);
+    }
+}
+
+MPlayer* GameObject::getMPlayer(int id)
+{
+    auto vit(players.begin()), vend(players.end());
+    for(;vit!=vend;++vit)
+    {
+        if((*vit)->getId() == id)
+        {
+            return (*vit);
+        }
+    }
+
+    return nullptr;
+}
+
+void GameObject::harvestResource(Unit *groundUnit, StiGame::Point *targetPt)
+{
+    MGroundUnit *_unit = map->getGroundUnitById(groundUnit->getId());
+    MPlayer *player = getMPlayer(_unit->getOwner()->getId());
+    if(_unit != nullptr)
+    {
+        if(_unit->getIdentity()->isCanHarvest())
+        {
+            HarvestTask *harvestTask = new HarvestTask(_unit, player, assets->getHarvestSpeed(), map, StiGame::Point(targetPt->getX(), targetPt->getY()));
+            logStream->pushLine("Harvest resource : " +
+                                _unit->getName() +
+                                "; " + std::to_string(_unit->getId()) +
+                                ", target : "+std::to_string(targetPt->getX())+
+                                "; "+std::to_string(targetPt->getY())
+                                );
+            _unit->pushTask(harvestTask);
+        }
     }
 }
 

@@ -1,7 +1,9 @@
 LibreSTR
 ========
 LibreSTR is a open source real-time strategy game. 
+
 This is a final university project. This game will be in 2D and will use SDL2 library for
+
  graphics rendering.
  At the end of trimester, LibreSTR will include :
 	- Random Map generation
@@ -11,4 +13,6 @@ This is a final university project. This game will be in 2D and will use SDL2 li
 
 
 ### To Do
-  - StiGame : Gui::List add draw border option
+  - GameMap tile Update receptor (remove resource)
+  - GroundUnit vision to be handled
+  - Building Creation

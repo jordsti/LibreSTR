@@ -11,8 +11,6 @@ public:
 
 protected:
     void doStep(void);
-
-private:
     MGroundUnit *unit;
     GameMap *map;
     StiGame::Point endPoint;

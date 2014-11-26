@@ -50,6 +50,10 @@ void Task::tick(int ms)
             stepCount++;
         }
     }
+    else
+    {
+        msLeft += ms;
+    }
 }
 
 std::string Task::getName(void)

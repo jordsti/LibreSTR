@@ -43,6 +43,7 @@ set(SOURCE_FILES main.cpp
     units/CreateUnitEmitter.cpp
     units/Task.cpp
     units/MoveTask.cpp
+    units/HarvestTask.cpp
 
 
 

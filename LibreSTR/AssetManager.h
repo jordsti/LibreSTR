@@ -28,9 +28,14 @@ class AssetManager
 
 
         StiGame::ActionBinding* getBindings(void);
+
+        int getHarvestSpeed(void);
+
     protected:
         void loadData(void);
         void initBindings(void);
+
+        int harvestSpeed;
 
         ResourceIdentity *resMetal;
         ResourceIdentity *resGaz;

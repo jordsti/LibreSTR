@@ -5,6 +5,7 @@
 
 GroundUnitIdentity::GroundUnitIdentity(std::string vf_file)
 {
+    canHarvest = false;
     StiGame::VarFile vf (vf_file);
     vf.read();
     name = vf.getValue("name");
@@ -16,6 +17,7 @@ GroundUnitIdentity::GroundUnitIdentity(std::string vf_file)
     vision = vf.getInt("vision");
     maxHealth = vf.getInt("maxHealth");
     movementSpeed = vf.getInt("movementSpeed");
+    movementStep = vf.getInt("movementStep");
     productionTime = vf.getInt("productionTime");
 
     icon = vf.getValue("icon");
@@ -34,11 +36,28 @@ GroundUnitIdentity::GroundUnitIdentity(std::string vf_file)
 
     sprites[GUS_Idle].insert(std::make_pair(PC_Blue, idle_blue));
     sprites[GUS_Idle].insert(std::make_pair(PC_Red, idle_red));
-}
 
+    canHarvest = vf.getBool("canHarvest");
+    canBuild = vf.getBool("canBuild");
+}
 
 GroundUnitIdentity::~GroundUnitIdentity()
 {
+}
+
+bool GroundUnitIdentity::isCanBuild()
+{
+    return canBuild;
+}
+
+int GroundUnitIdentity::getMovementStep()
+{
+    return movementStep;
+}
+
+bool GroundUnitIdentity::isCanHarvest(void)
+{
+    return canHarvest;
 }
 
 MGroundUnit* GroundUnitIdentity::create(Player *owner)

@@ -134,6 +134,8 @@ void AssetManager::loadData(void)
     p = GamePath::getFilepath(AssetRoot, rworker);
     worker = new GroundUnitIdentity(p);
 
+    harvestSpeed = vf.getInt("harvestSpeed");
+
     p = GamePath::getFilepath(AssetRoot, "bindings.cfg");
     bindings = new ActionBinding(p);
     bindings->read();
@@ -144,4 +146,9 @@ void AssetManager::loadData(void)
         bindings->write();
     }
 
+}
+
+int AssetManager::getHarvestSpeed()
+{
+    return harvestSpeed;
 }

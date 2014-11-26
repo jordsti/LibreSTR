@@ -472,6 +472,20 @@ PlayerMap* GameMap::generatePlayerMap(int playerId)
 
 }
 
+bool GameMap::buildingsContains(StiGame::Point *pt)
+{
+    auto vit(buildings.begin()), vend(buildings.end());
+    for(;vit!=vend;++vit)
+    {
+        if((*vit)->contains(pt->getX(), pt->getY()))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void GameMap::addStartPoint(int player, StiGame::Point& pt)
 {
     startingPoints[player].push_back(pt);

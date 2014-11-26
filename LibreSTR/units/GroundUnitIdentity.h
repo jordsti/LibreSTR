@@ -26,6 +26,7 @@ public:
     int getMaxHealth(void);
     int getMovementSpeed(void);
     int getProductionTime(void);
+    int getMovementStep(void);
 
     std::string getIcon(void);
     std::string getRadialIcon(void);
@@ -33,6 +34,9 @@ public:
 
 
     std::string getSprite(PlayerColor color, GroundUnitState state);
+
+    bool isCanHarvest(void);
+    bool isCanBuild(void);
 
 protected:
     std::string name;
@@ -47,7 +51,10 @@ protected:
     int vision;
     int maxHealth;
     int movementSpeed;
+    int movementStep;
     int productionTime;
+    bool canHarvest;
+    bool canBuild;
     std::map< GroundUnitState, std::map< PlayerColor, std::string > > sprites;
 };
 

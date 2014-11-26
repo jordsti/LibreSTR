@@ -521,31 +521,57 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
         if(selectedUnits.size() > 0)
         {
             //units deplacement
+            bool handled = false;
             StiGame::Point targetPt (viewX + args->getX(), viewY + (args->getY() - topHud->getHeight()));
 
-            auto vit(selectedUnits.begin()), vend(selectedUnits.end());
-            Unit *firstUnit = nullptr;
-            for(;vit!=vend;++vit)
+            Tile *tile = pmap->get(targetPt.getX() / Tile::TILE_WIDTH, targetPt.getY() / Tile::TILE_HEIGHT);
+
+            if(tile->containsResource())
             {
-                if(firstUnit == nullptr)
+                //resource harvesting
+                auto vit(selectedUnits.begin()), vend(selectedUnits.end());
+                for(;vit!=vend;++vit)
                 {
-                    firstUnit = (*vit);
+                    Unit *unit = (*vit);
+                    if(unit->getType() == UT_Ground && unit->getOwner() == currentPlayer)
+                    {
+                        game->harvestResource(unit, &targetPt);
+                    }
                 }
 
-                Unit *unit = (*vit);
-                if(unit->getType() == UT_Ground)
+
+                handled = true;
+            }
+
+            //units deplacement
+            if(!handled)
+            {
+
+                auto vit(selectedUnits.begin()), vend(selectedUnits.end());
+                Unit *firstUnit = nullptr;
+                for(;vit!=vend;++vit)
                 {
-                    if(firstUnit != unit)
+                    if(firstUnit == nullptr)
                     {
-                        StiGame::Point dpt = firstUnit->diffPoint(unit);
-                        StiGame::Point dtpt (targetPt.getX() + dpt.getX(), targetPt.getY() + dpt.getY());
-                        game->moveGroundUnit(unit, &dtpt);
+                        firstUnit = (*vit);
                     }
-                    else
+
+                    Unit *unit = (*vit);
+                    if(unit->getType() == UT_Ground && unit->getOwner() == currentPlayer)
                     {
-                        game->moveGroundUnit(unit, &targetPt);
+                        if(firstUnit != unit)
+                        {
+                            StiGame::Point dpt = firstUnit->diffPoint(unit);
+                            StiGame::Point dtpt (targetPt.getX() + dpt.getX(), targetPt.getY() + dpt.getY());
+                            game->moveGroundUnit(unit, &dtpt);
+                        }
+                        else
+                        {
+                            game->moveGroundUnit(unit, &targetPt);
+                        }
                     }
                 }
+
             }
 
         }
@@ -567,6 +593,12 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
             {
                 selectedUnits.push_back(unit);
             }
+        }
+
+        if(selectedUnits.size() == 1)
+        {
+            unitInfo.setUnit(selectedUnits[0]);
+            unitInfo.setVisible(true);
         }
     }
     else if(args->getMouseButton() == MB_LEFT && args->isDown() && !multiselect)
