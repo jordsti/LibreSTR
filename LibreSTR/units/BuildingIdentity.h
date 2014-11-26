@@ -27,6 +27,7 @@ public:
     int getHeight(void);
     int getVision(void);
 
+    std::string getIcon(void);
     std::string getPlacedSprite(void);
 
 
@@ -39,6 +40,7 @@ protected:
     int vision;
     std::string name;
     std::string spriteName;
+    std::string icon;
     int width;
     int height;
     std::string placedSprite;

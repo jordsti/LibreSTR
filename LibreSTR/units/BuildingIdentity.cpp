@@ -15,6 +15,7 @@ BuildingIdentity::BuildingIdentity(BuildingType m_buildingType, std::string id_f
     gazCost = vf.getInt("gazCost");
     vision = vf.getInt("vision");
     placedSprite = vf.getValue("placedSprite");
+    icon = vf.getValue("icon");
 
     constructSprites.insert(make_pair(PC_Blue, vf.getValue("sprite_construct_blue")));
     constructSprites.insert(make_pair(PC_Red, vf.getValue("sprite_construct_red")));
@@ -23,6 +24,11 @@ BuildingIdentity::BuildingIdentity(BuildingType m_buildingType, std::string id_f
     sprites.insert(make_pair(PC_Red, vf.getValue("sprite_red")));
 
     buildingType = m_buildingType;
+}
+
+std::string BuildingIdentity::getIcon(void)
+{
+    return icon;
 }
 
 BuildingType BuildingIdentity::getBuildingType(void)

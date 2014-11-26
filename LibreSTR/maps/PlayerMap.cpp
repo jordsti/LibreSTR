@@ -45,7 +45,17 @@ bool PlayerMap::isPointVisible(StiGame::Point *pt)
 
     }
 
-    //todo building vision
+    auto bit(buildings.begin()), bend(buildings.end());
+    for(;bit!=bend;++bit)
+    {
+        Building *bu = (*bit);
+        StiGame::Point mpt = bu->middle();
+        double dist = mpt.distanceWith(pt);
+        if(dist <= bu->getVision())
+        {
+            return true;
+        }
+    }
 
     return false;
 }

@@ -1,12 +1,15 @@
 #include "UnitInfoPanel.h"
 #include "Building.h"
 #include "GroundUnit.h"
+#include "GamePath.h"
+#include "GameState.h"
 using namespace StiGame;
 using namespace Gui;
 
 UnitInfoPanel::UnitInfoPanel() : Item("UnitInfoPanel")
 {
     unit = nullptr;
+    state = nullptr;
     width = 360;
     height = 100;
     transparentBackground.setRGBA(50, 50, 50, 150);
@@ -23,6 +26,35 @@ UnitInfoPanel::~UnitInfoPanel()
 
 }
 
+void UnitInfoPanel::loadAssets(AssetManager *m_assets)
+{
+    assets = m_assets;
+    baseBuilding = assets->getBaseIdentity();
+
+    baseIcon = new Surface(GamePath::getFilepath(AssetRoot, baseBuilding->getIcon()));
+
+    btnBase.setImage(baseIcon);
+    btnBase.setImageHover(baseIcon);
+    btnBase.setDimension(baseIcon->getWidth(), baseIcon->getHeight());
+    btnBase.setPoint(width-btnBase.getWidth()-5, 5);
+}
+
+void UnitInfoPanel::onClick(StiGame::Point *relp)
+{
+    if(btnBase.isVisible())
+    {
+        if(btnBase.contains(relp))
+        {
+            //building placement
+            if(state != nullptr)
+            {
+                GroundUnit *gu = dynamic_cast<GroundUnit*>(unit);
+                state->placeBuilding(gu, baseBuilding);
+            }
+        }
+    }
+}
+
  void UnitInfoPanel::updateInfo(void)
  {
      if(unit != nullptr)
@@ -31,6 +63,7 @@ UnitInfoPanel::~UnitInfoPanel()
         if(unit->getType() == UT_Building)
         {
             lblType.setCaption("Building");
+            btnBase.setVisible(false);
         }
         else if(unit->getType() == UT_Ground)
         {
@@ -45,6 +78,15 @@ UnitInfoPanel::~UnitInfoPanel()
             else
             {
                 lblInfo.setCaption("Idle");
+            }
+
+            if(gunit->getIdentity()->isCanBuild())
+            {
+                btnBase.setVisible(true);
+            }
+            else
+            {
+                btnBase.setVisible(false);
             }
         }
 
@@ -68,6 +110,11 @@ UnitInfoPanel::~UnitInfoPanel()
      }
  }
 
+void UnitInfoPanel::setGameState(GameState *m_state)
+{
+    state = m_state;
+}
+
 StiGame::Surface* UnitInfoPanel::render(void)
 {
     //todo
@@ -90,6 +137,13 @@ StiGame::Surface* UnitInfoPanel::render(void)
     lbl = lblInfo.render();
     buffer->blit(lbl, &lblInfo);
     delete lbl;
+
+    if(btnBase.isVisible())
+    {
+        lbl = btnBase.render();
+        buffer->blit(lbl, &btnBase);
+        delete lbl;
+    }
 
     return buffer;
 }

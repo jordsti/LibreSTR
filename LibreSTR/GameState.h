@@ -45,7 +45,11 @@ class GameState :
         AssetManager* getAssets(void);
         MiniMap* getMiniMap(void);
 
+        void placeBuilding(GroundUnit *m_builder, BuildingIdentity *toPlaceId);
+
     protected:
+        void updatePlaceBuilding(void);
+
         void loadSprites(void);
         void drawBaseMap(void);
         void tickMouseViewMovement(void);
@@ -90,6 +94,11 @@ class GameState :
         StiGame::MPoint selectStartPt;
         StiGame::Color selectColor;
         StiGame::Rectangle selectRect;
+
+        bool placingBuilding;
+        StiGame::MPoint buildingPos;
+        BuildingIdentity *buildingId;
+        GroundUnit *builder;
 
         std::vector < Unit* > selectedUnits;
 };

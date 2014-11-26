@@ -21,7 +21,7 @@ GameState::GameState(AssetManager *m_assets) :
 {
     //ctor
     assets = m_assets;
-
+    placingBuilding = false;
     game = new GameObject(m_assets, 300, 200, &console);
     game->initGame();
     pmap = game->getPlayerMap(1);
@@ -70,6 +70,8 @@ GameState::GameState(AssetManager *m_assets) :
     baseMenu.subscribe(this);
 
     unitInfo.setVisible(false);
+    unitInfo.loadAssets(assets);
+    unitInfo.setGameState(this);
 
     selectColor.setRGBA(10, 10, 120, 120);
     multiselect = false;
@@ -170,6 +172,15 @@ void GameState::onResize(int m_width, int m_height)
     console.pushLine(cline);
 }
 
+void GameState::placeBuilding(GroundUnit *m_builder, BuildingIdentity *toPlaceId)
+{
+    placingBuilding = true;
+    builder = m_builder;
+    buildingId = toPlaceId;
+    //using current mouse point
+    updatePlaceBuilding();
+}
+
 void GameState::onStart(void)
 {
     sprites = new SpriteLibrary(viewport->getRenderer());
@@ -261,6 +272,14 @@ MiniMap* GameState::getMiniMap(void)
     return miniMap;
 }
 
+void GameState::updatePlaceBuilding(void)
+{
+    int t_x = (viewX + mousePosition.getX())/Tile::TILE_WIDTH;
+    int t_y = (viewY + (mousePosition.getY()-topHud->getHeight()))/Tile::TILE_HEIGHT;
+
+    buildingPos.setPoint(t_x * Tile::TILE_WIDTH, t_y * Tile::TILE_HEIGHT);
+}
+
 void GameState::tickMouseViewMovement(void)
 {
     int dx = 0;
@@ -270,6 +289,11 @@ void GameState::tickMouseViewMovement(void)
                           height - miniMap->getHeight(),
                           miniMap->getWidth(),
                           miniMap->getHeight());
+
+    if(unitInfo.isVisible() && unitInfo.contains(&mousePosition))
+    {
+        return;
+    }
 
     if(viewRectUp.contains(&mousePosition))
         dy -= VIEW_MOVE_DY;
@@ -362,6 +386,11 @@ void GameState::onPaint(SDL_Renderer *renderer)
     tickActions();
     tickMouseViewMovement();
 
+    if(placingBuilding)
+    {
+        updatePlaceBuilding();
+    }
+
     game->tick();
 
     SDL_Rect mapRect;
@@ -416,6 +445,13 @@ void GameState::onPaint(SDL_Renderer *renderer)
             sprUnit->setPoint(u->getX() - viewX, (u->getY()+topHud->getHeight()) - viewY);
             sprUnit->render();
         }
+    }
+
+    if(placingBuilding)
+    {
+        Sprite *sprPlace = sprites->getSprite(buildingId->getPlacedSprite());
+        sprPlace->setPoint(buildingPos.getX() - viewX, (buildingPos.getY()+topHud->getHeight()) - viewY);
+        sprPlace->render();
     }
 
     renderGui(renderer);
@@ -492,7 +528,7 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
 {
     Point mpt (args->getX(), args->getY());
     bool unitSelected = false;
-    if(args->getMouseButton() == MB_LEFT && !args->isDown())
+    if(args->getMouseButton() == MB_LEFT && args->isDown())
     {
         Dimension d = miniMap->getDimension();
         Rectangle miniMapZone(0, height - d.getHeight(), d.getWidth(), d.getHeight());
@@ -511,6 +547,7 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
                 //todo add diff point method into stigame
                 Point rpt = (*vit)->diffPoint(&mpt);
                 (*vit)->onClick(&rpt);
+
             }
         }
 
