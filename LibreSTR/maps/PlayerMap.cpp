@@ -1,11 +1,12 @@
 #include "PlayerMap.h"
 
-PlayerMap::PlayerMap(int m_width, int m_height)
+PlayerMap::PlayerMap(int m_width, int m_height, Player *m_player)
 {
     //ctor
     width = m_width;
     height = m_height;
     defaultTexture = 0;
+    player = m_player;
     initRows();
 }
 
@@ -20,6 +21,52 @@ PlayerMap::~PlayerMap()
         for(;vit2!=vend2;++vit2)
         {
             delete (*vit2);
+        }
+    }
+}
+
+Player* PlayerMap::getPlayer(void)
+{
+    return player;
+}
+
+bool PlayerMap::isPointVisible(StiGame::Point *pt)
+{
+    auto uit(units.begin()), uend(units.end());
+    for(;uit!=uend;++uit)
+    {
+        GroundUnit *gu = (*uit);
+        StiGame::Point mpt = gu->middle();
+        double dist = mpt.distanceWith(pt);
+        if(dist <= gu->getVision())
+        {
+            return true;
+        }
+
+    }
+
+    //todo building vision
+
+    return false;
+}
+
+void PlayerMap::cleanUnits(void)
+{
+    auto bit(buildings.begin()), bend(buildings.end());
+    for(;bit!=bend;++bit)
+    {
+        if((*bit)->getOwner() != player)
+        {
+            buildings.erase(bit);
+        }
+    }
+
+    auto uit(units.begin()), uend(units.end());
+    for(;uit!=uend;++uit)
+    {
+        if((*uit)->getOwner() != player)
+        {
+            units.erase(uit);
         }
     }
 }

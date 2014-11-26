@@ -428,9 +428,10 @@ void GameMap::initTiles()
     }
 }
 
-PlayerMap* GameMap::generatePlayerMap(int playerId)
+PlayerMap* GameMap::generatePlayerMap(Player *m_player)
 {
-    PlayerMap *pmap = new PlayerMap(width, height);
+    int playerId = m_player->getId();
+    PlayerMap *pmap = new PlayerMap(width, height, m_player);
     pmap->setDefaultTextureId(defaultTexture);
 
     auto tit(textures.begin()), tend(textures.end());

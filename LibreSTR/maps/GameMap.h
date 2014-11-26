@@ -34,7 +34,7 @@ class GameMap :
 
         void addStartPoint(int player, StiGame::Point& pt);
 
-        PlayerMap* generatePlayerMap(int playerId);
+        PlayerMap* generatePlayerMap(Player *m_player);
 
         void save(std::string output);
         void load(std::string input, AssetManager *asset);

@@ -52,6 +52,49 @@ void GameObject::tick(void)
     lastTickMs = _now;
 
     map->tickUnits(_delta);
+
+    //ticking players maps
+    auto mit(playerMaps.begin()), mend(playerMaps.end());
+    for(;mit!=mend; ++mit)
+    {
+        Player *player = getPlayer(mit->first);
+        PlayerMap *pmap = mit->second;
+
+        pmap->cleanUnits();
+
+        int uc = map->getGroundUnitsCount();
+        int bc = map->getBuildingsCount();
+
+        for(int i=0; i<uc; i++)
+        {
+            MGroundUnit *gu = map->getGroundUnit(i);
+            if(gu->getOwner() != player)
+            {
+                StiGame::Point mpt = gu->middle();
+
+                if(pmap->isPointVisible(&mpt))
+                {
+                    //this unit is visible
+                    pmap->addGroundUnit(gu);
+                }
+            }
+        }
+
+        for(int i=0; i<bc; i++)
+        {
+            MBuilding *b = map->getBuilding(i);
+            if(b->getOwner() != player)
+            {
+                StiGame::Point mpt = b->middle();
+                if(pmap->isPointVisible(&mpt))
+                {
+                    pmap->addBuilding(b);
+                }
+            }
+        }
+
+    }
+
 }
 
 void GameObject::moveGroundUnit(Unit *groundUnit, StiGame::Point *targetPt)
@@ -154,7 +197,7 @@ void GameObject::initGame(void)
 
         map->placeGroundUnit(wunit, ptStart.getX() * Tile::TILE_WIDTH + 64, ptStart.getY() * Tile::TILE_HEIGHT + 64, false);
 
-        PlayerMap *pmap = map->generatePlayerMap(pl->getId());
+        PlayerMap *pmap = map->generatePlayerMap(pl);
         playerMaps.insert(std::make_pair(pl->getId(), pmap));
     }
 

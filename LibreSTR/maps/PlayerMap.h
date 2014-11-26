@@ -9,7 +9,7 @@ class PlayerMap :
         public ITileMap
 {
     public:
-        PlayerMap(int m_width, int m_height);
+        PlayerMap(int m_width, int m_height, Player *m_player);
         virtual ~PlayerMap();
 
         int getWidth(void);
@@ -41,12 +41,19 @@ class PlayerMap :
         bool containsBuilding(Building *building);
         bool containsGroundUnit(GroundUnit *unit);
 
+        bool isPointVisible(StiGame::Point *pt);
+
+        //this remove all enemy units ! for a vision update
+        void cleanUnits(void);
+        Player* getPlayer(void);
     protected:
     private:
         void initRows(void);
         int width;
         int height;
         int defaultTexture;
+        Player *player;
+
         std::vector< std::vector<Tile*> > tiles;
         std::vector<Tile*> tileRefs;
         std::vector<Resource*> resRefs;

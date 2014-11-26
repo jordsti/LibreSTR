@@ -589,7 +589,7 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
 
             Point mpt = unit->middle();
 
-            if(selectRect.contains(&mpt))
+            if(selectRect.contains(&mpt) && unit->getOwner() == currentPlayer)
             {
                 selectedUnits.push_back(unit);
             }
@@ -612,7 +612,7 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
             Building *b = pmap->getBuilding(i);
             Rectangle bRect (b->getX(), b->getY(), b->getWidth(), b->getHeight());
 
-            if(bRect.contains(&gamePoint))
+            if(bRect.contains(&gamePoint) && b->getOwner() == currentPlayer)
             {
                 //std::cout << b->getName() << std::endl;
 
@@ -635,7 +635,7 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
             GroundUnit *u = pmap->getGroundUnit(i);
             Rectangle uRect (u->getX(), u->getY(), u->getWidth(), u->getHeight());
 
-            if(uRect.contains(&gamePoint))
+            if(uRect.contains(&gamePoint) && u->getOwner() == currentPlayer)
             {
                 selectedUnits.clear();
                 selectedUnits.push_back(u);
