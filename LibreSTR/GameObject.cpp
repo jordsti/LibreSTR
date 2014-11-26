@@ -203,6 +203,18 @@ void GameObject::initGame(void)
         {
             MGroundUnit *wunit = workerId->create(pl);
             map->placeGroundUnitAroundPoint(wunit, ptStart.getX() * Tile::TILE_WIDTH, ptStart.getY() * Tile::TILE_HEIGHT, false);
+            StiGame::Point tunitPt (wunit->getX() / Tile::TILE_WIDTH, wunit->getY() / Tile::TILE_HEIGHT);
+
+            StiGame::Point resPt = map->findNearestResource(tunitPt, 10, 10, RT_METAL);
+
+            if(resPt.getX() > 0 && resPt.getY() > 0)
+            {
+
+                StiGame::Point endPt ((resPt.getX() * Tile::TILE_WIDTH) + Tile::TILE_WIDTH / 2, (resPt.getY() * Tile::TILE_HEIGHT) + Tile::TILE_HEIGHT / 2);
+                HarvestTask *task = new HarvestTask(wunit, pl, assets->getHarvestSpeed(), map, endPt);
+                wunit->pushTask(task);
+
+            }
         }
 
         PlayerMap *pmap = map->generatePlayerMap(pl);

@@ -245,11 +245,24 @@ StiGame::Point GameMap::findNearestResource(StiGame::Point tilePt, int t_w, int 
 
     for(int i=0; i<t_w; i++)
     {
+        int t_x = tilePt.getX() + i;
         for(int j=0; j<t_h; j++)
         {
+            int t_y = tilePt.getY() + j;
+
+            Tile *t = get(t_x, t_y);
+            if(t->containsResource())
+            {
+                if(t->getResource()->getType() == r_type)
+                {
+                    return StiGame::Point(t_x, t_y);
+                }
+            }
 
         }
     }
+
+    return StiGame::Point(0, 0);
 
 }
 
