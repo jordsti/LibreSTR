@@ -10,4 +10,4 @@ tile_block=tile/rock;
 base_building=base_building.res;
 
 worker=worker.res;
-harvestSpeed=120;
+harvestSpeed=160;

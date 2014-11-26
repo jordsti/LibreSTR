@@ -38,6 +38,12 @@ GameObject::~GameObject()
     delete players[1];
 }
 
+
+void GameObject::resetLastTick(void)
+{
+    lastTickMs = 0;
+}
+
 void GameObject::tick(void)
 {
     //game tick

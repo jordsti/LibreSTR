@@ -10,6 +10,8 @@ public:
     virtual ~MoveTask();
 
 protected:
+    void endPointCorrection(void);
+
     void doStep(void);
     MGroundUnit *unit;
     GameMap *map;

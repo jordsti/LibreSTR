@@ -14,6 +14,7 @@ set(SOURCE_FILES main.cpp
     actions/ToggleMiniMapAction.cpp
     actions/ToggleShowFPSAction.cpp
     actions/ViewMoveAction.cpp
+    actions/PauseGameAction.cpp
 
 
     gui/Console.cpp

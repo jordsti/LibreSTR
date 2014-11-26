@@ -47,6 +47,9 @@ class GameState :
 
         void placeBuilding(GroundUnit *m_builder, BuildingIdentity *toPlaceId);
 
+        void setPause(bool m_paused);
+        bool getPause(void);
+
     protected:
         void updatePlaceBuilding(void);
 
@@ -64,6 +67,7 @@ class GameState :
         int viewX;
         int viewY;
         StiGame::Gui::Label lblFps;
+        StiGame::Gui::Label lblPaused;
         StiGame::Surface *baseMap;
         StiGame::Color background;
         StiGame::Color textColor;
@@ -101,6 +105,8 @@ class GameState :
         GroundUnit *builder;
 
         std::vector < Unit* > selectedUnits;
+
+        bool paused;
 };
 
 #endif // GAMESTATE_H

@@ -7,6 +7,7 @@
 #include "ToggleMiniMapAction.h"
 #include "ToggleShowFPSAction.h"
 #include "ToggleConsole.h"
+#include "PauseGameAction.h"
 #include "GamePath.h"
 
 using namespace StiGame;
@@ -78,12 +79,34 @@ GameState::GameState(AssetManager *m_assets) :
 
     lblError.setPoint(5, topHud->getHeight() + 2);
     lblError.setVisible(false);
-}
 
+    lblPaused.setFont(lblPaused.getStyle()->getBigFont());
+    lblPaused.setCaption("Pause");
+    lblPaused.setVisible(false);
+
+    _items.push_back(&lblPaused);
+
+    paused = false;
+}
 
 GameState::~GameState()
 {
     //dtor
+}
+
+void GameState::setPause(bool m_paused)
+{
+    paused = m_paused;
+    lblPaused.setVisible(paused);
+    if(!paused)
+    {
+        game->resetLastTick();
+    }
+}
+
+bool GameState::getPause(void)
+{
+    return paused;
 }
 
 void GameState::handleEvent(StiGame::Gui::SelectionEventThrower *src, StiGame::Gui::SelectionEventArgs *args)
@@ -170,6 +193,8 @@ void GameState::onResize(int m_width, int m_height)
     console.setPoint(32, 32);
     std::string cline = "Setting view dimension to : " + std::to_string(m_width) + "x" + std::to_string(m_height);
     console.pushLine(cline);
+
+    lblPaused.setPoint((m_width - lblPaused.getWidth())/2, (m_height - lblPaused.getHeight())/2);
 }
 
 void GameState::placeBuilding(GroundUnit *m_builder, BuildingIdentity *toPlaceId)
@@ -218,6 +243,10 @@ void GameState::onStart(void)
 
     ToggleConsole *toggleConsole = new ToggleConsole(&console);
     actions.push_back(toggleConsole);
+
+    PauseGameAction *pauseGame = new PauseGameAction(this);
+    actions.push_back(pauseGame);
+
 
     auto vit(actions.begin()), vend(actions.end());
     for(;vit!=vend;++vit)
@@ -383,15 +412,19 @@ void GameState::setViewPoint(int t_x, int t_y)
 void GameState::onPaint(SDL_Renderer *renderer)
 {
     //todo move this plz !
-    tickActions();
-    tickMouseViewMovement();
-
-    if(placingBuilding)
+    if(!paused)
     {
-        updatePlaceBuilding();
+
+        if(placingBuilding)
+        {
+            updatePlaceBuilding();
+        }
+
+        game->tick();
     }
 
-    game->tick();
+    tickActions();
+    tickMouseViewMovement();
 
     SDL_Rect mapRect;
     SDL_Rect viewRect;

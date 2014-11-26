@@ -8,6 +8,45 @@ MoveTask::MoveTask(MGroundUnit *m_unit, GameMap *m_map, StiGame::Point m_endPoin
     endPoint = m_endPoint;
     stepSize = unit->getIdentity()->getMovementSpeed();
     caption = "Moving";
+
+    endPointCorrection();
+}
+
+void MoveTask::endPointCorrection(void)
+{
+    int n_x = 0;
+    int n_y = 0;
+
+    if(endPoint.getX() < 0)
+    {
+        n_x = 0;
+    }
+    else if(endPoint.getX() + unit->getWidth() > map->getWidth() * Tile::TILE_WIDTH)
+    {
+        n_x = (map->getWidth() * Tile::TILE_WIDTH) - unit->getWidth();
+    }
+    else
+    {
+        n_x = endPoint.getX();
+    }
+
+    if(endPoint.getY() < 0)
+    {
+        n_y = 0;
+    }
+    else if(endPoint.getY() + unit->getHeight() > map->getHeight() * Tile::TILE_HEIGHT)
+    {
+        n_y = (map->getHeight() * Tile::TILE_HEIGHT) - unit->getHeight();
+    }
+    else
+    {
+        n_y = endPoint.getY();
+    }
+
+    if(!endPoint.equals(n_x, n_y))
+    {
+        endPoint = StiGame::Point(n_x, n_y);
+    }
 }
 
 MoveTask::~MoveTask()

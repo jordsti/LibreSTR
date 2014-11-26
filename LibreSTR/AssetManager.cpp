@@ -7,6 +7,8 @@
 
 using namespace StiGame;
 
+const int AssetManager::BINDINGS_COUNT = 9;
+
 AssetManager::AssetManager()
 {
     //ctor
@@ -108,6 +110,9 @@ void AssetManager::initBindings()
 
     kmap = new KeyActionMap("toggle_console", SDLK_c);
     bindings->addBinding(kmap);
+
+    kmap = new KeyActionMap("pause_game", SDLK_PAUSE);
+    bindings->addBinding(kmap);
 }
 
 void AssetManager::loadData(void)
@@ -140,7 +145,7 @@ void AssetManager::loadData(void)
     bindings = new ActionBinding(p);
     bindings->read();
 
-    if(bindings->getCount() < 6)
+    if(bindings->getCount() < BINDINGS_COUNT)
     {
         initBindings();
         bindings->write();

@@ -27,6 +27,8 @@ public:
     bool createWorker(Player *player, Building *base);
 
     std::string getGameError(void);
+
+    void resetLastTick(void);
 private:
     void publishError(std::string m_error);
 

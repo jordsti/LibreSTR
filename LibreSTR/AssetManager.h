@@ -10,6 +10,8 @@
 class AssetManager
 {
     public:
+        static const int BINDINGS_COUNT;
+
         AssetManager();
         virtual ~AssetManager();
 
