@@ -20,6 +20,7 @@ class MainMenu :
         MainMenu(AssetManager *m_assets);
         virtual ~MainMenu();
         void onResize(int m_width, int m_height);
+        void onStart(void);
         bool handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *evt);
     protected:
         StiGame::Gui::Label lblTitle;

@@ -72,12 +72,21 @@ void PlayerMap::cleanUnits(void)
     }
 
     auto uit(units.begin()), uend(units.end());
+    std::vector<GroundUnit*> toKeeps;
     for(;uit!=uend;++uit)
     {
-        if((*uit)->getOwner() != player)
+        if((*uit)->getOwner() == player)
         {
-            units.erase(uit);
+            toKeeps.push_back((*uit));
         }
+    }
+
+    units.clear();
+
+    auto kit(toKeeps.begin()), kend(toKeeps.end());
+    for(;kit!=kend;++kit)
+    {
+        units.push_back((*kit));
     }
 }
 

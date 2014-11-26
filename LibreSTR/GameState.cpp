@@ -119,7 +119,7 @@ void GameState::unload(void)
 {
     clearActions();
     Player::ResetPlayerId();
-    viewport->clearPreviousStates();
+
     delete game;
     //delete miniMap;
     delete sprites;

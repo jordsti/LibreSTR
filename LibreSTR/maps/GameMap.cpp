@@ -173,6 +173,99 @@ bool GameMap::placeGroundUnit(MGroundUnit *unit, int pt_x, int pt_y, bool update
     return true;
 }
 
+void GameMap::placeGroundUnitAroundPoint(MGroundUnit *unit, int pt_x, int pt_y, bool updatePlayerMap)
+{
+    StiGame::Point tilePt(pt_x / Tile::TILE_WIDTH, pt_y / Tile::TILE_HEIGHT);
+    bool pointFound = false;
+
+    StiGame::MPoint pt;
+
+    int u_w = unit->getWidth() / Tile::TILE_WIDTH;
+    int u_h = unit->getHeight() / Tile::TILE_HEIGHT;
+
+    if(unit->getWidth() % Tile::TILE_WIDTH > 0)
+    {
+        u_w++;
+    }
+
+    if(unit->getHeight() % Tile::TILE_HEIGHT > 0)
+    {
+        u_h++;
+    }
+
+    int step = 1;
+    while(!pointFound)
+    {
+        int c_step = step / 2;
+
+        int d_x = (rand() % step) - c_step;
+        int d_y = (rand() % step) - c_step;
+
+        pt.setPoint((tilePt.getX() + d_x), (tilePt.getY() + d_y));
+
+        for(int i=0; i<u_w; i++)
+        {
+            for(int j=0; j<u_h; j++)
+            {
+                Tile *t = get(i+pt.getX(), j+pt.getY());
+                if(!t->containsResource() && t->getType() == TT_Normal)
+                {
+                    //unit collision
+                    StiGame::Rectangle uRect (pt.getX() * Tile::TILE_WIDTH, pt.getY() * Tile::TILE_HEIGHT, unit->getWidth(), unit->getHeight());
+                    if(!unitCollision(&uRect))
+                    {
+                        pointFound = true;
+                    }
+                }
+            }
+        }
+
+        step++;
+    }
+
+    unit->setPoint(pt.getX() * Tile::TILE_WIDTH, pt.getY() * Tile::TILE_HEIGHT);
+    units.push_back(unit);
+
+    //placing this into player map
+    if(playerMaps.size() > 0 && updatePlayerMap)
+    {
+        PlayerMap *pmap = playerMaps[unit->getOwner()->getId()];
+        if(!pmap->containsGroundUnit(unit))
+        {
+            pmap->addGroundUnit(unit);
+        }
+    }
+
+}
+
+bool GameMap::unitCollision(StiGame::Rectangle *rect)
+{
+    auto uit(units.begin()), uend(units.end());
+    for(;uit!=uend;++uit)
+    {
+        GroundUnit *gu = (*uit);
+        StiGame::Point mpt = gu->middle();
+
+        if(rect->contains(&mpt) || rect->contains(gu))
+        {
+            return true;
+        }
+    }
+
+    auto bit(buildings.begin()), bend(buildings.end());
+    for(;bit!=bend;++bit)
+    {
+        Building *bu = (*bit);
+        StiGame::Point mpt = bu->middle();
+        if(rect->contains(&mpt) || rect->contains(bu))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool GameMap::placeBuilding(MBuilding *building, int t_x, int t_y)
 {
     float t_w = (float)(building->getWidth()) / (float)Tile::TILE_WIDTH;

@@ -44,6 +44,11 @@ void MainMenu::initComponents(void)
     btnQuit.subscribe(this);
 }
 
+void MainMenu::onStart(void)
+{
+    viewport->clearPreviousStates();
+    running = true;
+}
 
 bool MainMenu::handleEvent(EventThrower *src, EventArgs *evt)
 {

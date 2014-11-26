@@ -11,6 +11,7 @@
 #include <MapData.h>
 #include "MBuilding.h"
 #include "MGroundUnit.h"
+#include "Rectangle.h"
 
 class GameMap :
         public ITileMap
@@ -52,6 +53,10 @@ class GameMap :
         MGroundUnit* getGroundUnitById(int id);
         MGroundUnit* getGroundUnit(int index);
         bool placeGroundUnit(MGroundUnit *unit, int pt_x, int pt_y, bool updatePlayerMap = true);
+
+        void placeGroundUnitAroundPoint(MGroundUnit *unit, int pt_x, int pt_y, bool updatePlayerMap = true);
+
+        bool unitCollision(StiGame::Rectangle *rect);
 
         int addTexture(std::string name);
         std::string getTexture(int id);

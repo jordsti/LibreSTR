@@ -193,9 +193,17 @@ void GameObject::initGame(void)
         map->forcePlaceBuilding(base, ptStart.getX(), ptStart.getY());
 
         //workers
-        MGroundUnit *wunit = workerId->create(pl);
+        //MGroundUnit *wunit = workerId->create(pl);
 
-        map->placeGroundUnit(wunit, ptStart.getX() * Tile::TILE_WIDTH + 64, ptStart.getY() * Tile::TILE_HEIGHT + 64, false);
+        //map->placeGroundUnit(wunit, ptStart.getX() * Tile::TILE_WIDTH + 64, ptStart.getY() * Tile::TILE_HEIGHT + 64, false);
+
+        //put this 5 into AssetManager or const
+        //workers
+        for(int i=0; i<5; i++)
+        {
+            MGroundUnit *wunit = workerId->create(pl);
+            map->placeGroundUnitAroundPoint(wunit, ptStart.getX() * Tile::TILE_WIDTH, ptStart.getY() * Tile::TILE_HEIGHT, false);
+        }
 
         PlayerMap *pmap = map->generatePlayerMap(pl);
         playerMaps.insert(std::make_pair(pl->getId(), pmap));
