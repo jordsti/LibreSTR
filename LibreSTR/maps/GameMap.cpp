@@ -238,6 +238,21 @@ void GameMap::placeGroundUnitAroundPoint(MGroundUnit *unit, int pt_x, int pt_y, 
 
 }
 
+StiGame::Point GameMap::findNearestResource(StiGame::Point tilePt, int t_w, int t_h, ResourceType r_type)
+{
+    int s_x = tilePt.getX() - t_w / 2;
+    int s_y = tilePt.getY() - t_h / 2;
+
+    for(int i=0; i<t_w; i++)
+    {
+        for(int j=0; j<t_h; j++)
+        {
+
+        }
+    }
+
+}
+
 bool GameMap::unitCollision(StiGame::Rectangle *rect)
 {
     auto uit(units.begin()), uend(units.end());

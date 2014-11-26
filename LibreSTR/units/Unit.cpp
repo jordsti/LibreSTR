@@ -6,6 +6,7 @@ int Unit::getCurrentId(void)
 {
     _currentId++;
     int id = _currentId;
+    return id;
 }
 
 

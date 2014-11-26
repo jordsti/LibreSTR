@@ -56,6 +56,8 @@ class GameMap :
 
         void placeGroundUnitAroundPoint(MGroundUnit *unit, int pt_x, int pt_y, bool updatePlayerMap = true);
 
+        StiGame::Point findNearestResource(StiGame::Point tilePt, int t_w, int t_h, ResourceType r_type);
+
         bool unitCollision(StiGame::Rectangle *rect);
 
         int addTexture(std::string name);
