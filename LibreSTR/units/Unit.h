@@ -39,6 +39,13 @@ public:
     StiGame::Point middle(void);
     StiGame::Point maxPoint(void);
 
+    StiGame::Point topLeft(void);
+    StiGame::Point topRight(void);
+    StiGame::Point bottomRight(void);
+    StiGame::Point bottomLeft(void);
+
+    std::vector<StiGame::Point> fivePoints(void);
+
 protected:
     Unit();
     std::string name;

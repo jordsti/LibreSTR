@@ -35,10 +35,13 @@ private:
     Unit *unit;
 
     BuildingIdentity *baseBuilding;
+    BuildingIdentity *barrackBuilding;
 
     StiGame::Surface *baseIcon;
+    StiGame::Surface *barrackIcon;
 
     StiGame::Gui::ImageButton btnBase;
+    StiGame::Gui::ImageButton btnBarrack;
 
     StiGame::Color transparentBackground;
     StiGame::Gui::Label lblName;

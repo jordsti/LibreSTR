@@ -95,3 +95,35 @@ StiGame::Point Unit::maxPoint(void)
     StiGame::Point pt (x + width, y + height);
     return pt;
 }
+
+StiGame::Point Unit::topLeft(void)
+{
+    return StiGame::Point(x, y);
+}
+
+StiGame::Point Unit::topRight(void)
+{
+    return StiGame::Point(x + width, y);
+}
+
+StiGame::Point Unit::bottomRight(void)
+{
+    return StiGame::Point(x + width, y + height);
+}
+
+StiGame::Point Unit::bottomLeft(void)
+{
+    return StiGame::Point(x, y + height);
+}
+
+std::vector<StiGame::Point> Unit::fivePoints(void)
+{
+    std::vector<StiGame::Point> pts;
+    pts.push_back(topLeft());
+    pts.push_back(topRight());
+    pts.push_back(middle());
+    pts.push_back(bottomRight());
+    pts.push_back(bottomLeft());
+
+    return pts;
+}

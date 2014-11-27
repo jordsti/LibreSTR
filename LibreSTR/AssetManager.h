@@ -19,6 +19,7 @@ class AssetManager
         ResourceIdentity* getGazIdentity(void);
 
         BuildingIdentity* getBaseIdentity(void);
+        BuildingIdentity* getBarrackIdentity(void);
 
         GroundUnitIdentity* getWorkerIdentity(void);
 
@@ -45,6 +46,7 @@ class AssetManager
         ResourceIdentity *resGaz;
 
         BuildingIdentity *base;
+        BuildingIdentity *barrack;
 
         GroundUnitIdentity *worker;
 

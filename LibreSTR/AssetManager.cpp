@@ -44,9 +44,16 @@ std::list<std::string> AssetManager::getTextures(void)
     textures.push_back(base->getConstructSprite(PC_Blue));
     textures.push_back(base->getSpriteName(PC_Blue));
 
-    textures.push_back(base->getPlacedSprite());
     textures.push_back(base->getConstructSprite(PC_Red));
     textures.push_back(base->getSpriteName(PC_Red));
+
+    //barrack sprites
+    textures.push_back(barrack->getPlacedSprite());
+    textures.push_back(barrack->getConstructSprite(PC_Blue));
+    textures.push_back(barrack->getSpriteName(PC_Blue));
+
+    textures.push_back(barrack->getConstructSprite(PC_Red));
+    textures.push_back(barrack->getSpriteName(PC_Red));
 
     textures.push_back(worker->getSprite(PC_Red, GUS_Idle));
     textures.push_back(worker->getSprite(PC_Blue, GUS_Idle));
@@ -82,6 +89,11 @@ std::string AssetManager::getTileBlock(void)
 GroundUnitIdentity* AssetManager::getWorkerIdentity()
 {
     return worker;
+}
+
+BuildingIdentity* AssetManager::getBarrackIdentity(void)
+{
+    return barrack;
 }
 
 void AssetManager::initBindings()
@@ -134,6 +146,10 @@ void AssetManager::loadData(void)
 
     p = GamePath::getFilepath(AssetRoot, rbase);
     base = new BuildingIdentity(BT_Base , p);
+
+    std::string rbarrack = vf.getValue("barrack_building");
+    p = GamePath::getFilepath(AssetRoot, rbarrack);
+    barrack = new BuildingIdentity(BT_Barrack, p);
 
     std::string rworker = vf.getValue("worker");
     p = GamePath::getFilepath(AssetRoot, rworker);

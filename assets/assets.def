@@ -8,6 +8,7 @@ tile_block=tile/rock;
 
 #building definitions
 base_building=command_center.res;
+barrack_building=barrack.res;
 
 worker=worker.res;
 harvestSpeed=160;

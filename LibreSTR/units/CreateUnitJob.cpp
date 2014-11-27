@@ -80,7 +80,7 @@ void CreateUnitJob::onComplete(void)
     }
 
     //debug output
-    std::cout << "Unit placed at : " << pt_x << "; " << pt_y << std::endl;
+    //std::cout << "Unit placed at : " << pt_x << "; " << pt_y << std::endl;
 }
 
 void CreateUnitJob::onCancel(void)

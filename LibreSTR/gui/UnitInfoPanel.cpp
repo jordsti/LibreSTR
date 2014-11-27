@@ -30,13 +30,20 @@ void UnitInfoPanel::loadAssets(AssetManager *m_assets)
 {
     assets = m_assets;
     baseBuilding = assets->getBaseIdentity();
+    barrackBuilding = assets->getBarrackIdentity();
 
     baseIcon = new Surface(GamePath::getFilepath(AssetRoot, baseBuilding->getIcon()));
+    barrackIcon = new Surface(GamePath::getFilepath(AssetRoot, barrackBuilding->getIcon()));
 
     btnBase.setImage(baseIcon);
     btnBase.setImageHover(baseIcon);
     btnBase.setDimension(baseIcon->getWidth(), baseIcon->getHeight());
     btnBase.setPoint(width-btnBase.getWidth()-5, 5);
+
+    btnBarrack.setImage(barrackIcon);
+    btnBarrack.setImageHover(barrackIcon);
+    btnBarrack.setDimension(barrackIcon->getWidth(), barrackIcon->getHeight());
+    btnBarrack.setPoint(width-btnBarrack.getWidth()-5, 5 + btnBase.getY() + btnBase.getHeight());
 }
 
 void UnitInfoPanel::onClick(StiGame::Point *relp)
@@ -53,6 +60,18 @@ void UnitInfoPanel::onClick(StiGame::Point *relp)
             }
         }
     }
+
+    if(btnBarrack.isVisible())
+    {
+        if(btnBarrack.contains(relp))
+        {
+            if(state != nullptr)
+            {
+                GroundUnit *gu = dynamic_cast<GroundUnit*>(unit);
+                state->placeBuilding(gu, barrackBuilding);
+            }
+        }
+    }
 }
 
  void UnitInfoPanel::updateInfo(void)
@@ -64,6 +83,7 @@ void UnitInfoPanel::onClick(StiGame::Point *relp)
         {
             lblType.setCaption("Building");
             btnBase.setVisible(false);
+            btnBarrack.setVisible(false);
         }
         else if(unit->getType() == UT_Ground)
         {
@@ -83,10 +103,12 @@ void UnitInfoPanel::onClick(StiGame::Point *relp)
             if(gunit->getIdentity()->isCanBuild())
             {
                 btnBase.setVisible(true);
+                btnBarrack.setVisible(true);
             }
             else
             {
                 btnBase.setVisible(false);
+                btnBarrack.setVisible(false);
             }
         }
 
@@ -142,6 +164,13 @@ StiGame::Surface* UnitInfoPanel::render(void)
     {
         lbl = btnBase.render();
         buffer->blit(lbl, &btnBase);
+        delete lbl;
+    }
+
+    if(btnBarrack.isVisible())
+    {
+        lbl = btnBarrack.render();
+        buffer->blit(lbl, &btnBarrack);
         delete lbl;
     }
 
