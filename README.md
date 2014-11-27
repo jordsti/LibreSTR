@@ -65,6 +65,7 @@ At the end of trimester, LibreSTR will include :
   - Barrack Building
   - Key to center view arround selected unit
   - Unit 5 points (four corners + middle)
+  - Loading State
   - Change BuildTask endPoint to a nearest extremity of the building
   - awful segfault, random appearance...!!
 

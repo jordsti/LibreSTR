@@ -23,7 +23,8 @@ UnitInfoPanel::UnitInfoPanel() : Item("UnitInfoPanel")
 
 UnitInfoPanel::~UnitInfoPanel()
 {
-
+    delete baseIcon;
+    delete barrackIcon;
 }
 
 void UnitInfoPanel::loadAssets(AssetManager *m_assets)

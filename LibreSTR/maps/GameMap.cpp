@@ -47,6 +47,18 @@ GameMap::~GameMap()
             delete tiles[y][x];
         }
     }
+
+    auto uit(units.begin()), uend(units.end());
+    for(;uit!=uend;++uit)
+    {
+        delete (*uit);
+    }
+
+    auto bit(buildings.begin()), bend(buildings.end());
+    for(;bit!=bend;++bit)
+    {
+        delete (*bit);
+    }
 }
 
 std::vector<StiGame::Point>& GameMap::getPlayerStartingPoints(int index)
