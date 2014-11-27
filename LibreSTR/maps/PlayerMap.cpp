@@ -128,13 +128,24 @@ bool PlayerMap::isPointVisible(StiGame::Point *pt)
 void PlayerMap::cleanUnits(void)
 {
     auto bit(buildings.begin()), bend(buildings.end());
+    std::vector<Building*> tmpBuildings;
     for(;bit!=bend;++bit)
     {
-        if((*bit)->getOwner() != player)
+        if((*bit)->getOwner() == player)
         {
-            buildings.erase(bit);
+            tmpBuildings.push_back((*bit));
         }
+
     }
+
+    buildings.clear();
+
+    auto tit(tmpBuildings.begin()), tend(tmpBuildings.end());
+    for(;tit!=tend;++tit)
+    {
+        buildings.push_back((*tit));
+    }
+
 
     auto uit(units.begin()), uend(units.end());
     std::vector<GroundUnit*> toKeeps;

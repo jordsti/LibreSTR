@@ -36,6 +36,7 @@ set(SOURCE_FILES main.cpp
     units/MBuilding.cpp
     units/GroundUnitIdentity.cpp
     units/GroundUnit.cpp
+    units/GroundUnitSpriteManager.cpp
     units/MGroundUnit.cpp
     units/Unit.cpp
     units/UnitSprite.cpp

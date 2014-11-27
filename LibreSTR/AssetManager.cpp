@@ -55,10 +55,20 @@ std::list<std::string> AssetManager::getTextures(void)
     textures.push_back(barrack->getConstructSprite(PC_Red));
     textures.push_back(barrack->getSpriteName(PC_Red));
 
-    textures.push_back(worker->getSprite(PC_Red, GUS_Idle));
-    textures.push_back(worker->getSprite(PC_Blue, GUS_Idle));
+    //textures.push_back(worker->getSprite(PC_Red, GUS_Idle));
+    //textures.push_back(worker->getSprite(PC_Blue, GUS_Idle));
 
     return textures;
+}
+
+std::list<std::string> AssetManager::getDirectionSprites(void)
+{
+    std::list< std::string > dsprites;
+
+    dsprites.push_back(worker->getSprite(PC_Blue, GUS_Moving));
+    dsprites.push_back(worker->getSprite(PC_Red, GUS_Moving));
+
+    return dsprites;
 }
 
 BuildingIdentity* AssetManager::getBaseIdentity()

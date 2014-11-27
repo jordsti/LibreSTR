@@ -5,11 +5,11 @@
 #include "GroundUnitIdentity.h"
 #include "Task.h"
 #include <map>
+#include "IDirectionSprite.h"
 
 enum GroundUnitState : int {
-    GUS_Idle,
     GUS_Attacking,
-    GUS_Working
+    GUS_Moving
 };
 
 class GroundUnit :
@@ -27,7 +27,10 @@ public:
     Task* getTask(void);
     bool isWorking(void);
 
+    StiGame::SDirection getDirection(void);
+
 protected:
+    StiGame::SDirection direction;
     GroundUnitIdentity *identity;
     GroundUnitState state;
     Task *currentTask;

@@ -29,6 +29,7 @@ class AssetManager
 
         std::list<std::string> getTextures(void);
 
+        std::list<std::string> getDirectionSprites(void);
 
         StiGame::ActionBinding* getBindings(void);
 

@@ -48,6 +48,8 @@ private:
     StiGame::Gui::Label lblType;
     StiGame::Gui::Label lblHealth;
     StiGame::Gui::Label lblInfo;
+
+    std::vector< StiGame::Gui::Item* > _items;
 };
 
 #endif // UNITINFOPANEL_H

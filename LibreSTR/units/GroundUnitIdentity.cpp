@@ -25,17 +25,15 @@ GroundUnitIdentity::GroundUnitIdentity(std::string vf_file)
     radialHoverIcon = vf.getValue("radialHoverIcon");
 
     std::map<PlayerColor, std::string> map1;
-    sprites.insert(std::make_pair(GUS_Idle, map1));
+    sprites.insert(std::make_pair(GUS_Moving, map1));
     std::map<PlayerColor, std::string> map2;
     sprites.insert(std::make_pair(GUS_Attacking, map2));
-    std::map<PlayerColor, std::string> map3;
-    sprites.insert(std::make_pair(GUS_Working, map3));
 
-    std::string idle_blue = vf.getValue("sprite_idle_blue");
-    std::string idle_red = vf.getValue("sprite_idle_red");
+    std::string moving_blue = vf.getValue("sprite_moving_blue");
+    std::string moving_red = vf.getValue("sprite_moving_red");
 
-    sprites[GUS_Idle].insert(std::make_pair(PC_Blue, idle_blue));
-    sprites[GUS_Idle].insert(std::make_pair(PC_Red, idle_red));
+    sprites[GUS_Moving].insert(std::make_pair(PC_Blue, moving_blue));
+    sprites[GUS_Moving].insert(std::make_pair(PC_Red, moving_red));
 
     canHarvest = vf.getBool("canHarvest");
     canBuild = vf.getBool("canBuild");

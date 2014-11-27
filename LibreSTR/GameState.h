@@ -5,6 +5,8 @@
 #include <Surface.h>
 
 #include "SpriteLibrary.h"
+#include "DirectionSpriteLibrary.h"
+#include "GroundUnitSpriteManager.h"
 #include "TopHud.h"
 #include "MiniMap.h"
 #include "GameObject.h"
@@ -58,7 +60,12 @@ class GameState :
         void tickMouseViewMovement(void);
         void renderGui(SDL_Renderer *renderer);
 
-        StiGame::SpriteLibrary *sprites;
+        void renderUnits(SDL_Renderer *renderer);
+
+        StiGame::SpriteLibrary sprites;
+        StiGame::DirectionSpriteLibrary groundUnitSprites;
+        GroundUnitSpriteManager groundUnitSpritesManager;
+
         AssetManager *assets;
         PlayerMap *pmap; //temp
         GameObject *game;

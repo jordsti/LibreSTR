@@ -42,3 +42,9 @@ void MGroundUnit::tickTask(int ms)
         }
     }
 }
+
+
+void MGroundUnit::setDirection(StiGame::SDirection m_direction)
+{
+    direction = m_direction;
+}

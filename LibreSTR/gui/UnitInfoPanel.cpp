@@ -19,6 +19,14 @@ UnitInfoPanel::UnitInfoPanel() : Item("UnitInfoPanel")
     lblType.setPoint(5, 30);
     lblHealth.setPoint(5, 50);
     lblInfo.setPoint(5, 70);
+
+    _items.push_back(&lblName);
+    _items.push_back(&lblType);
+    _items.push_back(&lblHealth);
+    _items.push_back(&lblInfo);
+
+    _items.push_back(&btnBase);
+    _items.push_back(&btnBarrack);
 }
 
 UnitInfoPanel::~UnitInfoPanel()
@@ -145,34 +153,15 @@ StiGame::Surface* UnitInfoPanel::render(void)
     Surface *buffer = new Surface(width, height);
     buffer->fill(background);
 
-    Surface *lbl  = lblName.render();
-    buffer->blit(lbl, &lblName);
-    delete lbl;
-
-    lbl = lblType.render();
-    buffer->blit(lbl, &lblType);
-    delete lbl;
-
-    lbl = lblHealth.render();
-    buffer->blit(lbl, &lblHealth);
-    delete lbl;
-
-    lbl = lblInfo.render();
-    buffer->blit(lbl, &lblInfo);
-    delete lbl;
-
-    if(btnBase.isVisible())
+    auto vit(_items.begin()), vend(_items.end());
+    for(;vit!=vend;++vit)
     {
-        lbl = btnBase.render();
-        buffer->blit(lbl, &btnBase);
-        delete lbl;
-    }
-
-    if(btnBarrack.isVisible())
-    {
-        lbl = btnBarrack.render();
-        buffer->blit(lbl, &btnBarrack);
-        delete lbl;
+        if((*vit)->isVisible())
+        {
+            Surface *_sur = (*vit)->render();
+            buffer->blit(_sur, (*vit));
+            delete _sur;
+        }
     }
 
     return buffer;

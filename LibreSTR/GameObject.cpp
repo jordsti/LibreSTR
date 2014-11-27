@@ -67,8 +67,23 @@ void GameObject::buildBuilding(BuildingIdentity *buildingId, Unit *groundUnit, P
         map->placeBuilding(building, t_x, t_y);
         pmap->addBuilding(building);
 
+
+        std::vector< StiGame::Point > pts = building->fivePoints();
+        StiGame::Point nearestPt;
+        double dist = 10000;
+        auto pit(pts.begin()), pend(pts.end());
+        for(;pit!=pend;++pit)
+        {
+            double _dist = gu->distanceWith(&(*pit));
+            if(_dist < dist)
+            {
+                dist = _dist;
+                nearestPt = (*pit);
+            }
+        }
+
         //todo, test this cause we are just using middle as end point
-        BuildTask *task = new BuildTask(gu, assets->getBuildSpeed(), building, map, building->middle());
+        BuildTask *task = new BuildTask(gu, assets->getBuildSpeed(), building, map, nearestPt);
         gu->pushTask(task);
     }
     else

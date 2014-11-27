@@ -12,6 +12,7 @@ public:
 
     void pushTask(Task *m_task);
 
+    void setDirection(StiGame::SDirection m_direction);
 
     void tickTask(int ms);
 };

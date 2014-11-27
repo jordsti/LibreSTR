@@ -74,19 +74,23 @@ void MoveTask::doStep(void)
             if(dx > 0)
             {
                 dx = 1;
+                unit->setDirection(StiGame::SD_RIGHT);
             }
             else if(dx < 0)
             {
                 dx = -1;
+                unit->setDirection(StiGame::SD_LEFT);
             }
 
             if(dy > 0)
             {
                 dy = 1;
+                unit->setDirection(StiGame::SD_DOWN);
             }
             else if(dy < 0)
             {
                 dy = -1;
+                unit->setDirection(StiGame::SD_UP);
             }
 
             int nx = 0;

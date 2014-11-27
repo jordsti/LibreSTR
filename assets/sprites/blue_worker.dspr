@@ -1,0 +1,29 @@
+#blue worker sprites
+left0=sprites/groundunits/worker/blue/moving/left_0.png;
+left1=sprites/groundunits/worker/blue/moving/left_1.png;
+left2=sprites/groundunits/worker/blue/moving/left_2.png;
+left3=sprites/groundunits/worker/blue/moving/left_3.png;
+left4=sprites/groundunits/worker/blue/moving/left_4.png;
+left5=sprites/groundunits/worker/blue/moving/left_5.png;
+left6=sprites/groundunits/worker/blue/moving/left_6.png;
+left7=sprites/groundunits/worker/blue/moving/left_7.png;
+#up frames
+up0=sprites/groundunits/worker/blue/moving/up_0.png;
+up1=sprites/groundunits/worker/blue/moving/up_1.png;
+up2=sprites/groundunits/worker/blue/moving/up_2.png;
+up3=sprites/groundunits/worker/blue/moving/up_3.png;
+up4=sprites/groundunits/worker/blue/moving/up_4.png;
+up5=sprites/groundunits/worker/blue/moving/up_5.png;
+up6=sprites/groundunits/worker/blue/moving/up_6.png;
+up7=sprites/groundunits/worker/blue/moving/up_7.png;
+#down frames
+down0=sprites/groundunits/worker/blue/moving/down_0.png;
+down1=sprites/groundunits/worker/blue/moving/down_1.png;
+down2=sprites/groundunits/worker/blue/moving/down_2.png;
+down3=sprites/groundunits/worker/blue/moving/down_3.png;
+down4=sprites/groundunits/worker/blue/moving/down_4.png;
+down5=sprites/groundunits/worker/blue/moving/down_5.png;
+down6=sprites/groundunits/worker/blue/moving/down_6.png;
+#right, need to flip left image
+right0=sprites/groundunits/worker/blue/moving/right_0.png;
+

@@ -13,11 +13,17 @@ GroundUnit::GroundUnit(GroundUnitIdentity *m_identity, Player *m_owner)
     maxHealth = identity->getMaxHealth();
     currentHealth = identity->getMaxHealth();
     currentTask = nullptr;
-    state = GUS_Idle;
+    state = GUS_Moving;
+    direction = StiGame::SD_UP;
 }
 
 GroundUnit::~GroundUnit()
 {
+}
+
+StiGame::SDirection GroundUnit::getDirection(void)
+{
+    return direction;
 }
 
 int GroundUnit::getSize(void)

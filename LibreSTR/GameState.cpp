@@ -145,7 +145,6 @@ void GameState::unload(void)
 
     delete game;
     //delete miniMap;
-    delete sprites;
     delete baseMap;
     delete topHud;
 }
@@ -208,8 +207,12 @@ void GameState::placeBuilding(GroundUnit *m_builder, BuildingIdentity *toPlaceId
 
 void GameState::onStart(void)
 {
-    sprites = new SpriteLibrary(viewport->getRenderer());
+    sprites.setRenderer(viewport->getRenderer());
+    groundUnitSprites.setRenderer(viewport->getRenderer());
+
     loadSprites();
+
+    groundUnitSpritesManager.setLibrary(&groundUnitSprites);
 
     GameOverlay *overlay = new GameOverlay();
     overlay->setState(this);
@@ -414,6 +417,7 @@ void GameState::onPaint(SDL_Renderer *renderer)
     //todo move this plz !
     if(!paused)
     {
+        groundUnitSpritesManager.tick();
 
         if(placingBuilding)
         {
@@ -447,7 +451,22 @@ void GameState::onPaint(SDL_Renderer *renderer)
     Texture tex (renderer, buffer);
     tex.renderCopy(&viewRect, &viewRect);
 
+    renderUnits(renderer);
 
+    if(placingBuilding)
+    {
+        Sprite *sprPlace = sprites.getSprite(buildingId->getPlacedSprite());
+        sprPlace->setPoint(buildingPos.getX() - viewX, (buildingPos.getY()+topHud->getHeight()) - viewY);
+        sprPlace->render();
+    }
+
+    renderGui(renderer);
+
+    BaseGameState::onPaint(renderer);
+}
+
+void GameState::renderUnits(SDL_Renderer *renderer)
+{
     int mb = pmap->getBuildingsCount();
     Rectangle vwRect (viewX, viewY, width, height - topHud->getHeight());
 
@@ -458,11 +477,12 @@ void GameState::onPaint(SDL_Renderer *renderer)
 
         if(vwRect.contains(&p2) || vwRect.contains(b))
         {
-            Sprite *sprBuilding = sprites->getSprite(b->getSpriteName());
+            Sprite *sprBuilding = sprites.getSprite(b->getSpriteName());
             sprBuilding->setPoint(b->getX() - viewX, (b->getY()+topHud->getHeight()) - viewY);
             sprBuilding->render();
         }
     }
+
     int mu = pmap->getGroundUnitsCount();
     for(int i=0; i<mu; i++)
     {
@@ -474,22 +494,12 @@ void GameState::onPaint(SDL_Renderer *renderer)
            vwRect.contains(&middlePt) ||
            vwRect.contains(&endPt))
         {
-            Sprite *sprUnit = sprites->getSprite(u->getSpriteName());
-            sprUnit->setPoint(u->getX() - viewX, (u->getY()+topHud->getHeight()) - viewY);
-            sprUnit->render();
+            ClonedDirectionSprite *guSprite = groundUnitSpritesManager.getUnitSprite(u);
+            guSprite->setPoint(u->getX() - viewX, (u->getY()+topHud->getHeight()) - viewY);
+            guSprite->render();
+
         }
     }
-
-    if(placingBuilding)
-    {
-        Sprite *sprPlace = sprites->getSprite(buildingId->getPlacedSprite());
-        sprPlace->setPoint(buildingPos.getX() - viewX, (buildingPos.getY()+topHud->getHeight()) - viewY);
-        sprPlace->render();
-    }
-
-    renderGui(renderer);
-
-    BaseGameState::onPaint(renderer);
 }
 
 void GameState::renderGui(SDL_Renderer *renderer)
@@ -667,6 +677,10 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
 
             }
 
+            //building reparation
+            //todo
+
+
             //units deplacement
             if(!handled)
             {
@@ -798,7 +812,7 @@ void GameState::drawBaseMap(void)
     dst.w = Tile::TILE_WIDTH;
     dst.h = Tile::TILE_HEIGHT;
 
-    Sprite *sprDefault = sprites->getSprite(pmap->getDefaultTexture());
+    Sprite *sprDefault = sprites.getSprite(pmap->getDefaultTexture());
 
     Surface *sur;
 
@@ -816,7 +830,7 @@ void GameState::drawBaseMap(void)
 
             if(t->getTextureId() != pmap->getDefaultTextureId())
             {
-                Sprite *sprTile = sprites->getSprite(pmap->getTexture(t->getTextureId()));
+                Sprite *sprTile = sprites.getSprite(pmap->getTexture(t->getTextureId()));
                 sur = sprTile->getCurrentSurface();
                 baseMap->blit(sur, &dst);
             }
@@ -824,7 +838,7 @@ void GameState::drawBaseMap(void)
             if(t->containsResource())
             {
                 Resource *rs = t->getResource();
-                Sprite *sprRes = sprites->getSprite(rs->getTexture());
+                Sprite *sprRes = sprites.getSprite(rs->getTexture());
 
                 sur = sprRes->getCurrentSurface();
 
@@ -848,7 +862,15 @@ void GameState::loadSprites(void)
     for(;lit!=lend;++lit)
     {
         //std::cout << "Load asset texture : " << (*lit) << std::endl;
-        sprites->loadVarFile((*lit));
+        sprites.loadVarFile((*lit));
+    }
+
+    std::list < std::string > _dSprites = assets->getDirectionSprites();
+
+    auto dit(_dSprites.begin()), dend(_dSprites.end());
+    for(;dit!=dend;++dit)
+    {
+        groundUnitSprites.loadVarFile((*dit));
     }
 
 }
