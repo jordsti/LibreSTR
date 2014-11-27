@@ -60,8 +60,17 @@ At the end of trimester, LibreSTR will include :
 ### To Do
   - GameMap tile Update receptor (remove resource)
   - GroundUnit vision to be handled
-  - Building Creation
-  
+  - Building Creation (currently in testing)
+  - MeleeWarrior Unit
+  - Barrack Building
+  - Key to center view arround selected unit
+  - Unit 5 points (four corners + middle)
+  - Change BuildTask endPoint to a nearest extremity of the building
+  - awful segfault, random appearance...!!
+
+#### Possible in the future
+  - Idle worker selector
+  - ...
 #### Done
 	
 	  - GroundUnit vision to be handled

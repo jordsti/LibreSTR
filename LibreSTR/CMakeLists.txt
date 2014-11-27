@@ -32,6 +32,7 @@ set(SOURCE_FILES main.cpp
     units/Building.cpp
     units/BuildingIdentity.cpp
     units/BuildingSprite.cpp
+    units/BuildTask.cpp
     units/MBuilding.cpp
     units/GroundUnitIdentity.cpp
     units/GroundUnit.cpp

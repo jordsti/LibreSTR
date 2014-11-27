@@ -7,7 +7,8 @@ tile_normal=tile/grass;
 tile_block=tile/rock;
 
 #building definitions
-base_building=base_building.res;
+base_building=command_center.res;
 
 worker=worker.res;
 harvestSpeed=160;
+buildSpeed=8;

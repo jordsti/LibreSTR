@@ -41,6 +41,8 @@ class PlayerMap :
         bool containsBuilding(Building *building);
         bool containsGroundUnit(GroundUnit *unit);
 
+        bool isBuildingLocationValid(BuildingIdentity *buildingId, StiGame::Point *pt);
+
         bool isPointVisible(StiGame::Point *pt);
 
         //this remove all enemy units ! for a vision update

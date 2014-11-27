@@ -90,7 +90,7 @@ void UnitInfoPanel::onClick(StiGame::Point *relp)
             }
         }
 
-        lblHealth.setCaption("Health: "+std::to_string(unit->getMaxHealth())+"/"+std::to_string(unit->getCurrentHealth()));
+        lblHealth.setCaption("Health: "+std::to_string(unit->getCurrentHealth())+"/"+std::to_string(unit->getMaxHealth()));
 
         if(unit->getType() == UT_Building)
         {

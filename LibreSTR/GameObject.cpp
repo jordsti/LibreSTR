@@ -7,6 +7,7 @@
 #include <TimeTools.h>
 #include "MoveTask.h"
 #include "HarvestTask.h"
+#include "BuildTask.h"
 
 using namespace StiGame;
 
@@ -38,6 +39,44 @@ GameObject::~GameObject()
     delete players[1];
 }
 
+void GameObject::buildBuilding(BuildingIdentity *buildingId, Unit *groundUnit, Player *player, int t_x, int t_y)
+{
+    MPlayer *_player = getMPlayer(player->getId());
+    MGroundUnit *gu = map->getGroundUnitById(groundUnit->getId());
+
+    if(_player->getMetalCount() >= buildingId->getMetalCost() &&
+            _player->getGazCount() >= buildingId->getGazCost() &&
+            gu->getOwner() == _player &&
+            gu->getIdentity()->isCanBuild()
+            )
+    {
+        MBuilding *building = buildingId->create(_player);
+
+        if(building->getBuildingType() == BT_Base)
+        {
+            //create unit job emit with worker
+            CreateUnitEmitter *emitter = new CreateUnitEmitter(_player, assets->getWorkerIdentity(), map);
+            building->addEmitter(emitter);
+        }
+
+        _player->setMetalCount(_player->getMetalCount() - buildingId->getMetalCost());
+        _player->setGazCount(_player->getGazCount() - buildingId->getGazCost());
+
+        PlayerMap *pmap = playerMaps[_player->getId()];
+
+        map->placeBuilding(building, t_x, t_y);
+        pmap->addBuilding(building);
+
+        //todo, test this cause we are just using middle as end point
+        BuildTask *task = new BuildTask(gu, assets->getBuildSpeed(), building, map, building->middle());
+        gu->pushTask(task);
+    }
+    else
+    {
+        publishError("GameObject::buildBuilding error");
+    }
+
+}
 
 void GameObject::resetLastTick(void)
 {
@@ -264,7 +303,7 @@ PlayerMap* GameObject::getPlayerMap(int index)
 
 bool GameObject::createWorker(Player *player, Building *base)
 {
-    if(base->getBuldingType() == BT_Base)
+    if(base->getBuildingType() == BT_Base && base->getState() == BS_Builded)
     {
         if(base->getOwner() == player)
         {

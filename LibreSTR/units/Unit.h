@@ -30,6 +30,7 @@ public:
     int getCurrentHealth(void);
     bool isDead(void);
     virtual bool contains(int p_x, int p_y);
+    bool contains(StiGame::Point *pt);
     int getId(void);
     virtual int getVision(void) = 0;
     Player* getOwner(void);

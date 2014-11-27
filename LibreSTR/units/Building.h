@@ -24,7 +24,6 @@ class Building :
 public:
     Building(BuildingIdentity *m_identity, Player *m_owner);
     virtual ~Building();
-    bool contains(int p_x, int p_y);
     BuildingState getState(void);
     int getMetalCost(void);
     int getGazCost(void);
@@ -38,7 +37,7 @@ public:
 
     Job* getCurrentJob(void);
 
-    BuildingType getBuldingType(void);
+    BuildingType getBuildingType(void);
 
 protected:
     std::vector<JobEmitter*> emitters;

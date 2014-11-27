@@ -43,9 +43,9 @@ GameState::GameState(AssetManager *m_assets) :
     viewY = 0;
 
     //base building menu
-    baseMenu.setCaption("Base Action");
+    baseMenu.setCaption(assets->getBaseIdentity()->getName());
     baseMenu.setCloseIcon(GamePath::getFilepath(AssetRoot, "close_radial.png"));
-    baseMenu.setDimension(200, 300);
+    baseMenu.setDimension(220, 300);
     baseMenu.setPoint(30, 30);
 
     baseCreateWorker = new RadialItem(0,
@@ -559,6 +559,51 @@ void GameState::renderGui(SDL_Renderer *renderer)
 
 void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *args)
 {
+    //building placing
+    if(args->getMouseButton() == MB_LEFT && placingBuilding && args->isDown())
+    {
+        std::cout << buildingPos.getX() << "; " << buildingPos.getY() << std::endl;
+
+        if(pmap->isBuildingLocationValid(buildingId, &buildingPos))
+        {
+            if(currentPlayer->getMetalCount() >= buildingId->getMetalCost() && currentPlayer->getGazCount() >= buildingId->getGazCost())
+            {
+                if(selectedUnits.size() > 0)
+                {
+                    Unit *unit = selectedUnits[0];
+                    game->buildBuilding(buildingId, unit, currentPlayer, buildingPos.getX() / Tile::TILE_WIDTH, buildingPos.getY() / Tile::TILE_HEIGHT);
+                    placingBuilding = false;
+                    return;
+                }
+            }
+            else
+            {
+                std::string msg = "Not Enough Resource";
+                lblError.setCaption(msg);
+                lblError.setVisible(true);
+                console.pushLine("Game Error : " + msg);
+                placingBuilding = false;
+                return;
+            }
+        }
+        else
+        {
+            std::string msg = "Invalid Building Location";
+            lblError.setCaption(msg);
+            lblError.setVisible(true);
+            console.pushLine("User Choice Error : " + msg);
+        }
+
+
+    }
+
+    if(args->getMouseButton() == MB_RIGHT && placingBuilding)
+    {
+        placingBuilding = false;
+        return;
+    }
+
+
     Point mpt (args->getX(), args->getY());
     bool unitSelected = false;
     if(args->getMouseButton() == MB_LEFT && args->isDown())
@@ -580,7 +625,7 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
                 //todo add diff point method into stigame
                 Point rpt = (*vit)->diffPoint(&mpt);
                 (*vit)->onClick(&rpt);
-
+                return;
             }
         }
 
@@ -593,24 +638,33 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
             //units deplacement
             bool handled = false;
             StiGame::Point targetPt (viewX + args->getX(), viewY + (args->getY() - topHud->getHeight()));
+            StiGame::Point tilePt (targetPt.getX() / Tile::TILE_WIDTH, targetPt.getY() / Tile::TILE_HEIGHT);
 
-            Tile *tile = pmap->get(targetPt.getX() / Tile::TILE_WIDTH, targetPt.getY() / Tile::TILE_HEIGHT);
-
-            if(tile->containsResource())
+            if(tilePt.getX() >= 0 &&
+                    tilePt.getY() >= 0 &&
+                    tilePt.getX() < pmap->getWidth() &&
+                    tilePt.getY() < pmap->getHeight())
             {
-                //resource harvesting
-                auto vit(selectedUnits.begin()), vend(selectedUnits.end());
-                for(;vit!=vend;++vit)
+
+                Tile *tile = pmap->get(tilePt.getX(), tilePt.getY());
+
+                if(tile->containsResource())
                 {
-                    Unit *unit = (*vit);
-                    if(unit->getType() == UT_Ground && unit->getOwner() == currentPlayer)
+                    //resource harvesting
+                    auto vit(selectedUnits.begin()), vend(selectedUnits.end());
+                    for(;vit!=vend;++vit)
                     {
-                        game->harvestResource(unit, &targetPt);
+                        Unit *unit = (*vit);
+                        if(unit->getType() == UT_Ground && unit->getOwner() == currentPlayer)
+                        {
+                            game->harvestResource(unit, &targetPt);
+                        }
                     }
+
+
+                    handled = true;
                 }
 
-
-                handled = true;
             }
 
             //units deplacement
@@ -692,7 +746,12 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
                 unitInfo.setUnit(b);
                 unitInfo.setVisible(true);
 
-                baseMenu.setVisible(true);
+                if(b->getState() == BS_Builded && b->getBuildingType() == BT_Base)
+                {
+                    //command center menu
+                    baseMenu.setVisible(true);
+                }
+
                 return;
             }
 

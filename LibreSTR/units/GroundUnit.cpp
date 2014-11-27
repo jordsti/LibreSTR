@@ -30,11 +30,6 @@ GroundUnitState GroundUnit::getState(void)
     return state;
 }
 
-bool GroundUnit::contains(int p_x, int p_y)
-{
-
-}
-
 int GroundUnit::getVision(void)
 {
     return vision;

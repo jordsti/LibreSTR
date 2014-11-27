@@ -18,7 +18,6 @@ class GroundUnit :
 public:
     GroundUnit(GroundUnitIdentity *m_identity, Player *m_owner);
     ~GroundUnit();
-    bool contains(int p_x, int p_y);
     int getVision(void);
     std::string getSpriteName(void);
     GroundUnitIdentity* getIdentity(void);

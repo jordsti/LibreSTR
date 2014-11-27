@@ -31,14 +31,6 @@ BuildingIdentity* Building::getIdentity(void)
     return _identity;
 }
 
-bool Building::contains(int p_x, int p_y)
-{
-    return (p_x >= x &&
-            p_x <= x + width &&
-            p_y >= y &&
-            p_y <= y + height);
-}
-
 int Building::getMetalCost(void)
 {
     return _identity->getMetalCost();
@@ -88,7 +80,7 @@ Job* Building::getCurrentJob(void)
 }
 
 
-BuildingType Building::getBuldingType(void)
+BuildingType Building::getBuildingType(void)
 {
     return _identity->getBuildingType();
 }

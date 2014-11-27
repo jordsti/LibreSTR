@@ -26,6 +26,8 @@ public:
 
     bool createWorker(Player *player, Building *base);
 
+    void buildBuilding(BuildingIdentity *buildingId, Unit *groundUnit, Player *player, int t_x, int t_y);
+
     std::string getGameError(void);
 
     void resetLastTick(void);

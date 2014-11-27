@@ -73,7 +73,15 @@ void Unit::setOwner(Player *m_owner)
 
 bool Unit::contains(int p_x, int p_y)
 {
-    return (p_x >= x && p_x <= x + width && p_y >= y && p_y <= y + height);
+    return (p_x >= x &&
+            p_x <= x + width &&
+            p_y >= y &&
+            p_y <= y + height);
+}
+
+bool Unit::contains(StiGame::Point *pt)
+{
+    return contains(pt->getX(), pt->getY());
 }
 
 StiGame::Point Unit::middle(void)

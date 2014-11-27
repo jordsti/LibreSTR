@@ -30,6 +30,71 @@ Player* PlayerMap::getPlayer(void)
     return player;
 }
 
+bool PlayerMap::isBuildingLocationValid(BuildingIdentity *buildingId, StiGame::Point *pt)
+{
+    int t_w = buildingId->getWidth() / Tile::TILE_WIDTH;
+    int t_h = buildingId->getHeight() / Tile::TILE_HEIGHT;
+
+    if(buildingId->getWidth() %  Tile::TILE_WIDTH > 0)
+    {
+        t_w++;
+    }
+
+    if(buildingId->getHeight() % Tile::TILE_HEIGHT > 0)
+    {
+        t_h++;
+    }
+
+    //assuming that the point is tile position
+    for(int i=0; i<t_w; i++)
+    {
+        for(int j=0; j<t_h; j++)
+        {
+            int t_x = i + ( pt->getX() / Tile::TILE_WIDTH );
+            int t_y = j + ( pt->getY() / Tile::TILE_HEIGHT );
+
+            if(t_x < width &&
+                t_y < height &&
+                t_x >= 0 &&
+                t_y >=0 )
+            {
+                Tile *t = get(t_x, t_y);
+
+                if(t->containsResource() || t->getType() != TT_Normal)
+                {
+                    //invalid resource or rock
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
+    //another building on it
+    auto bit(buildings.begin()), bend(buildings.end());
+    for(;bit!=bend;++bit)
+    {
+        Building *b = (*bit);
+        StiGame::Point mpt (pt->getX()+ (buildingId->getWidth()/2),
+                            pt->getY() + (buildingId->getHeight()/2) );
+        if(b->contains(pt) || b->contains(&mpt))
+        {
+            return false;
+        }
+
+    }
+
+    //todo
+    //to unit
+    //deplacement
+
+    return true;
+
+}
+
 bool PlayerMap::isPointVisible(StiGame::Point *pt)
 {
     auto uit(units.begin()), uend(units.end());

@@ -140,6 +140,7 @@ void AssetManager::loadData(void)
     worker = new GroundUnitIdentity(p);
 
     harvestSpeed = vf.getInt("harvestSpeed");
+    buildSpeed = vf.getInt("buildSpeed");
 
     p = GamePath::getFilepath(AssetRoot, "bindings.cfg");
     bindings = new ActionBinding(p);
@@ -156,4 +157,9 @@ void AssetManager::loadData(void)
 int AssetManager::getHarvestSpeed()
 {
     return harvestSpeed;
+}
+
+int AssetManager::getBuildSpeed()
+{
+    return buildSpeed;
 }
