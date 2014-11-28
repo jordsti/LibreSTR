@@ -93,6 +93,40 @@ void GameObject::buildBuilding(BuildingIdentity *buildingId, Unit *groundUnit, P
 
 }
 
+void GameObject::repairBuilding(Building *building, Unit *groundUnit, Player *player)
+{
+    MPlayer *_player = getMPlayer(player->getId());
+    MGroundUnit *gu = map->getGroundUnitById(groundUnit->getId());
+    MBuilding *b = map->getBuildingById(building->getId());
+
+    if(b->getOwner() == _player && b->getCurrentHealth() < b->getMaxHealth() && gu->getOwner() == _player && gu->getIdentity()->isCanBuild())
+    {
+        //build task
+
+        std::vector< StiGame::Point > pts = building->fivePoints();
+        StiGame::Point nearestPt;
+        double dist = 10000;
+        auto pit(pts.begin()), pend(pts.end());
+        for(;pit!=pend;++pit)
+        {
+            double _dist = gu->distanceWith(&(*pit));
+            if(_dist < dist)
+            {
+                dist = _dist;
+                nearestPt = (*pit);
+            }
+        }
+
+        BuildTask *task = new BuildTask(gu, assets->getBuildSpeed(), b, map, nearestPt);
+        gu->pushTask(task);
+    }
+    else
+    {
+       publishError("GameObject::repairBuilding error");
+    }
+
+}
+
 void GameObject::resetLastTick(void)
 {
     lastTickMs = 0;

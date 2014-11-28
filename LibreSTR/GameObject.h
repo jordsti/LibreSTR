@@ -27,6 +27,7 @@ public:
     bool createWorker(Player *player, Building *base);
 
     void buildBuilding(BuildingIdentity *buildingId, Unit *groundUnit, Player *player, int t_x, int t_y);
+    void repairBuilding(Building *building, Unit *groundUnit, Player *player);
 
     std::string getGameError(void);
 

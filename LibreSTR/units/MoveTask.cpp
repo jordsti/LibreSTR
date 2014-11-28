@@ -71,30 +71,53 @@ void MoveTask::doStep(void)
             int dx = tmpTargetPt.getX() - currentPt.getX();
             int dy = tmpTargetPt.getY() - currentPt.getY();
 
+            int a_dx = abs(dx);
+            int a_dy = abs(dy);
+
             if(dx > 0)
             {
                 dx = 1;
-                unit->setDirection(StiGame::SD_RIGHT);
             }
             else if(dx < 0)
             {
                 dx = -1;
-                unit->setDirection(StiGame::SD_LEFT);
             }
 
             if(dy > 0)
             {
                 dy = 1;
-                unit->setDirection(StiGame::SD_DOWN);
             }
             else if(dy < 0)
             {
                 dy = -1;
-                unit->setDirection(StiGame::SD_UP);
             }
 
             int nx = 0;
             int ny = 0;
+
+            //unit direction
+            if(dx == 0 || a_dy > a_dx)
+            {
+                if(dy > 0)
+                {
+                    unit->setDirection(StiGame::SD_DOWN);
+                }
+                else
+                {
+                    unit->setDirection(StiGame::SD_UP);
+                }
+            }
+            else if(dy == 0 || a_dx > a_dy)
+            {
+                if(dx > 0)
+                {
+                    unit->setDirection(StiGame::SD_RIGHT);
+                }
+                else
+                {
+                    unit->setDirection(StiGame::SD_LEFT);
+                }
+            }
 
             if(dx != 0 && dy != 0)
             {

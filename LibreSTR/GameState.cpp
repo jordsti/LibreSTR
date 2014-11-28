@@ -643,11 +643,12 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
 
     if(args->getMouseButton() == MB_RIGHT && !args->isDown())
     {
+        StiGame::Point targetPt (viewX + args->getX(), viewY + (args->getY() - topHud->getHeight()));
+
         if(selectedUnits.size() > 0)
         {
             //units deplacement
             bool handled = false;
-            StiGame::Point targetPt (viewX + args->getX(), viewY + (args->getY() - topHud->getHeight()));
             StiGame::Point tilePt (targetPt.getX() / Tile::TILE_WIDTH, targetPt.getY() / Tile::TILE_HEIGHT);
 
             if(tilePt.getX() >= 0 &&
@@ -678,7 +679,30 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
             }
 
             //building reparation
-            //todo
+            if(!handled)
+            {
+                Unit *u = selectedUnits[0];
+                if(u->getType() == UT_Ground && u->getOwner() == currentPlayer)
+                {
+                    GroundUnit *gu = dynamic_cast<GroundUnit*>(u);
+                    if(gu->getIdentity()->isCanBuild())
+                    {
+                        int bc = pmap->getBuildingsCount();
+                        for(int i=0; i<bc; i++)
+                        {
+                            Building *b = pmap->getBuilding(i);
+                            if(b->getOwner() == gu->getOwner())
+                            {
+                                if(b->contains(&targetPt) && b->getCurrentHealth() <  b->getMaxHealth())
+                                {
+                                    game->repairBuilding(b, gu, currentPlayer);
+                                    handled = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
 
             //units deplacement
@@ -764,6 +788,10 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
                 {
                     //command center menu
                     baseMenu.setVisible(true);
+                }
+                else
+                {
+                    baseMenu.setVisible(false);
                 }
 
                 return;
