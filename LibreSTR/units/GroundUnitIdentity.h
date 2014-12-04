@@ -37,6 +37,7 @@ public:
 
     bool isCanHarvest(void);
     bool isCanBuild(void);
+    bool isCanAttack(void);
 
 protected:
     std::string name;
@@ -55,6 +56,8 @@ protected:
     int productionTime;
     bool canHarvest;
     bool canBuild;
+    bool canAttack;
+
     std::map< GroundUnitState, std::map< PlayerColor, std::string > > sprites;
 };
 

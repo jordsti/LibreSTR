@@ -56,6 +56,21 @@ GameState::GameState(AssetManager *m_assets) :
     baseMenu.addItem(baseCreateWorker);
     baseMenu.setVisible(false);
 
+
+
+    barrackMenu.setCaption(assets->getBarrackIdentity()->getName());
+    //put radial close icon into assets.def
+    barrackMenu.setCloseIcon(GamePath::getFilepath(AssetRoot, "close_radial.png"));
+    barrackMenu.setDimension(220, 300);
+
+    barrackCreateMelee = new RadialItem(0,
+                                        "Create Melee",
+                                        GamePath::getFilepath(AssetRoot, assets->getMeleeIdentity()->getRadialIcon()),
+                                        GamePath::getFilepath(AssetRoot, assets->getMeleeIdentity()->getRadialHoverIcon()));
+
+    barrackMenu.addItem(barrackCreateMelee);
+    barrackMenu.setVisible(false);
+
     console.setVisible(false);
     console.pushLine("LibreSTR Game State initializing...");
 
@@ -64,11 +79,13 @@ GameState::GameState(AssetManager *m_assets) :
 
     _items.push_back(&lblFps);
     _items.push_back(&baseMenu);
+    _items.push_back(&barrackMenu);
     _items.push_back(&console);
     _items.push_back(&unitInfo);
     _items.push_back(&lblError);
 
     baseMenu.subscribe(this);
+    barrackMenu.subscribe(this);
 
     unitInfo.setVisible(false);
     unitInfo.loadAssets(assets);
@@ -121,7 +138,7 @@ void GameState::handleEvent(StiGame::Gui::SelectionEventThrower *src, StiGame::G
             {
                 Building *b = dynamic_cast<Building*>(unit);
 
-                if(game->createWorker(currentPlayer, b))
+                if(game->createWorker(currentPlayer, b) && b->getBuildingType() == BT_Base)
                 {
                     //closing radial menu
                     baseMenu.setVisible(false);
@@ -132,6 +149,37 @@ void GameState::handleEvent(StiGame::Gui::SelectionEventThrower *src, StiGame::G
                     //std::cout << errorMsg << std::endl;
                     lblError.setCaption(errorMsg);
                     lblError.setVisible(true);
+                }
+            }
+        }
+    }
+    else if(src == &barrackMenu)
+    {
+        if(selectedUnits.size() == 1)
+        {
+            Unit *unit = selectedUnits[0];
+            if(unit->getType() == UT_Building)
+            {
+                Building *b = dynamic_cast<Building*>(unit);
+
+                //todo
+                if(b->getBuildingType() == BT_Barrack)
+                {
+                    if(args->getSelection() == barrackCreateMelee)
+                    {
+                        if(game->createMelee(currentPlayer, b))
+                        {
+                            barrackMenu.setVisible(false);
+                        }
+                        else
+                        {
+                            std::string errorMsg = game->getGameError();
+                            //std::cout << errorMsg << std::endl;
+                            lblError.setCaption(errorMsg);
+                            lblError.setVisible(true);
+                        }
+                    }
+
                 }
             }
         }
@@ -534,6 +582,17 @@ void GameState::renderGui(SDL_Renderer *renderer)
         }
     }
 
+    //barrack building menu
+    if(selectedUnits.size() == 1 && barrackMenu.isVisible())
+    {
+        Unit *unitSelected = selectedUnits[0];
+        if(unitSelected->getType() == UT_Building)
+        {
+            Point pt (unitSelected->getX() - viewX, (unitSelected->getY() + topHud->getHeight()) - viewY);
+            barrackMenu.setPoint(&pt);
+        }
+    }
+
     auto vit(_items.begin()), vend(_items.end());
     for(;vit!=vend;++vit)
     {
@@ -792,6 +851,15 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
                 else
                 {
                     baseMenu.setVisible(false);
+                }
+
+                if(b->getState() == BS_Builded && b->getBuildingType() == BT_Barrack)
+                {
+                    barrackMenu.setVisible(true);
+                }
+                else
+                {
+                    barrackMenu.setVisible(false);
                 }
 
                 return;

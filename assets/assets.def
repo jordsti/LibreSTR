@@ -10,6 +10,10 @@ tile_block=tile/rock;
 base_building=command_center.res;
 barrack_building=barrack.res;
 
+#units definition
 worker=worker.res;
+melee=melee.res;
+
+
 harvestSpeed=160;
 buildSpeed=8;

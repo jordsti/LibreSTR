@@ -1,0 +1,30 @@
+#red melee sprites
+left0=sprites/groundunits/melee/red/moving/left_0.png;
+left1=sprites/groundunits/melee/red/moving/left_1.png;
+left2=sprites/groundunits/melee/red/moving/left_2.png;
+left3=sprites/groundunits/melee/red/moving/left_3.png;
+left4=sprites/groundunits/melee/red/moving/left_4.png;
+left5=sprites/groundunits/melee/red/moving/left_5.png;
+left6=sprites/groundunits/melee/red/moving/left_6.png;
+left7=sprites/groundunits/melee/red/moving/left_7.png;
+#up frames
+up0=sprites/groundunits/melee/red/moving/up_0.png;
+up1=sprites/groundunits/melee/red/moving/up_1.png;
+up2=sprites/groundunits/melee/red/moving/up_2.png;
+up3=sprites/groundunits/melee/red/moving/up_3.png;
+up4=sprites/groundunits/melee/red/moving/up_4.png;
+up5=sprites/groundunits/melee/red/moving/up_5.png;
+up6=sprites/groundunits/melee/red/moving/up_6.png;
+up7=sprites/groundunits/melee/red/moving/up_7.png;
+#down frames
+down0=sprites/groundunits/melee/red/moving/down_0.png;
+down1=sprites/groundunits/melee/red/moving/down_1.png;
+down2=sprites/groundunits/melee/red/moving/down_2.png;
+down3=sprites/groundunits/melee/red/moving/down_3.png;
+down4=sprites/groundunits/melee/red/moving/down_4.png;
+down5=sprites/groundunits/melee/red/moving/down_5.png;
+down6=sprites/groundunits/melee/red/moving/down_6.png;
+down7=sprites/groundunits/melee/red/moving/down_7.png;
+#right, need to flip left image
+right0=sprites/groundunits/melee/red/moving/right_0.png;
+

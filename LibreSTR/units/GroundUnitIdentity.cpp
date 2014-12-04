@@ -37,10 +37,16 @@ GroundUnitIdentity::GroundUnitIdentity(std::string vf_file)
 
     canHarvest = vf.getBool("canHarvest");
     canBuild = vf.getBool("canBuild");
+    canAttack = vf.getBool("canAttack");
 }
 
 GroundUnitIdentity::~GroundUnitIdentity()
 {
+}
+
+bool GroundUnitIdentity::isCanAttack(void)
+{
+    return canAttack;
 }
 
 bool GroundUnitIdentity::isCanBuild()

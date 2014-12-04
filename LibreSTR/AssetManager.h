@@ -22,7 +22,7 @@ class AssetManager
         BuildingIdentity* getBarrackIdentity(void);
 
         GroundUnitIdentity* getWorkerIdentity(void);
-
+        GroundUnitIdentity* getMeleeIdentity(void);
 
         std::string getTileNormal(void);
         std::string getTileBlock(void);
@@ -50,6 +50,7 @@ class AssetManager
         BuildingIdentity *barrack;
 
         GroundUnitIdentity *worker;
+        GroundUnitIdentity *melee;
 
         StiGame::ActionBinding *bindings;
 

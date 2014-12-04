@@ -68,6 +68,9 @@ std::list<std::string> AssetManager::getDirectionSprites(void)
     dsprites.push_back(worker->getSprite(PC_Blue, GUS_Moving));
     dsprites.push_back(worker->getSprite(PC_Red, GUS_Moving));
 
+    dsprites.push_back(melee->getSprite(PC_Blue, GUS_Moving));
+    dsprites.push_back(melee->getSprite(PC_Red, GUS_Moving));
+
     return dsprites;
 }
 
@@ -99,6 +102,11 @@ std::string AssetManager::getTileBlock(void)
 GroundUnitIdentity* AssetManager::getWorkerIdentity()
 {
     return worker;
+}
+
+GroundUnitIdentity* AssetManager::getMeleeIdentity(void)
+{
+    return melee;
 }
 
 BuildingIdentity* AssetManager::getBarrackIdentity(void)
@@ -164,6 +172,10 @@ void AssetManager::loadData(void)
     std::string rworker = vf.getValue("worker");
     p = GamePath::getFilepath(AssetRoot, rworker);
     worker = new GroundUnitIdentity(p);
+
+    std::string rmelee = vf.getValue("melee");
+    p = GamePath::getFilepath(AssetRoot, rmelee);
+    melee = new GroundUnitIdentity(p);
 
     harvestSpeed = vf.getInt("harvestSpeed");
     buildSpeed = vf.getInt("buildSpeed");

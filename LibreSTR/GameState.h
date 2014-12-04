@@ -92,6 +92,10 @@ class GameState :
         RadialMenu baseMenu;
         RadialItem *baseCreateWorker;
 
+        //barrack menu
+        RadialMenu barrackMenu;
+        RadialItem *barrackCreateMelee;
+
 
         //view rectangle for moving
         StiGame::Rectangle viewRectUp;

@@ -58,6 +58,11 @@ void GameObject::buildBuilding(BuildingIdentity *buildingId, Unit *groundUnit, P
             CreateUnitEmitter *emitter = new CreateUnitEmitter(_player, assets->getWorkerIdentity(), map);
             building->addEmitter(emitter);
         }
+        else if(building->getBuildingType() == BT_Barrack)
+        {
+            CreateUnitEmitter *emitter = new CreateUnitEmitter(_player, assets->getMeleeIdentity(), map);
+            building->addEmitter(emitter);
+        }
 
         _player->setMetalCount(_player->getMetalCount() - buildingId->getMetalCost());
         _player->setGazCount(_player->getGazCount() - buildingId->getGazCost());
@@ -360,6 +365,46 @@ bool GameObject::createWorker(Player *player, Building *base)
             //population constraint to be added here
             if(player->getMetalCount() >= workerId->getMetalCost()
                && player->getGazCount() >= workerId->getGazCost())
+            {
+                //job id 0
+
+                MBuilding *mbase = map->getBuildingById(base->getId());
+
+                if(mbase != nullptr)
+                {
+                    mbase->emitJob(0);
+                }
+
+                return true;
+            }
+            else
+            {
+                publishError("Not enough ressources !");
+            }
+        }
+        else
+        {
+            publishError("This is not your building !");
+        }
+    }
+    else
+    {
+        publishError("Invalid building type !");
+    }
+
+    return false;
+}
+
+bool GameObject::createMelee(Player *player, Building *base)
+{
+    if(base->getBuildingType() == BT_Barrack && base->getState() == BS_Builded)
+    {
+        if(base->getOwner() == player)
+        {
+            GroundUnitIdentity *meleeId = assets->getMeleeIdentity();
+            //population constraint to be added here
+            if(player->getMetalCount() >= meleeId->getMetalCost()
+               && player->getGazCount() >= meleeId->getGazCost())
             {
                 //job id 0
 
