@@ -117,17 +117,55 @@ MBuilding* GameMap::getBuildingById(int id)
 
 void GameMap::tickUnits(int ms)
 {
+
+    //removing dead units atm
+    //todo
+    //in the future, put a dead sprite for each unit
+
+    std::vector<MBuilding*> _buildings;
+
     auto vit(buildings.begin()), vend(buildings.end());
     for(;vit!=vend;++vit)
     {
         (*vit)->tickJob(ms);
+
+        if(!(*vit)->isDead())
+        {
+            _buildings.push_back((*vit));
+        }
+        else
+        {
+            deleteQueue.push_back((*vit));
+        }
+
     }
+
+    buildings.clear();
+    buildings = _buildings;
+
+    std::vector<MGroundUnit*> _groundUnits;
 
     auto vit2(units.begin()), vend2(units.end());
     for(;vit2!=vend2;++vit2)
     {
         (*vit2)->tickTask(ms);
+
+        if(!(*vit2)->isDead())
+        {
+            _groundUnits.push_back((*vit2));
+        }
+        else
+        {
+            deleteQueue.push_back((*vit2));
+            //units killed
+            GameMapEvent gme (GMET_GroundUnitKilled, (*vit2));
+            publish(&gme);
+        }
     }
+
+    units.clear();
+    units = _groundUnits;
+
 }
 
 bool GameMap::placeGroundUnit(MGroundUnit *unit, int pt_x, int pt_y, bool updatePlayerMap)

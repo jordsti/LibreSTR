@@ -5,8 +5,10 @@
 #include "AssetManager.h"
 #include "MPlayer.h"
 #include "ILogStream.h"
+#include "GameMapEventListener.h"
 
-class GameObject
+class GameObject :
+       public GameMapEventListener
 {
 public:
     const int PLAYERS_MAX = 2; //atm
@@ -34,6 +36,10 @@ public:
     std::string getGameError(void);
 
     void resetLastTick(void);
+
+    //map event handling
+    void handleEvent(GameMapEventThrower *src, GameMapEvent *event);
+
 private:
     void publishError(std::string m_error);
 

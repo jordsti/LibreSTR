@@ -58,8 +58,8 @@ bool MainMenu::handleEvent(EventThrower *src, EventArgs *evt)
     if(src == &btnNewGame)
     {
         //todo game state
-        GameState *state = new GameState(assets);
-        //NewGameMenu *state = new NewGameMenu();
+        //GameState *state = new GameState(assets);
+        NewGameMenu *state = new NewGameMenu(assets);
         viewport->push(state);
     }
     else if(src == &btnQuit)

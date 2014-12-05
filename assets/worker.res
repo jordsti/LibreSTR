@@ -3,6 +3,7 @@ name=Worker;
 metalCost=50;
 gazCost=0;
 attackRange=0;
+attackDamage=0;
 width=28;
 height=42;
 vision=250;

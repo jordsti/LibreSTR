@@ -19,6 +19,8 @@ GameObject::GameObject(AssetManager *m_assets, int mapWidth, int mapHeight, ILog
     MapGenerator::setAssets(assets);
     map = MapGenerator::RandomMap(mapWidth, mapHeight);
 
+    map->subscribe(this);
+
     //generating player
 
     players.push_back(new MPlayer(PC_Blue));
@@ -470,4 +472,14 @@ bool GameObject::createMelee(Player *player, Building *base)
     }
 
     return false;
+}
+
+
+void GameObject::handleEvent(GameMapEventThrower *src, GameMapEvent *event)
+{
+    // will be much more used when player points will be implemented
+    if(event->getType() == GMET_GroundUnitKilled)
+    {
+        logStream->pushLine("Ground Unit Killed : " + event->getUnit()->getName() + "; " + std::to_string(event->getUnit()->getOwner()->getId()));
+    }
 }

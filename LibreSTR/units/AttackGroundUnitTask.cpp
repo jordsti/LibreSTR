@@ -1,7 +1,7 @@
 #include "AttackGroundUnitTask.h"
 
 AttackGroundUnitTask::AttackGroundUnitTask(MGroundUnit *m_unit, GameMap *m_map, MGroundUnit *m_target)
-    : MoveTask(m_unit, map, StiGame::Point(m_target->getX(), m_target->getY()))
+    : MoveTask(m_unit, m_map, StiGame::Point(m_target->getX(), m_target->getY()))
 {
     target = m_target;
 }

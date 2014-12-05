@@ -140,11 +140,13 @@ void PlayerMap::cleanUnits(void)
 
     buildings.clear();
 
-    auto tit(tmpBuildings.begin()), tend(tmpBuildings.end());
+    buildings = tmpBuildings;
+
+    /*auto tit(tmpBuildings.begin()), tend(tmpBuildings.end());
     for(;tit!=tend;++tit)
     {
         buildings.push_back((*tit));
-    }
+    }*/
 
 
     auto uit(units.begin()), uend(units.end());
@@ -159,11 +161,13 @@ void PlayerMap::cleanUnits(void)
 
     units.clear();
 
-    auto kit(toKeeps.begin()), kend(toKeeps.end());
+    units = toKeeps;
+
+    /*auto kit(toKeeps.begin()), kend(toKeeps.end());
     for(;kit!=kend;++kit)
     {
         units.push_back((*kit));
-    }
+    }*/
 }
 
 bool PlayerMap::containsBuilding(Building *building)

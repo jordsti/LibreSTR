@@ -28,8 +28,10 @@ class GameState :
         static const int VIEW_MOVE_DX;
         static const int VIEW_MOVE_DY;
         static const int VIEW_RECT_ZONE;
+        static const int MINIMAP_WIDTH;
+        static const int MINIMAP_HEIGHT;
 
-        GameState(AssetManager *m_assets);
+        GameState(AssetManager *m_assets, int mapWidth, int mapHeight);
         virtual ~GameState();
         void quit(void);
         void unload(void);

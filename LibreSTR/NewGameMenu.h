@@ -7,6 +7,7 @@
 #include <ComboBox.h>
 #include <EventListener.h>
 #include <SelectionEventListener.h>
+#include "AssetManager.h"
 
 class NewGameMenu :
         public StiGame::Gui::GuiState,
@@ -14,7 +15,7 @@ class NewGameMenu :
         public StiGame::Gui::SelectionEventListener
 {
 public:
-    NewGameMenu();
+    NewGameMenu(AssetManager *m_assets);
     virtual ~NewGameMenu();
 
     void onStart(void);
@@ -25,6 +26,8 @@ public:
 
 protected:
     void initComponents();
+
+    AssetManager *assets;
 
     StiGame::Gui::Button btnBack;
     StiGame::Gui::Button btnStart;

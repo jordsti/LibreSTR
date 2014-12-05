@@ -52,6 +52,9 @@ set(SOURCE_FILES main.cpp
 
 
     maps/GameMap.cpp
+    maps/GameMapEvent.cpp
+    maps/GameMapEventListener.cpp
+    maps/GameMapEventThrower.cpp
     maps/IResource.cpp
     maps/ITileMap.cpp
     maps/Resource.cpp

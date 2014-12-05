@@ -16,17 +16,19 @@ using namespace Gui;
 const int GameState::VIEW_MOVE_DX = 32;
 const int GameState::VIEW_MOVE_DY = 32;
 const int GameState::VIEW_RECT_ZONE = 48;
+const int GameState::MINIMAP_WIDTH = 300;
+const int GameState::MINIMAP_HEIGHT = 200;
 
-GameState::GameState(AssetManager *m_assets) :
+GameState::GameState(AssetManager *m_assets, int mapWidth, int mapHeight) :
     BaseGameState()
 {
     //ctor
     assets = m_assets;
     placingBuilding = false;
-    game = new GameObject(m_assets, 300, 200, &console);
+    game = new GameObject(m_assets, mapWidth, mapHeight, &console);
     game->initGame();
     pmap = game->getPlayerMap(1);
-    miniMap = new MiniMap(this, pmap, 300, 200, 22);
+    miniMap = new MiniMap(this, pmap, MINIMAP_WIDTH, MINIMAP_HEIGHT, 22);
     topHud = new TopHud(m_assets, game->getPlayer(1));
 
     currentPlayer = game->getPlayer(1);
@@ -448,8 +450,8 @@ void GameState::moveViewPoint(int dx, int dy)
         viewY = tmpY;
     }
 
-    std::string moveView = "Moving view point to : " + std::to_string(viewX) + "; " + std::to_string(viewY);
-    console.pushLine(moveView);
+    /*std::string moveView = "Moving view point to : " + std::to_string(viewX) + "; " + std::to_string(viewY);
+    console.pushLine(moveView);*/
 
     miniMap->setViewPoint(viewX, viewY);
 }
@@ -745,6 +747,16 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
                 if(gu_unit->getOwner() != currentPlayer)
                 {
 
+                    auto sit(selectedUnits.begin()), send(selectedUnits.end());
+                    for(;sit!=send;++sit)
+                    {
+                        Unit *u = (*sit);
+                        if(gu_unit->getType() == UT_Ground && gu_unit->contains(&targetPt))
+                        {
+                            game->attackGroundUnit(u, gu_unit);
+                            handled = true;
+                        }
+                    }
                 }
             }
 

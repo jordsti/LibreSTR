@@ -12,9 +12,11 @@
 #include "MBuilding.h"
 #include "MGroundUnit.h"
 #include "Rectangle.h"
+#include "GameMapEventThrower.h"
 
 class GameMap :
-        public ITileMap
+        public ITileMap,
+        public GameMapEventThrower
 {
     public:
         static const int PLAYERS_MAX;
@@ -89,6 +91,8 @@ class GameMap :
         std::vector< std::string > textures;
 
         std::map<int, PlayerMap*> playerMaps;
+
+        std::vector<Unit*> deleteQueue;
 
     private:
 };

@@ -1,13 +1,19 @@
 #include "NewGameMenu.h"
+#include "MainMenu.h"
+#include "GameState.h"
+
 using namespace StiGame;
 using namespace Gui;
 
-NewGameMenu::NewGameMenu()
+NewGameMenu::NewGameMenu(AssetManager *m_assets)
 {
     dimSmall = Dimension(160, 100);
     dimMedium = Dimension(220, 130);
     dimLarge = Dimension(300, 200);
     currentDim = &dimSmall;
+
+    assets = m_assets;
+
     initComponents();
 }
 
@@ -39,11 +45,13 @@ bool NewGameMenu::handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *ar
 {
     if(src == &btnStart)
     {
-
+        GameState *state = new GameState(assets, currentDim->getWidth(), currentDim->getHeight());
+        viewport->push(state);
     }
     else if(src == &btnBack)
     {
-
+        MainMenu *state = new MainMenu(assets);
+        viewport->push(state);
     }
 
     return false;
@@ -90,4 +98,6 @@ void NewGameMenu::initComponents()
     add(&cbMapSize);
 
     cbMapSize.subscribe(this);
+    btnBack.subscribe(this);
+    btnStart.subscribe(this);
 }
