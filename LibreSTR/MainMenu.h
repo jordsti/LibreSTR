@@ -24,6 +24,7 @@ class MainMenu :
         bool handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *evt);
     protected:
         StiGame::Gui::Label lblTitle;
+        StiGame::Gui::Label lblAuthor;
         StiGame::Gui::Button btnNewGame;
         StiGame::Gui::Button btnQuit;
 

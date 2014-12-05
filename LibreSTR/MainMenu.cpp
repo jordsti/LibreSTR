@@ -27,6 +27,8 @@ void MainMenu::initComponents(void)
     lblTitle.setFont(style->getBigFont());
     lblTitle.setCaption("Libre STR");
 
+    lblAuthor.setCaption("Created by JordSti - 2014");
+
     btnNewGame.setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     btnNewGame.setCaption("New Game");
 
@@ -36,6 +38,7 @@ void MainMenu::initComponents(void)
     img.setImage(StiGame::GamePath::getFilepath(StiGame::AssetRoot, "mainmenu_image.png"));
 
     add(&lblTitle);
+    add(&lblAuthor);
     add(&btnNewGame);
     add(&btnQuit);
     add(&img);
@@ -75,8 +78,11 @@ void MainMenu::onResize(int m_width, int m_height)
     lblTitle.doAutosize();
     lblTitle.setPoint((m_width - lblTitle.getWidth())/2, 20);
 
+    lblAuthor.doAutosize();
+    lblAuthor.setPoint(m_width - lblAuthor.getWidth(), m_height - lblAuthor.getHeight());
+
     btnNewGame.setPoint((m_width - btnNewGame.getWidth())/2, 100);
     btnQuit.setPoint((m_width - btnQuit.getWidth())/2, 100 + BUTTON_HEIGHT + 10);
 
-    img.setPoint((m_width - img.getWidth())/2, 100 + 2*BUTTON_HEIGHT + 10);
+    img.setPoint((m_width - img.getWidth())/2, 100 + 2*BUTTON_HEIGHT + 25);
 }
