@@ -23,6 +23,7 @@ public:
 
     void moveGroundUnit(Unit *groundUnit, StiGame::Point *targetPt);
     void harvestResource(Unit *groundUnit, StiGame::Point *targetPt);
+    void attackGroundUnit(Unit *groundUnit, Unit *targetUnit);
 
     bool createWorker(Player *player, Building *base);
     bool createMelee(Player *player, Building *base);

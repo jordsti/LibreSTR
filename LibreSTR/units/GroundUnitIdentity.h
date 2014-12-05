@@ -27,6 +27,7 @@ public:
     int getMovementSpeed(void);
     int getProductionTime(void);
     int getMovementStep(void);
+    int getAttackDamage(void);
 
     std::string getIcon(void);
     std::string getRadialIcon(void);
@@ -47,6 +48,7 @@ protected:
     int metalCost;
     int gazCost;
     int attackRange;
+    int attackDamage;
     int width;
     int height;
     int vision;
@@ -54,6 +56,7 @@ protected:
     int movementSpeed;
     int movementStep;
     int productionTime;
+
     bool canHarvest;
     bool canBuild;
     bool canAttack;

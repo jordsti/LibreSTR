@@ -737,6 +737,17 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
 
             }
 
+            //ground units targeting
+            int gu_c = pmap->getGroundUnitsCount();
+            for(int gu_i=0; gu_i < gu_c; gu_i++)
+            {
+                GroundUnit *gu_unit = pmap->getGroundUnit(gu_i);
+                if(gu_unit->getOwner() != currentPlayer)
+                {
+
+                }
+            }
+
             //building reparation
             if(!handled)
             {

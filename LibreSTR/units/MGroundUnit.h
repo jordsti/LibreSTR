@@ -14,6 +14,8 @@ public:
 
     void setDirection(StiGame::SDirection m_direction);
 
+    void setCurrentHealth(int m_currentHealth);
+
     void tickTask(int ms);
 };
 

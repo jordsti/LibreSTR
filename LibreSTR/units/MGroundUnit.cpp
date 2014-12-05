@@ -48,3 +48,11 @@ void MGroundUnit::setDirection(StiGame::SDirection m_direction)
 {
     direction = m_direction;
 }
+
+void MGroundUnit::setCurrentHealth(int m_currentHealth)
+{
+    if(m_currentHealth >= 0 && m_currentHealth < maxHealth)
+    {
+        currentHealth = m_currentHealth;
+    }
+}

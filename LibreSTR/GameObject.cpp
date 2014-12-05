@@ -8,6 +8,7 @@
 #include "MoveTask.h"
 #include "HarvestTask.h"
 #include "BuildTask.h"
+#include "AttackGroundUnitTask.h"
 
 using namespace StiGame;
 
@@ -124,6 +125,11 @@ void GameObject::repairBuilding(Building *building, Unit *groundUnit, Player *pl
 
         BuildTask *task = new BuildTask(gu, assets->getBuildSpeed(), b, map, nearestPt);
         gu->pushTask(task);
+
+        logStream->pushLine("Repairing building : unit "
+                            + std::to_string(gu->getId())
+                            + ", building : "
+                            + std::to_string(b->getId()));
     }
     else
     {
@@ -242,6 +248,37 @@ void GameObject::harvestResource(Unit *groundUnit, StiGame::Point *targetPt)
                                 "; "+std::to_string(targetPt->getY())
                                 );
             _unit->pushTask(harvestTask);
+        }
+    }
+}
+
+void GameObject::attackGroundUnit(Unit *groundUnit, Unit *targetUnit)
+{
+    MGroundUnit *gu = map->getGroundUnitById(groundUnit->getId());
+    MGroundUnit *target = map->getGroundUnitById(targetUnit->getId());
+
+    if(gu != nullptr && target != nullptr)
+    {
+        if(gu->getOwner() != target->getOwner())
+        {
+            if(gu->getIdentity()->isCanAttack())
+            {
+                AttackGroundUnitTask *task = new AttackGroundUnitTask(gu, map, target);
+                logStream->pushLine("Attack Ground Unit : " +
+                                    gu->getName() + ";" +
+                                    std::to_string(gu->getId()) + "; " +
+                                    std::to_string(target->getId())
+                                    );
+                gu->pushTask(task);
+            }
+            else
+            {
+                publishError("This unit can't attack !");
+            }
+        }
+        else
+        {
+            publishError("GameObject::attackGroundUnit : Invalid Target unit");
         }
     }
 }

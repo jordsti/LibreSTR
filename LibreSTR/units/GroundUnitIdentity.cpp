@@ -12,6 +12,7 @@ GroundUnitIdentity::GroundUnitIdentity(std::string vf_file)
     metalCost = vf.getInt("metalCost");
     gazCost = vf.getInt("gazCost");
     attackRange = vf.getInt("attackRange");
+    attackDamage = vf.getInt("attackDamage");
     width = vf.getInt("width");
     height = vf.getInt("height");
     vision = vf.getInt("vision");
@@ -42,6 +43,11 @@ GroundUnitIdentity::GroundUnitIdentity(std::string vf_file)
 
 GroundUnitIdentity::~GroundUnitIdentity()
 {
+}
+
+int GroundUnitIdentity::getAttackDamage(void)
+{
+    return attackDamage;
 }
 
 bool GroundUnitIdentity::isCanAttack(void)

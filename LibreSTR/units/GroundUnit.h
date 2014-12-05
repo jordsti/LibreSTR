@@ -23,6 +23,8 @@ public:
     GroundUnitIdentity* getIdentity(void);
     int getSize(void);
     GroundUnitState getState(void);
+    int getAttackRange(void);
+    int getAttackDamage(void);
 
     Task* getTask(void);
     bool isWorking(void);

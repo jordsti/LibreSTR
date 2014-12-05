@@ -60,3 +60,13 @@ bool GroundUnit::isWorking(void)
 {
     return currentTask != nullptr;
 }
+
+int GroundUnit::getAttackRange(void)
+{
+    return identity->getAttackRange();
+}
+
+int GroundUnit::getAttackDamage(void)
+{
+    return identity->getAttackDamage();
+}
