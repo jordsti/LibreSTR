@@ -9,6 +9,7 @@
 #include "HarvestTask.h"
 #include "BuildTask.h"
 #include "AttackGroundUnitTask.h"
+#include "AttackBuildingTask.h"
 
 using namespace StiGame;
 
@@ -76,7 +77,7 @@ void GameObject::buildBuilding(BuildingIdentity *buildingId, Unit *groundUnit, P
         pmap->addBuilding(building);
 
 
-        std::vector< StiGame::Point > pts = building->fivePoints();
+        std::vector<StiGame::Point> pts = building->fivePoints();
         StiGame::Point nearestPt;
         double dist = 10000;
         auto pit(pts.begin()), pend(pts.end());
@@ -267,6 +268,37 @@ void GameObject::attackGroundUnit(Unit *groundUnit, Unit *targetUnit)
             {
                 AttackGroundUnitTask *task = new AttackGroundUnitTask(gu, map, target);
                 logStream->pushLine("Attack Ground Unit : " +
+                                    gu->getName() + ";" +
+                                    std::to_string(gu->getId()) + "; " +
+                                    std::to_string(target->getId())
+                                    );
+                gu->pushTask(task);
+            }
+            else
+            {
+                publishError("This unit can't attack !");
+            }
+        }
+        else
+        {
+            publishError("GameObject::attackGroundUnit : Invalid Target unit");
+        }
+    }
+}
+
+void GameObject::attackBuilding(Unit *groundUnit, Unit *targetBuilding)
+{
+    MGroundUnit *gu = map->getGroundUnitById(groundUnit->getId());
+    MBuilding *target = map->getBuildingById(targetBuilding->getId());
+
+    if(gu != nullptr && target != nullptr)
+    {
+        if(gu->getOwner() != target->getOwner())
+        {
+            if(gu->getIdentity()->isCanAttack())
+            {
+                AttackBuildingTask *task = new AttackBuildingTask(gu, map, target);
+                logStream->pushLine("Attack Building : " +
                                     gu->getName() + ";" +
                                     std::to_string(gu->getId()) + "; " +
                                     std::to_string(target->getId())
@@ -481,5 +513,9 @@ void GameObject::handleEvent(GameMapEventThrower *src, GameMapEvent *event)
     if(event->getType() == GMET_GroundUnitKilled)
     {
         logStream->pushLine("Ground Unit Killed : " + event->getUnit()->getName() + "; " + std::to_string(event->getUnit()->getOwner()->getId()));
+    }
+    else if(event->getType() == GMET_BuildingKilled)
+    {
+        logStream->pushLine("Building killed : " + event->getUnit()->getName() + "; " + std::to_string(event->getUnit()->getOwner()->getId()));
     }
 }

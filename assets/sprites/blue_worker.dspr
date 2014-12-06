@@ -26,4 +26,11 @@ down5=sprites/groundunits/worker/blue/moving/down_5.png;
 down6=sprites/groundunits/worker/blue/moving/down_6.png;
 #right, need to flip left image
 right0=sprites/groundunits/worker/blue/moving/right_0.png;
+right1=sprites/groundunits/worker/blue/moving/right_1.png;
+right2=sprites/groundunits/worker/blue/moving/right_2.png;
+right3=sprites/groundunits/worker/blue/moving/right_3.png;
+right4=sprites/groundunits/worker/blue/moving/right_4.png;
+right5=sprites/groundunits/worker/blue/moving/right_5.png;
+right6=sprites/groundunits/worker/blue/moving/right_6.png;
+right7=sprites/groundunits/worker/blue/moving/right_7.png;
 

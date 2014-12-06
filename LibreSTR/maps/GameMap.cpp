@@ -136,6 +136,8 @@ void GameMap::tickUnits(int ms)
         else
         {
             deleteQueue.push_back((*vit));
+            GameMapEvent gme (GMET_BuildingKilled, (*vit));
+            publish(&gme);
         }
 
     }
@@ -271,6 +273,13 @@ void GameMap::placeGroundUnitAroundPoint(MGroundUnit *unit, int pt_x, int pt_y, 
         }
 
         step++;
+
+        //quick hot fix
+
+        if(step > 1000)
+        {
+            break;
+        }
     }
 
     unit->setPoint(pt.getX() * Tile::TILE_WIDTH, pt.getY() * Tile::TILE_HEIGHT);

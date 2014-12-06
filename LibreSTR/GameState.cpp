@@ -757,8 +757,36 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
                             handled = true;
                         }
                     }
+
+                    if(handled)
+                        break;
                 }
             }
+
+            int bu_c = pmap->getBuildingsCount();
+            for(int bu_i=0; bu_i<bu_c; bu_i++)
+            {
+                Building *bu = pmap->getBuilding(bu_i);
+
+                if(bu->getOwner() != currentPlayer)
+                {
+                    auto sit(selectedUnits.begin()), send(selectedUnits.end());
+                    for(;sit!=send;++sit)
+                    {
+                        Unit *u = (*sit);
+                        if(bu->getType() == UT_Building && bu->contains(&targetPt))
+                        {
+                            game->attackBuilding(u, bu);
+                            handled = true;
+                        }
+                    }
+
+                    if(handled)
+                        break;
+                }
+            }
+
+            //building targing
 
             //building reparation
             if(!handled)

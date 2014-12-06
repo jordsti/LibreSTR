@@ -27,4 +27,11 @@ down6=sprites/groundunits/melee/red/moving/down_6.png;
 down7=sprites/groundunits/melee/red/moving/down_7.png;
 #right, need to flip left image
 right0=sprites/groundunits/melee/red/moving/right_0.png;
+right1=sprites/groundunits/melee/red/moving/right_1.png;
+right2=sprites/groundunits/melee/red/moving/right_2.png;
+right3=sprites/groundunits/melee/red/moving/right_3.png;
+right4=sprites/groundunits/melee/red/moving/right_4.png;
+right5=sprites/groundunits/melee/red/moving/right_5.png;
+right6=sprites/groundunits/melee/red/moving/right_6.png;
+right7=sprites/groundunits/melee/red/moving/right_7.png;
 

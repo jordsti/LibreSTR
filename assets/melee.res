@@ -2,7 +2,7 @@
 name=Melee Warrior;
 metalCost=100;
 gazCost=25;
-attackRange=8;
+attackRange=16;
 attackDamage=2;
 width=28;
 height=42;

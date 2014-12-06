@@ -62,6 +62,7 @@ At the end of trimester, LibreSTR will include :
   - Key to center view arround selected unit
   - Loading State
   - Change BuildTask endPoint to a nearest extremity of the building (little bug)
+  - Win Condition (Player Unit Count == 0 -> loss)
   - awful segfault, random appearance...!!
 
 #### Possible in the future
