@@ -64,6 +64,9 @@ At the end of trimester, LibreSTR will include :
   - Change BuildTask endPoint to a nearest extremity of the building (little bug)
   - Win Condition (Player Unit Count == 0 -> loss)
   - awful segfault, random appearance...!!
+  - BuilTask use middle pt of building and maybe remove the half of hypotenuse
+  - Console one line is hidden ? (bug)
+  - attack speed
 
 #### Possible in the future
   - Idle worker selector

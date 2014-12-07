@@ -6,6 +6,7 @@
 #include "MPlayer.h"
 #include "ILogStream.h"
 #include "GameMapEventListener.h"
+#include "GameObjectListener.h"
 
 class GameObject :
        public GameMapEventListener
@@ -41,6 +42,13 @@ public:
     //map event handling
     void handleEvent(GameMapEventThrower *src, GameMapEvent *event);
 
+    void publishPlayerDefeated(Player *defeated);
+    void publishPlayerVictory(Player *winner);
+
+    void subscribe(GameObjectListener *listener);
+
+    bool isEnded(void);
+
 private:
     void publishError(std::string m_error);
 
@@ -54,6 +62,12 @@ private:
     std::vector<MPlayer*> players;
     std::map<int, PlayerMap*> playerMaps;
     std::string gameError;
+    //more than two player ready
+    std::vector<Player*> defeatedPlayers;
+
+    std::vector<GameObjectListener*> _listeners;
+
+    bool ended;
 };
 
 #endif // GAMEOBJECT_H

@@ -16,6 +16,7 @@ using namespace StiGame;
 GameObject::GameObject(AssetManager *m_assets, int mapWidth, int mapHeight, ILogStream *m_logStream)
 {
     assets = m_assets;
+    ended = false;
     //generating a random map by default
     MapGenerator::setAssets(assets);
     map = MapGenerator::RandomMap(mapWidth, mapHeight);
@@ -37,8 +38,14 @@ GameObject::~GameObject()
     //some cleaning todo
     delete map;
 
-    delete playerMaps[1];
-    delete playerMaps[2];
+    auto mit(playerMaps.begin()), mend(playerMaps.end());
+    for(;mit!=mend;++mit)
+    {
+        delete mit->second;
+    }
+
+    //delete playerMaps[1];
+    //delete playerMaps[2];
     delete players[0];
     delete players[1];
 }
@@ -149,6 +156,9 @@ void GameObject::resetLastTick(void)
 void GameObject::tick(void)
 {
     //game tick
+    if(ended)
+        return;
+
     if(lastTickMs == 0)
     {
         lastTickMs = StiGame::Time::GetMsTimestamp();
@@ -163,9 +173,14 @@ void GameObject::tick(void)
 
     //ticking players maps
     auto mit(playerMaps.begin()), mend(playerMaps.end());
+    //do the units and buildings count at the same time
+
+    Player* defeated = nullptr;
+
     for(;mit!=mend; ++mit)
     {
         Player *player = getPlayer(mit->first);
+        int count = 0;
         PlayerMap *pmap = mit->second;
 
         pmap->cleanUnits();
@@ -186,6 +201,10 @@ void GameObject::tick(void)
                     pmap->addGroundUnit(gu);
                 }
             }
+            else
+            {
+                count++;
+            }
         }
 
         for(int i=0; i<bc; i++)
@@ -199,10 +218,43 @@ void GameObject::tick(void)
                     pmap->addBuilding(b);
                 }
             }
+            else
+            {
+                count++;
+            }
         }
+
+        if(count == 0)
+        {
+            //player loss
+            defeated = player;
+        }
+
 
     }
 
+    if(defeated != nullptr)
+    {
+        defeatedPlayers.push_back(defeated);
+        //delete playerMaps[defeated];
+        playerMaps.erase(defeated->getId());
+
+        //todo
+        //delete the playermaps possibly
+
+        //publish the event
+        publishPlayerDefeated(defeated);
+    }
+
+
+    //win condition
+    if(defeatedPlayers.size() == players.size() - 1)
+    {
+        auto wit(playerMaps.begin());
+        Player *winner = getPlayer(wit->first);
+        publishPlayerVictory(winner);
+        ended = true;
+    }
 }
 
 void GameObject::moveGroundUnit(Unit *groundUnit, StiGame::Point *targetPt)
@@ -519,3 +571,31 @@ void GameObject::handleEvent(GameMapEventThrower *src, GameMapEvent *event)
         logStream->pushLine("Building killed : " + event->getUnit()->getName() + "; " + std::to_string(event->getUnit()->getOwner()->getId()));
     }
 }
+
+void GameObject::publishPlayerDefeated(Player *defeated)
+{
+    auto lit(_listeners.begin()), lend(_listeners.end());
+    for(;lit!=lend;++lit)
+    {
+        (*lit)->handlePlayerDefeat(defeated);
+    }
+}
+
+void GameObject::publishPlayerVictory(Player *winner)
+{
+    auto lit(_listeners.begin()), lend(_listeners.end());
+    for(;lit!=lend;++lit)
+    {
+        (*lit)->handlePlayerVictory(winner);
+    }
+}
+
+ void GameObject::subscribe(GameObjectListener *listener)
+ {
+     _listeners.push_back(listener);
+ }
+
+ bool GameObject::isEnded(void)
+ {
+     return ended;
+ }

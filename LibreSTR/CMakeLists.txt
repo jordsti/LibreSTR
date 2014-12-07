@@ -4,6 +4,7 @@ project(LibreSTR)
 set(SOURCE_FILES main.cpp
     AssetManager.cpp
     GameObject.cpp
+    GameObjectListener.cpp
     GameState.cpp
     MainMenu.cpp
     NewGameMenu.cpp

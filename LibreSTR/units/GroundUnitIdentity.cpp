@@ -20,6 +20,7 @@ GroundUnitIdentity::GroundUnitIdentity(std::string vf_file)
     movementSpeed = vf.getInt("movementSpeed");
     movementStep = vf.getInt("movementStep");
     productionTime = vf.getInt("productionTime");
+    attackSpeed = vf.getInt("attackSpeed");
 
     icon = vf.getValue("icon");
     radialIcon = vf.getValue("radialIcon");
@@ -48,6 +49,11 @@ GroundUnitIdentity::~GroundUnitIdentity()
 int GroundUnitIdentity::getAttackDamage(void)
 {
     return attackDamage;
+}
+
+int GroundUnitIdentity::getAttackSpeed(void)
+{
+    return attackSpeed;
 }
 
 bool GroundUnitIdentity::isCanAttack(void)

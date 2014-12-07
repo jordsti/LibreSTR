@@ -28,6 +28,7 @@ public:
     int getProductionTime(void);
     int getMovementStep(void);
     int getAttackDamage(void);
+    int getAttackSpeed(void);
 
     std::string getIcon(void);
     std::string getRadialIcon(void);
@@ -49,6 +50,7 @@ protected:
     int gazCost;
     int attackRange;
     int attackDamage;
+    int attackSpeed;
     int width;
     int height;
     int vision;

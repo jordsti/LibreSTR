@@ -21,6 +21,11 @@ void AttackBuildingTask::doStep(void)
 
     if(dist <= unit->getAttackRange())
     {
+        if(stepSize != unit->getAttackSpeed())
+        {
+            stepSize = unit->getAttackSpeed();
+        }
+
         caption = "Attacking";
 
         if(target->getCurrentHealth() > 0)
@@ -42,11 +47,17 @@ void AttackBuildingTask::doStep(void)
     }
     else
     {
+        if(stepSize != unit->getIdentity()->getMovementSpeed())
+        {
+            stepSize = unit->getIdentity()->getMovementSpeed();
+        }
+
         MoveTask::doStep();
 
         if(terminated)
         {
             terminated = false;
+            stepSize = unit->getAttackSpeed();
         }
     }
 

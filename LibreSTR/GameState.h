@@ -22,7 +22,8 @@ class GameState :
     public StiGame::KeyEventListener,
     public StiGame::MouseButtonEventListener,
     public StiGame::MouseMotionEventListener,
-    public StiGame::Gui::SelectionEventListener
+    public StiGame::Gui::SelectionEventListener,
+    public GameObjectListener
 {
     public:
         static const int VIEW_MOVE_DX;
@@ -54,6 +55,9 @@ class GameState :
         void setPause(bool m_paused);
         bool getPause(void);
 
+        void handlePlayerDefeat(Player *defeated);
+        void handlePlayerVictory(Player *winner);
+
     protected:
         void updatePlaceBuilding(void);
 
@@ -77,6 +81,7 @@ class GameState :
         int viewY;
         StiGame::Gui::Label lblFps;
         StiGame::Gui::Label lblPaused;
+        StiGame::Gui::Label lblGameEnded;
         StiGame::Surface *baseMap;
         StiGame::Color background;
         StiGame::Color textColor;

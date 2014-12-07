@@ -16,6 +16,7 @@ void AttackGroundUnitTask::doStep()
     if(!target->equals(&endPoint))
     {
         endPoint = StiGame::Point(target->getX(), target->getY());
+        stepSize = unit->getIdentity()->getMovementSpeed();
     }
 
     StiGame::Point targetMidPt = target->middle();
@@ -25,6 +26,11 @@ void AttackGroundUnitTask::doStep()
     if(dist <= unit->getAttackRange())
     {
         caption = "Attacking";
+
+        if(stepSize != unit->getAttackSpeed())
+        {
+            stepSize = unit->getAttackSpeed();
+        }
 
         if(target->getCurrentHealth() > 0)
         {
@@ -45,11 +51,17 @@ void AttackGroundUnitTask::doStep()
     }
     else
     {
+        if(stepSize != unit->getIdentity()->getMovementSpeed())
+        {
+            stepSize = unit->getIdentity()->getMovementSpeed();
+        }
+
         MoveTask::doStep();
 
         if(terminated)
         {
             terminated = false;
+            stepSize = unit->getAttackSpeed();
         }
     }
 

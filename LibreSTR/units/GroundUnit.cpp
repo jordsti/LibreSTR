@@ -70,3 +70,8 @@ int GroundUnit::getAttackDamage(void)
 {
     return identity->getAttackDamage();
 }
+
+int GroundUnit::getAttackSpeed(void)
+{
+    return identity->getAttackSpeed();
+}

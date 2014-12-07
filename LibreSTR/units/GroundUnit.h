@@ -25,6 +25,7 @@ public:
     GroundUnitState getState(void);
     int getAttackRange(void);
     int getAttackDamage(void);
+    int getAttackSpeed(void);
 
     Task* getTask(void);
     bool isWorking(void);

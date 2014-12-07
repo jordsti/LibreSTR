@@ -40,6 +40,12 @@ GameState::GameState(AssetManager *m_assets, int mapWidth, int mapHeight) :
     lblFps.setVisible(false);
     lblFps.doAutosize();
 
+    lblGameEnded.setForeground(&textColor);
+    lblGameEnded.setVisible(false);
+    lblGameEnded.setCaption("You win !");
+    lblGameEnded.setFont(lblGameEnded.getStyle()->getBigFont());
+    lblGameEnded.doAutosize();
+
     background.setRGB(0, 0, 0);
     viewX = 0;
     viewY = 0;
@@ -85,6 +91,7 @@ GameState::GameState(AssetManager *m_assets, int mapWidth, int mapHeight) :
     _items.push_back(&console);
     _items.push_back(&unitInfo);
     _items.push_back(&lblError);
+    _items.push_back(&lblGameEnded);
 
     baseMenu.subscribe(this);
     barrackMenu.subscribe(this);
@@ -106,6 +113,8 @@ GameState::GameState(AssetManager *m_assets, int mapWidth, int mapHeight) :
     _items.push_back(&lblPaused);
 
     paused = false;
+
+    game->subscribe(this);
 }
 
 GameState::~GameState()
@@ -244,6 +253,8 @@ void GameState::onResize(int m_width, int m_height)
     console.pushLine(cline);
 
     lblPaused.setPoint((m_width - lblPaused.getWidth())/2, (m_height - lblPaused.getHeight())/2);
+
+    lblGameEnded.setPoint( (m_width - lblGameEnded.getWidth())/2, (m_height - lblGameEnded.getHeight())/2 );
 }
 
 void GameState::placeBuilding(GroundUnit *m_builder, BuildingIdentity *toPlaceId)
@@ -513,6 +524,25 @@ void GameState::onPaint(SDL_Renderer *renderer)
     renderGui(renderer);
 
     BaseGameState::onPaint(renderer);
+}
+
+void GameState::handlePlayerDefeat(Player *defeated)
+{
+    //todo
+}
+
+void GameState::handlePlayerVictory(Player *winner)
+{
+    if(winner == currentPlayer)
+    {
+        lblGameEnded.setCaption("You win !");
+    }
+    else
+    {
+        lblGameEnded.setCaption("You lose !");
+    }
+
+    lblGameEnded.setVisible(true);
 }
 
 void GameState::renderUnits(SDL_Renderer *renderer)
