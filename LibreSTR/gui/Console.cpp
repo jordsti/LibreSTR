@@ -101,7 +101,7 @@ StiGame::Surface* Console::render(void)
 
     buffer->fillRect(&iRect, &linesBackground);
 
-    int lineCount = height - (c_y + 5);
+    int lineCount = height - (c_y + 5 + textBox.getHeight());
     lineCount /= lineHeight;
 
     if(lineCount > lines.size())

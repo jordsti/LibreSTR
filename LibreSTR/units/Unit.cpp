@@ -116,12 +116,11 @@ StiGame::Point Unit::bottomLeft(void)
     return StiGame::Point(x, y + height);
 }
 
-std::vector<StiGame::Point> Unit::fivePoints(void)
+std::vector<StiGame::Point> Unit::corners(void)
 {
     std::vector<StiGame::Point> pts;
     pts.push_back(topLeft());
     pts.push_back(topRight());
-    pts.push_back(middle());
     pts.push_back(bottomRight());
     pts.push_back(bottomLeft());
 

@@ -84,18 +84,23 @@ void GameObject::buildBuilding(BuildingIdentity *buildingId, Unit *groundUnit, P
         pmap->addBuilding(building);
 
 
-        std::vector<StiGame::Point> pts = building->fivePoints();
+        std::vector<StiGame::Point> pts = building->corners();
         StiGame::Point nearestPt;
         double dist = 10000;
         auto pit(pts.begin()), pend(pts.end());
         for(;pit!=pend;++pit)
         {
-            double _dist = gu->distanceWith(&(*pit));
+            double _dist = gu->middle().distanceWith(&(*pit));
             if(_dist < dist)
             {
                 dist = _dist;
                 nearestPt = (*pit);
             }
+        }
+
+        if(building->contains(&nearestPt))
+        {
+            nearestPt = StiGame::Point(building->getX() - gu->getWidth()/2, building->getY() - gu->getHeight()/2);
         }
 
         //todo, test this cause we are just using middle as end point
@@ -119,7 +124,7 @@ void GameObject::repairBuilding(Building *building, Unit *groundUnit, Player *pl
     {
         //build task
 
-        std::vector< StiGame::Point > pts = building->fivePoints();
+        std::vector< StiGame::Point > pts = building->corners();
         StiGame::Point nearestPt;
         double dist = 10000;
         auto pit(pts.begin()), pend(pts.end());

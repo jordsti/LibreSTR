@@ -663,7 +663,7 @@ void GameState::handleEvent(MouseButtonEventThrower *src, MouseButtonEventArgs *
     //building placing
     if(args->getMouseButton() == MB_LEFT && placingBuilding && args->isDown())
     {
-        std::cout << buildingPos.getX() << "; " << buildingPos.getY() << std::endl;
+        //std::cout << buildingPos.getX() << "; " << buildingPos.getY() << std::endl;
 
         if(pmap->isBuildingLocationValid(buildingId, &buildingPos))
         {

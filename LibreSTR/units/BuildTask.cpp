@@ -15,6 +15,8 @@ BuildTask::~BuildTask()
 
 void BuildTask::doStep(void)
 {
+
+
     if(endPoint.equals(unit))
     {
         if(building->getCurrentHealth() < building->getMaxHealth())

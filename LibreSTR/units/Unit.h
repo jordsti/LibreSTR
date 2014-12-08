@@ -44,7 +44,7 @@ public:
     StiGame::Point bottomRight(void);
     StiGame::Point bottomLeft(void);
 
-    std::vector<StiGame::Point> fivePoints(void);
+    std::vector<StiGame::Point> corners(void);
 
 protected:
     Unit();

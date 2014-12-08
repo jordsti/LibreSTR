@@ -66,6 +66,7 @@ void MoveTask::doStep(void)
         bool moveOk = false;
         int initStep = unit->getIdentity()->getMovementStep();
         int moveStep = initStep;
+        int _try = 0;
         while(!moveOk)
         {
             int dx = tmpTargetPt.getX() - currentPt.getX();
@@ -167,6 +168,13 @@ void MoveTask::doStep(void)
 
                     tmpTargetPt.setPoint(currentPt.getX() + (dx * Tile::TILE_WIDTH), currentPt.getY() + (dy * Tile::TILE_HEIGHT));
                 }
+            }
+
+            _try++;
+
+            if(_try > 1000)
+            {
+                std::cout << "1000 try hitted !!" << std::endl;
             }
         }
 
