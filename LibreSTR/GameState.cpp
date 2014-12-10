@@ -9,6 +9,7 @@
 #include "ToggleConsole.h"
 #include "PauseGameAction.h"
 #include "GamePath.h"
+#include "TimeTools.h"
 
 using namespace StiGame;
 using namespace Gui;
@@ -476,6 +477,7 @@ void GameState::setViewPoint(int t_x, int t_y)
 void GameState::onPaint(SDL_Renderer *renderer)
 {
     //todo move this plz !
+
     if(!paused)
     {
         groundUnitSpritesManager.tick();
@@ -524,6 +526,7 @@ void GameState::onPaint(SDL_Renderer *renderer)
     renderGui(renderer);
 
     BaseGameState::onPaint(renderer);
+
 }
 
 void GameState::handlePlayerDefeat(Player *defeated)

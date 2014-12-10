@@ -19,7 +19,7 @@ void AttackBuildingTask::doStep(void)
     StiGame::Point unitMidPt = unit->middle();
     double dist = unitMidPt.distanceWith(&targetMidPt);
 
-    if(dist <= unit->getAttackRange())
+    if(dist <= unit->getAttackRange() + (target->getWidth()/2))
     {
         if(stepSize != unit->getAttackSpeed())
         {

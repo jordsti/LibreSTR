@@ -27,7 +27,7 @@ void MainMenu::initComponents(void)
     lblTitle.setFont(style->getBigFont());
     lblTitle.setCaption("Libre STR");
 
-    lblAuthor.setCaption("Created by JordSti - 2014");
+    lblAuthor.setCaption("Created by Jordan Guerin - 2014");
 
     btnNewGame.setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     btnNewGame.setCaption("New Game");
@@ -57,8 +57,6 @@ bool MainMenu::handleEvent(EventThrower *src, EventArgs *evt)
 {
     if(src == &btnNewGame)
     {
-        //todo game state
-        //GameState *state = new GameState(assets);
         NewGameMenu *state = new NewGameMenu(assets);
         viewport->push(state);
     }
