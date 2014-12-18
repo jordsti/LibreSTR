@@ -11,6 +11,13 @@ set(SOURCE_FILES main.cpp
     Player.cpp
     MPlayer.cpp
 
+    ai/CompLeafAction.cpp
+    ai/CompLeafCondition.cpp
+    ai/MLeaf.cpp
+    ai/Leaf.cpp
+    ai/LeafCondition.cpp
+    ai/LeafAction.cpp
+
     actions/ToggleConsole.cpp
     actions/ToggleMiniMapAction.cpp
     actions/ToggleShowFPSAction.cpp
