@@ -55,8 +55,17 @@ std::list<std::string> AssetManager::getTextures(void)
     textures.push_back(barrack->getConstructSprite(PC_Red));
     textures.push_back(barrack->getSpriteName(PC_Red));
 
+    textures.push_back(house->getPlacedSprite());
+    textures.push_back(house->getConstructSprite(PC_Blue));
+    textures.push_back(house->getSpriteName(PC_Blue));
+
+    textures.push_back(house->getConstructSprite(PC_Red));
+    textures.push_back(house->getSpriteName(PC_Red));
+
     //textures.push_back(worker->getSprite(PC_Red, GUS_Idle));
     //textures.push_back(worker->getSprite(PC_Blue, GUS_Idle));
+
+    //house to add
 
     return textures;
 }
@@ -114,6 +123,11 @@ BuildingIdentity* AssetManager::getBarrackIdentity(void)
     return barrack;
 }
 
+BuildingIdentity* AssetManager::getHouseIdentity(void)
+{
+    return house;
+}
+
 void AssetManager::initBindings()
 {
     KeyActionMap *kmap;
@@ -168,6 +182,10 @@ void AssetManager::loadData(void)
     std::string rbarrack = vf.getValue("barrack_building");
     p = GamePath::getFilepath(AssetRoot, rbarrack);
     barrack = new BuildingIdentity(BT_Barrack, p);
+
+    std::string rhouse = vf.getValue("house_building");
+    p = GamePath::getFilepath(AssetRoot, rhouse);
+    house = new BuildingIdentity(BT_House, p);
 
     std::string rworker = vf.getValue("worker");
     p = GamePath::getFilepath(AssetRoot, rworker);

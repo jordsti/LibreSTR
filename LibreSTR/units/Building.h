@@ -15,7 +15,8 @@ enum BuildingState : int {
 
 enum BuildingType : int {
     BT_Base,
-    BT_Barrack
+    BT_Barrack,
+    BT_House
 };
 
 class Building :

@@ -36,12 +36,15 @@ private:
 
     BuildingIdentity *baseBuilding;
     BuildingIdentity *barrackBuilding;
+    BuildingIdentity *houseBuilding;
 
     StiGame::Surface *baseIcon;
     StiGame::Surface *barrackIcon;
+    StiGame::Surface *houseIcon;
 
     StiGame::Gui::ImageButton btnBase;
     StiGame::Gui::ImageButton btnBarrack;
+    StiGame::Gui::ImageButton btnHouse;
 
     StiGame::Color transparentBackground;
     StiGame::Gui::Label lblName;

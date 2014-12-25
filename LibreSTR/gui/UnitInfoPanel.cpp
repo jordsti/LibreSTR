@@ -27,12 +27,14 @@ UnitInfoPanel::UnitInfoPanel() : Item("UnitInfoPanel")
 
     _items.push_back(&btnBase);
     _items.push_back(&btnBarrack);
+    _items.push_back(&btnHouse);
 }
 
 UnitInfoPanel::~UnitInfoPanel()
 {
     delete baseIcon;
     delete barrackIcon;
+    delete houseIcon;
 }
 
 void UnitInfoPanel::loadAssets(AssetManager *m_assets)
@@ -40,9 +42,11 @@ void UnitInfoPanel::loadAssets(AssetManager *m_assets)
     assets = m_assets;
     baseBuilding = assets->getBaseIdentity();
     barrackBuilding = assets->getBarrackIdentity();
+    houseBuilding = assets->getHouseIdentity();
 
     baseIcon = new Surface(GamePath::getFilepath(AssetRoot, baseBuilding->getIcon()));
     barrackIcon = new Surface(GamePath::getFilepath(AssetRoot, barrackBuilding->getIcon()));
+    houseIcon = new Surface(GamePath::getFilepath(AssetRoot, houseBuilding->getIcon()));
 
     btnBase.setImage(baseIcon);
     btnBase.setImageHover(baseIcon);
@@ -53,6 +57,12 @@ void UnitInfoPanel::loadAssets(AssetManager *m_assets)
     btnBarrack.setImageHover(barrackIcon);
     btnBarrack.setDimension(barrackIcon->getWidth(), barrackIcon->getHeight());
     btnBarrack.setPoint(width-btnBarrack.getWidth()-5, 5 + btnBase.getY() + btnBase.getHeight());
+
+    btnHouse.setImage(houseIcon);
+    btnHouse.setImageHover(houseIcon);
+    btnHouse.setDimension(houseIcon->getWidth(), houseIcon->getHeight());
+    btnHouse.setPoint(width-btnHouse.getWidth()-5, 5 + btnBarrack.getY() + btnBarrack.getHeight());
+
 }
 
 void UnitInfoPanel::onClick(StiGame::Point *relp)
@@ -81,6 +91,18 @@ void UnitInfoPanel::onClick(StiGame::Point *relp)
             }
         }
     }
+
+    if(btnHouse.isVisible())
+    {
+        if(btnHouse.contains(relp))
+        {
+            if(state != nullptr)
+            {
+                GroundUnit *gu = dynamic_cast<GroundUnit*>(unit);
+                state->placeBuilding(gu, houseBuilding);
+            }
+        }
+    }
 }
 
  void UnitInfoPanel::updateInfo(void)
@@ -93,6 +115,7 @@ void UnitInfoPanel::onClick(StiGame::Point *relp)
             lblType.setCaption("Building");
             btnBase.setVisible(false);
             btnBarrack.setVisible(false);
+            btnHouse.setVisible(false);
         }
         else if(unit->getType() == UT_Ground)
         {
@@ -113,11 +136,13 @@ void UnitInfoPanel::onClick(StiGame::Point *relp)
             {
                 btnBase.setVisible(true);
                 btnBarrack.setVisible(true);
+                btnHouse.setVisible(true);
             }
             else
             {
                 btnBase.setVisible(false);
                 btnBarrack.setVisible(false);
+                btnHouse.setVisible(false);
             }
         }
 

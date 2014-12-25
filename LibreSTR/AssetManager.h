@@ -20,6 +20,7 @@ class AssetManager
 
         BuildingIdentity* getBaseIdentity(void);
         BuildingIdentity* getBarrackIdentity(void);
+        BuildingIdentity* getHouseIdentity(void);
 
         GroundUnitIdentity* getWorkerIdentity(void);
         GroundUnitIdentity* getMeleeIdentity(void);
@@ -48,6 +49,7 @@ class AssetManager
 
         BuildingIdentity *base;
         BuildingIdentity *barrack;
+        BuildingIdentity *house;
 
         GroundUnitIdentity *worker;
         GroundUnitIdentity *melee;
