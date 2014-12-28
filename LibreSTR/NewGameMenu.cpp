@@ -45,7 +45,9 @@ bool NewGameMenu::handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *ar
 {
     if(src == &btnStart)
     {
-        GameState *state = new GameState(assets, currentDim->getWidth(), currentDim->getHeight());
+        //max pop to be added in the new game state
+        //todo
+        GameState *state = new GameState(assets, currentDim->getWidth(), currentDim->getHeight(), 200);
         viewport->push(state);
     }
     else if(src == &btnBack)

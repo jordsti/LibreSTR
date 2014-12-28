@@ -22,3 +22,4 @@ radialHoverIcon=melee_radial_icon_hover.png;
 canHarvest=false;
 canBuild=false;
 canAttack=true;
+populationCost=2;

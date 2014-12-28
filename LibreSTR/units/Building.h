@@ -40,6 +40,8 @@ public:
 
     BuildingType getBuildingType(void);
 
+    int getPopulationCapacity(void);
+
 protected:
     std::vector<JobEmitter*> emitters;
     std::queue<Job*> jobsQueue;

@@ -67,6 +67,8 @@ At the end of trimester, LibreSTR will include :
   - BuilTask use middle pt of building and maybe remove the half of hypotenuse
   - Console one line is hidden ? (bug)
   - attack speed
+  - Unit cancellation
+  - Worker button fix,  2 cols, 2 rows
 
 #### Possible in the future
   - Idle worker selector

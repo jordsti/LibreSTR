@@ -15,4 +15,5 @@ sprite_construct_red=red_construction_house;
 sprite_blue=blue_house;
 sprite_red=red_house;
 icon=house_icon.png;
+populationCapacity=5;
 #metal and gaz..

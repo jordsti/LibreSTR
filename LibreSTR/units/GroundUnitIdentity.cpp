@@ -21,6 +21,8 @@ GroundUnitIdentity::GroundUnitIdentity(std::string vf_file)
     movementStep = vf.getInt("movementStep");
     productionTime = vf.getInt("productionTime");
     attackSpeed = vf.getInt("attackSpeed");
+    populationCost = vf.getInt("populationCost");
+
 
     icon = vf.getValue("icon");
     radialIcon = vf.getValue("radialIcon");
@@ -44,6 +46,11 @@ GroundUnitIdentity::GroundUnitIdentity(std::string vf_file)
 
 GroundUnitIdentity::~GroundUnitIdentity()
 {
+}
+
+int GroundUnitIdentity::getPopulationCost(void)
+{
+    return populationCost;
 }
 
 int GroundUnitIdentity::getAttackDamage(void)

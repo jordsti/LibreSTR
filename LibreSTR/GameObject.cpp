@@ -13,7 +13,7 @@
 
 using namespace StiGame;
 
-GameObject::GameObject(AssetManager *m_assets, int mapWidth, int mapHeight, ILogStream *m_logStream)
+GameObject::GameObject(AssetManager *m_assets, int mapWidth, int mapHeight, int m_maxPopulation, ILogStream *m_logStream)
 {
     assets = m_assets;
     ended = false;
@@ -31,6 +31,7 @@ GameObject::GameObject(AssetManager *m_assets, int mapWidth, int mapHeight, ILog
     logStream = m_logStream;
 
     lastTickMs = 0;
+    maxPopulation = m_maxPopulation;
 }
 
 GameObject::~GameObject()
@@ -184,8 +185,10 @@ void GameObject::tick(void)
 
     for(;mit!=mend; ++mit)
     {
-        Player *player = getPlayer(mit->first);
+        MPlayer *player = getMPlayer(mit->first);
         int count = 0;
+        int populationCapacity = 0;
+        int currentPopulation = 0;
         PlayerMap *pmap = mit->second;
 
         pmap->cleanUnits();
@@ -209,6 +212,9 @@ void GameObject::tick(void)
             else
             {
                 count++;
+                //population capacity count;
+                currentPopulation += gu->getIdentity()->getPopulationCost();
+
             }
         }
 
@@ -226,8 +232,16 @@ void GameObject::tick(void)
             else
             {
                 count++;
+                //population capacity count;
+                if(b->getState() == BS_Builded)
+                {
+                    populationCapacity += b->getPopulationCapacity();
+                }
             }
         }
+
+        player->setMaxPopulation(populationCapacity);
+        player->setCurrentPopulation(currentPopulation);
 
         if(count == 0)
         {
@@ -492,7 +506,9 @@ bool GameObject::createWorker(Player *player, Building *base)
             GroundUnitIdentity *workerId = assets->getWorkerIdentity();
             //population constraint to be added here
             if(player->getMetalCount() >= workerId->getMetalCost()
-               && player->getGazCount() >= workerId->getGazCost())
+               && player->getGazCount() >= workerId->getGazCost()
+                    //different error message for population cost maybe ?!
+               && player->getMaxPopulation() - player->getCurrentPopulation() >= workerId->getPopulationCost())
             {
                 //job id 0
 
@@ -532,7 +548,9 @@ bool GameObject::createMelee(Player *player, Building *base)
             GroundUnitIdentity *meleeId = assets->getMeleeIdentity();
             //population constraint to be added here
             if(player->getMetalCount() >= meleeId->getMetalCost()
-               && player->getGazCount() >= meleeId->getGazCost())
+               && player->getGazCount() >= meleeId->getGazCost()
+               //different error message for population cost maybe ?!
+               && player->getMaxPopulation() - player->getCurrentPopulation() >= meleeId->getPopulationCost())
             {
                 //job id 0
 

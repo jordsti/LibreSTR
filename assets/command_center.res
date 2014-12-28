@@ -15,4 +15,5 @@ sprite_construct_red=red_construction_command_center;
 sprite_blue=blue_command_center;
 sprite_red=red_command_center;
 icon=command_center_icon.png;
+populationCapacity=10;
 #metal and gaz..

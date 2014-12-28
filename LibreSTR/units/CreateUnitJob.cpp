@@ -79,6 +79,8 @@ void CreateUnitJob::onComplete(void)
         step++;
     }
 
+    //int pop = player->getCurrentPopulation() - identity->getPopulationCost();
+    //player->setCurrentPopulation(pop);
     //debug output
     //std::cout << "Unit placed at : " << pt_x << "; " << pt_y << std::endl;
 }
@@ -87,14 +89,18 @@ void CreateUnitJob::onCancel(void)
 {
     int metalCount = player->getMetalCount() + identity->getMetalCost();
     int gazCount = player->getGazCount() + identity->getGazCost();
+    //int pop = player->getCurrentPopulation() - identity->getPopulationCost();
     player->setMetalCount(metalCount);
     player->setGazCount(gazCount);
+    //player->setCurrentPopulation(pop);
 }
 
 void CreateUnitJob::onStart(void)
 {
     int metalCount = player->getMetalCount() - identity->getMetalCost();
     int gazCount = player->getGazCount() - identity->getGazCost();
+    //int tmpPop = player->getCurrentPopulation() + identity->getPopulationCost();
     player->setMetalCount(metalCount);
     player->setGazCount(gazCount);
+    //player->setCurrentPopulation(tmpPop);
 }

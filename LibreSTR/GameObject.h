@@ -13,7 +13,7 @@ class GameObject :
 {
 public:
     const int PLAYERS_MAX = 2; //atm
-    GameObject(AssetManager *m_assets, int mapWidth, int mapHeight, ILogStream *m_logStream);
+    GameObject(AssetManager *m_assets, int mapWidth, int mapHeight, int m_maxPopulation, ILogStream *m_logStream);
 
     Player* getPlayer(int index);
     PlayerMap* getPlayerMap(int index);
@@ -68,6 +68,8 @@ private:
     std::vector<GameObjectListener*> _listeners;
 
     bool ended;
+
+    int maxPopulation;
 };
 
 #endif // GAMEOBJECT_H

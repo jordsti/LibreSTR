@@ -28,6 +28,7 @@ private:
     StiGame::Gui::Image iconGaz;
     StiGame::Gui::Label lblMetalCount;
     StiGame::Gui::Label lblGazCount;
+    StiGame::Gui::Label lblPopulation;
     StiGame::Color textColor;
     std::list<StiGame::Gui::Item*> items;
     StiGame::Surface *leftImage;

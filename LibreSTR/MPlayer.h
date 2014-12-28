@@ -12,6 +12,9 @@ public:
 
     void setMetalCount(int m_metalCount);
     void setGazCount(int m_gazCount);
+
+    void setCurrentPopulation(int m_currentPopulation);
+    void setMaxPopulation(int m_maxPopulation);
 };
 
 #endif // MPLAYER_H

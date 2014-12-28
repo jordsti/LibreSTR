@@ -85,6 +85,11 @@ BuildingType Building::getBuildingType(void)
     return _identity->getBuildingType();
 }
 
+int Building::getPopulationCapacity(void)
+{
+    return _identity->getPopulationCapacity();
+}
+
 Building::~Building()
 {
 }

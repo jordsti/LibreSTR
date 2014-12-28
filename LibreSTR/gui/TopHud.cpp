@@ -27,6 +27,9 @@ TopHud::TopHud(AssetManager *m_assets, Player *m_player)
     lblGazCount.setCaption("0");
     lblGazCount.doAutosize();
 
+    lblPopulation.setCaption("0 / 0");
+    lblPopulation.doAutosize();
+
     iconMetal.setPoint(20, (height - iconMetal.getHeight())/2);
     lblMetalCount.setPoint(iconMetal.getX() + iconMetal.getWidth() + 5, (height - lblMetalCount.getHeight())/2);
 
@@ -38,12 +41,15 @@ TopHud::TopHud(AssetManager *m_assets, Player *m_player)
     lblMetalCount.setForeground(&textColor);
     lblGazCount.setForeground(&textColor);
 
+    lblPopulation.setPoint( lblGazCount.getX() + 150, (height - lblPopulation.getHeight())/2);
+
     background = new Color(0, 0, 0, 230);
 
     items.push_back(&iconMetal);
     items.push_back(&lblMetalCount);
     items.push_back(&iconGaz);
     items.push_back(&lblGazCount);
+    items.push_back(&lblPopulation);
 }
 
 TopHud::~TopHud()
@@ -71,6 +77,13 @@ void TopHud::updateHud(void)
     if(nGaz != lblGazCount.getCaption())
     {
         lblGazCount.setCaption(nGaz);
+    }
+
+    std::string pop = std::to_string(player->getCurrentPopulation()) + " / " + std::to_string(player->getMaxPopulation());
+
+    if(pop != lblPopulation.getCaption())
+    {
+        lblPopulation.setCaption(pop);
     }
 
 }

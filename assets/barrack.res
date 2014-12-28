@@ -15,4 +15,5 @@ sprite_construct_red=red_construction_barrack;
 sprite_blue=blue_barrack;
 sprite_red=red_barrack;
 icon=barrack_icon.png;
+populationCapacity=0;
 #metal and gaz..

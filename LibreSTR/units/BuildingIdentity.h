@@ -33,7 +33,10 @@ public:
 
     BuildingType getBuildingType(void);
 
+    int getPopulationCapacity(void);
+
 protected:
+    int populationCapacity;
     int metalCost;
     int gazCost;
     int maxHealth;

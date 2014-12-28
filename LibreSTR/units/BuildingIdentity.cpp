@@ -17,6 +17,8 @@ BuildingIdentity::BuildingIdentity(BuildingType m_buildingType, std::string id_f
     placedSprite = vf.getValue("placedSprite");
     icon = vf.getValue("icon");
 
+    populationCapacity = vf.getInt("populationCapacity");
+
     constructSprites.insert(make_pair(PC_Blue, vf.getValue("sprite_construct_blue")));
     constructSprites.insert(make_pair(PC_Red, vf.getValue("sprite_construct_red")));
 
@@ -89,6 +91,11 @@ int BuildingIdentity::getHeight(void)
 BuildingIdentity::~BuildingIdentity()
 {
 
+}
+
+int BuildingIdentity::getPopulationCapacity(void)
+{
+    return populationCapacity;
 }
 
 MBuilding* BuildingIdentity::create(Player *owner)

@@ -20,12 +20,19 @@ public:
     int getMetalCount(void);
     int getGazCount(void);
     int getId(void);
+
+    int getMaxPopulation(void);
+    int getCurrentPopulation(void);
+
     static void ResetPlayerId(void);
 protected:
     void initPlayer(void);
 
     int metalCount;
     int gazCount;
+
+    int maxPopulation;
+    int currentPopulation;
 
     PlayerColor playerColor;
     StiGame::Color color;

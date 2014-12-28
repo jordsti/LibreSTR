@@ -19,6 +19,9 @@ Player::Player()
     _id = currentId();
     playerColor = PC_Blue;
     initPlayer();
+
+    maxPopulation = 0;
+    currentPopulation = 0;
 }
 
 Player::Player(PlayerColor m_playerColor)
@@ -71,4 +74,14 @@ PlayerColor Player::getPlayerColor(void)
 StiGame::Color* Player::getColor(void)
 {
     return &color;
+}
+
+int Player::getMaxPopulation(void)
+{
+    return maxPopulation;
+}
+
+int Player::getCurrentPopulation(void)
+{
+    return currentPopulation;
 }

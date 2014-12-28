@@ -21,3 +21,4 @@ radialHoverIcon=worker16_hover.png;
 canHarvest=true;
 canBuild=true;
 canAttack=false;
+populationCost=1;
