@@ -513,7 +513,7 @@ bool GameObject::createWorker(Player *player, Building *base)
             {
                 //job id 0
 
-                if(player->getMaxPopulation() - player->getCurrentPopulation() < meleeId->getPopulationCost())
+                if(player->getMaxPopulation() - player->getCurrentPopulation() < workerId->getPopulationCost())
                 {
                     publishError("Need more house !");
                     return false;
