@@ -11,7 +11,7 @@ UnitInfoPanel::UnitInfoPanel() : Item("UnitInfoPanel")
     unit = nullptr;
     state = nullptr;
     width = 360;
-    height = 100;
+    height = 120;
     transparentBackground.setRGBA(50, 50, 50, 150);
     background = &transparentBackground;
 

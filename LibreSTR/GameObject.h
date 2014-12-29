@@ -13,6 +13,8 @@ class GameObject :
 {
 public:
     const int PLAYERS_MAX = 2; //atm
+    const int UNLIMITED_POPULATION = -1;
+
     GameObject(AssetManager *m_assets, int mapWidth, int mapHeight, int m_maxPopulation, ILogStream *m_logStream);
 
     Player* getPlayer(int index);
@@ -48,6 +50,8 @@ public:
     void subscribe(GameObjectListener *listener);
 
     bool isEnded(void);
+
+    int getMaxPopulation(void);
 
 private:
     void publishError(std::string m_error);

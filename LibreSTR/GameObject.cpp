@@ -188,7 +188,6 @@ void GameObject::tick(void)
         MPlayer *player = getMPlayer(mit->first);
         int count = 0;
         int populationCapacity = 0;
-        int currentPopulation = 0;
         PlayerMap *pmap = mit->second;
 
         pmap->cleanUnits();
@@ -212,9 +211,6 @@ void GameObject::tick(void)
             else
             {
                 count++;
-                //population capacity count;
-                currentPopulation += gu->getIdentity()->getPopulationCost();
-
             }
         }
 
@@ -232,7 +228,7 @@ void GameObject::tick(void)
             else
             {
                 count++;
-                //population capacity count;
+                //population capacity count
                 if(b->getState() == BS_Builded)
                 {
                     populationCapacity += b->getPopulationCapacity();
@@ -240,8 +236,14 @@ void GameObject::tick(void)
             }
         }
 
-        player->setMaxPopulation(populationCapacity);
-        player->setCurrentPopulation(currentPopulation);
+        if(populationCapacity <= maxPopulation && maxPopulation != UNLIMITED_POPULATION)
+        {
+            player->setMaxPopulation(populationCapacity);
+        }
+        else
+        {
+            player->setMaxPopulation(maxPopulation);
+        }
 
         if(count == 0)
         {
@@ -443,6 +445,7 @@ void GameObject::initGame(void)
         for(int i=0; i<5; i++)
         {
             MGroundUnit *wunit = workerId->create(pl);
+            pl->setCurrentPopulation(pl->getCurrentPopulation() + workerId->getPopulationCost());
             map->placeGroundUnitAroundPoint(wunit, ptStart.getX() * Tile::TILE_WIDTH, ptStart.getY() * Tile::TILE_HEIGHT, false);
             StiGame::Point tunitPt (wunit->getX() / Tile::TILE_WIDTH, wunit->getY() / Tile::TILE_HEIGHT);
 
@@ -504,13 +507,17 @@ bool GameObject::createWorker(Player *player, Building *base)
         if(base->getOwner() == player)
         {
             GroundUnitIdentity *workerId = assets->getWorkerIdentity();
-            //population constraint to be added here
+
             if(player->getMetalCount() >= workerId->getMetalCost()
-               && player->getGazCount() >= workerId->getGazCost()
-                    //different error message for population cost maybe ?!
-               && player->getMaxPopulation() - player->getCurrentPopulation() >= workerId->getPopulationCost())
+               && player->getGazCount() >= workerId->getGazCost())
             {
                 //job id 0
+
+                if(player->getMaxPopulation() - player->getCurrentPopulation() < meleeId->getPopulationCost())
+                {
+                    publishError("Need more house !");
+                    return false;
+                }
 
                 MBuilding *mbase = map->getBuildingById(base->getId());
 
@@ -546,13 +553,17 @@ bool GameObject::createMelee(Player *player, Building *base)
         if(base->getOwner() == player)
         {
             GroundUnitIdentity *meleeId = assets->getMeleeIdentity();
-            //population constraint to be added here
+
             if(player->getMetalCount() >= meleeId->getMetalCost()
-               && player->getGazCount() >= meleeId->getGazCost()
-               //different error message for population cost maybe ?!
-               && player->getMaxPopulation() - player->getCurrentPopulation() >= meleeId->getPopulationCost())
+               && player->getGazCount() >= meleeId->getGazCost())
             {
                 //job id 0
+
+                if(player->getMaxPopulation() - player->getCurrentPopulation() < meleeId->getPopulationCost())
+                {
+                    publishError("Need more house !");
+                    return false;
+                }
 
                 MBuilding *mbase = map->getBuildingById(base->getId());
 
@@ -587,6 +598,11 @@ void GameObject::handleEvent(GameMapEventThrower *src, GameMapEvent *event)
     // will be much more used when player points will be implemented
     if(event->getType() == GMET_GroundUnitKilled)
     {
+        //remove this unit population
+        GroundUnit *gu = dynamic_cast<GroundUnit*>(event->getUnit());
+        MPlayer *player = getMPlayer(gu->getOwner()->getId());
+        player->setCurrentPopulation(player->getCurrentPopulation() - gu->getIdentity()->getPopulationCost());
+
         logStream->pushLine("Ground Unit Killed : " + event->getUnit()->getName() + "; " + std::to_string(event->getUnit()->getOwner()->getId()));
     }
     else if(event->getType() == GMET_BuildingKilled)
@@ -621,4 +637,9 @@ void GameObject::publishPlayerVictory(Player *winner)
  bool GameObject::isEnded(void)
  {
      return ended;
+ }
+
+ int GameObject::getMaxPopulation(void)
+ {
+     return maxPopulation;
  }

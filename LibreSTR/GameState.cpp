@@ -414,13 +414,20 @@ void GameState::handleEvent(KeyEventThrower *src, KeyEventArgs *args)
 {
     if(args->getKeyboardEvent()->keysym.sym == SDLK_ESCAPE && args->getState() == KS_UP)
     {
-        if(!gameMenu->isVisible())
+        if(placingBuilding)
         {
-            openGameMenu();
+            placingBuilding = false;
         }
         else
         {
-            closeGameMenu();
+            if(!gameMenu->isVisible())
+            {
+                openGameMenu();
+            }
+            else
+            {
+                closeGameMenu();
+            }
         }
     }
 }

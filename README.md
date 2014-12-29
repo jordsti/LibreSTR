@@ -59,16 +59,15 @@ At the end of trimester, LibreSTR will include :
 
 ### To Do
   - GameMap tile Update receptor (remove resource)
-  - Key to center view arround selected unit
+  - Key to center view around selected unit
   - Loading State
   - Change BuildTask endPoint to a nearest extremity of the building (little bug)
-  - Win Condition (Player Unit Count == 0 -> loss)
   - awful segfault, random appearance...!!
   - BuilTask use middle pt of building and maybe remove the half of hypotenuse
   - Console one line is hidden ? (bug)
   - attack speed
   - Unit cancellation
-  - Worker button fix,  2 cols, 2 rows
+  - Worker button fix,  2 cols, 2 rows (temporary hotfix, height changed for the unitinfo panel)
 
 #### Possible in the future
   - Idle worker selector

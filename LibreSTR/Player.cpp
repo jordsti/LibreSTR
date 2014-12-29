@@ -29,6 +29,9 @@ Player::Player(PlayerColor m_playerColor)
     _id = currentId();
     playerColor = m_playerColor;
     initPlayer();
+
+    maxPopulation = 0;
+    currentPopulation = 0;
 }
 
 Player::~Player()

@@ -34,12 +34,26 @@ protected:
 
     StiGame::Gui::Label lblTitle;
     StiGame::Gui::Label lblMapSize;
+    StiGame::Gui::Label lblPopSize;
 
     StiGame::Gui::ComboBox cbMapSize;
+    StiGame::Gui::ComboBox cbPopSize;
 
     StiGame::Gui::ValueObject voSmall;
     StiGame::Gui::ValueObject voMedium;
     StiGame::Gui::ValueObject voLarge;
+
+    StiGame::Gui::ValueObject voSmallPop;
+    StiGame::Gui::ValueObject voMediumPop;
+    StiGame::Gui::ValueObject voLargePop;
+    StiGame::Gui::ValueObject voUnlimited;
+
+    int smallPop;
+    int mediumPop;
+    int largePop;
+    int unlimitedPop;
+
+    int currentPopLimit;
 
     StiGame::Dimension dimSmall;
     StiGame::Dimension dimMedium;
