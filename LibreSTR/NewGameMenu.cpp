@@ -1,6 +1,7 @@
 #include "NewGameMenu.h"
 #include "MainMenu.h"
 #include "GameState.h"
+#include "MapGenerator.h"
 
 using namespace StiGame;
 using namespace Gui;
@@ -57,9 +58,11 @@ bool NewGameMenu::handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *ar
 {
     if(src == &btnStart)
     {
-        //max pop to be added in the new game state
-        //todo
-        GameState *state = new GameState(assets, currentDim->getWidth(), currentDim->getHeight(), currentPopLimit);
+        MapGenerator::setAssets(assets);
+
+        GameMap *map = MapGenerator::RandomMap(currentDim->getWidth(), currentDim->getHeight());
+
+        GameState *state = new GameState(assets, map, currentPopLimit);
         viewport->push(state);
     }
     else if(src == &btnBack)

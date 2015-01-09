@@ -15,7 +15,7 @@ public:
     const int PLAYERS_MAX = 2; //atm
     const int UNLIMITED_POPULATION = -1;
 
-    GameObject(AssetManager *m_assets, int mapWidth, int mapHeight, int m_maxPopulation, ILogStream *m_logStream);
+    GameObject(AssetManager *m_assets, GameMap *m_map, int m_maxPopulation, ILogStream *m_logStream);
 
     Player* getPlayer(int index);
     PlayerMap* getPlayerMap(int index);

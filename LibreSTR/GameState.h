@@ -32,7 +32,7 @@ class GameState :
         static const int MINIMAP_WIDTH;
         static const int MINIMAP_HEIGHT;
 
-        GameState(AssetManager *m_assets, int mapWidth, int mapHeight, int maxPopulation);
+        GameState(AssetManager *m_assets, GameMap *m_map, int maxPopulation);
         virtual ~GameState();
         void quit(void);
         void unload(void);

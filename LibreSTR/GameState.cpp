@@ -20,13 +20,13 @@ const int GameState::VIEW_RECT_ZONE = 48;
 const int GameState::MINIMAP_WIDTH = 300;
 const int GameState::MINIMAP_HEIGHT = 200;
 
-GameState::GameState(AssetManager *m_assets, int mapWidth, int mapHeight, int maxPopulation) :
+GameState::GameState(AssetManager *m_assets, GameMap *m_map, int maxPopulation) :
     BaseGameState()
 {
     //ctor
     assets = m_assets;
     placingBuilding = false;
-    game = new GameObject(m_assets, mapWidth, mapHeight, maxPopulation, &console);
+    game = new GameObject(m_assets, m_map, maxPopulation, &console);
     game->initGame();
     pmap = game->getPlayerMap(1);
     miniMap = new MiniMap(this, pmap, MINIMAP_WIDTH, MINIMAP_HEIGHT, 22);

@@ -13,13 +13,13 @@
 
 using namespace StiGame;
 
-GameObject::GameObject(AssetManager *m_assets, int mapWidth, int mapHeight, int m_maxPopulation, ILogStream *m_logStream)
+GameObject::GameObject(AssetManager *m_assets, GameMap *m_map, int m_maxPopulation, ILogStream *m_logStream)
 {
     assets = m_assets;
     ended = false;
     //generating a random map by default
-    MapGenerator::setAssets(assets);
-    map = MapGenerator::RandomMap(mapWidth, mapHeight);
+    //MapGenerator::setAssets(assets);
+    map = m_map;
 
     map->subscribe(this);
 

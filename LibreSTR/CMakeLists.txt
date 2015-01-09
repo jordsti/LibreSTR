@@ -6,10 +6,14 @@ set(SOURCE_FILES main.cpp
     GameObject.cpp
     GameObjectListener.cpp
     GameState.cpp
+    GameLoadingState.cpp
+    GameLoader.cpp
     MainMenu.cpp
     NewGameMenu.cpp
     Player.cpp
     MPlayer.cpp
+    LoadingState.cpp
+    LoadableObject.cpp
 
     ai/CompLeafAction.cpp
     ai/CompLeafCondition.cpp
