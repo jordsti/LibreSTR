@@ -146,10 +146,10 @@ void NewGameMenu::initComponents()
     add(&btnStart);
     add(&lblTitle);
     add(&lblMapSize);
-    add(&cbMapSize);
 
     add(&lblPopSize);
     add(&cbPopSize);
+    add(&cbMapSize);
 
     cbMapSize.subscribe(this);
     cbPopSize.subscribe(this);

@@ -22,7 +22,9 @@ GroundUnitIdentity::GroundUnitIdentity(std::string vf_file)
     productionTime = vf.getInt("productionTime");
     attackSpeed = vf.getInt("attackSpeed");
     populationCost = vf.getInt("populationCost");
-
+    harvestRange = vf.getInt("harvestRange", 0);
+    harvestSpeed = vf.getInt("harvestSpeed", 0);
+    resourcesLimit = vf.getInt("resourcesLimit", 0);
 
     icon = vf.getValue("icon");
     radialIcon = vf.getValue("radialIcon");
@@ -157,3 +159,19 @@ int GroundUnitIdentity::getProductionTime(void)
 {
     return productionTime;
 }
+
+int GroundUnitIdentity::getHarvestRange(void)
+{
+    return harvestRange;
+}
+
+int GroundUnitIdentity::getHarvestSpeed(void)
+{
+    return harvestSpeed;
+}
+
+int GroundUnitIdentity::getResourcesLimit(void)
+{
+    return resourcesLimit;
+}
+

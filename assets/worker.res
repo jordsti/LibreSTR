@@ -22,3 +22,6 @@ canHarvest=true;
 canBuild=true;
 canAttack=false;
 populationCost=1;
+harvestRange=12;
+harvestSpeed=1;
+resourcesLimit=10;

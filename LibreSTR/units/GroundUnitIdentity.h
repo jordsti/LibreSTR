@@ -30,6 +30,9 @@ public:
     int getAttackDamage(void);
     int getAttackSpeed(void);
     int getPopulationCost(void);
+    int getHarvestRange(void);
+    int getHarvestSpeed(void);
+    int getResourcesLimit(void);
 
     std::string getIcon(void);
     std::string getRadialIcon(void);
@@ -60,6 +63,9 @@ protected:
     int movementStep;
     int productionTime;
     int populationCost;
+    int harvestRange;
+    int harvestSpeed;
+    int resourcesLimit;
 
     bool canHarvest;
     bool canBuild;

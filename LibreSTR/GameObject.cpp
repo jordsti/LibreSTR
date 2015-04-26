@@ -316,7 +316,7 @@ void GameObject::harvestResource(Unit *groundUnit, StiGame::Point *targetPt)
     {
         if(_unit->getIdentity()->isCanHarvest())
         {
-            HarvestTask *harvestTask = new HarvestTask(_unit, player, assets->getHarvestSpeed(), map, StiGame::Point(targetPt->getX(), targetPt->getY()));
+            HarvestTask *harvestTask = new HarvestTask(_unit, player, map, StiGame::Point(targetPt->getX(), targetPt->getY()));
             logStream->pushLine("Harvest resource : " +
                                 _unit->getName() +
                                 "; " + std::to_string(_unit->getId()) +
@@ -455,7 +455,7 @@ void GameObject::initGame(void)
             {
 
                 StiGame::Point endPt ((resPt.getX() * Tile::TILE_WIDTH) + Tile::TILE_WIDTH / 2, (resPt.getY() * Tile::TILE_HEIGHT) + Tile::TILE_HEIGHT / 2);
-                HarvestTask *task = new HarvestTask(wunit, pl, assets->getHarvestSpeed(), map, endPt);
+                HarvestTask *task = new HarvestTask(wunit, pl, map, endPt);
                 wunit->pushTask(task);
 
             }

@@ -34,6 +34,7 @@ class AssetManager
 
         StiGame::ActionBinding* getBindings(void);
 
+        //to be remove from asset going into unit definition
         int getHarvestSpeed(void);
         int getBuildSpeed(void);
 
