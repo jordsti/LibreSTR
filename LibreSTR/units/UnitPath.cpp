@@ -1,5 +1,5 @@
 #include "UnitPath.h"
-
+#include <iostream>
 UnitPath::UnitPath(StiGame::Point startingPoint) :
     start(startingPoint),
     position(&startingPoint)
@@ -10,11 +10,14 @@ UnitPath::UnitPath(StiGame::Point startingPoint) :
 UnitPath::UnitPath(std::vector<StiGame::Point> points) :
     start(points[0])
 {
+    std::cout << "[Debug] UnitPath Creation" << std::endl;
     UnitPathNode *current = &start;
     auto lit(points.begin()), lend(points.end());
     int i=0;
     for(;lit!=lend;++lit)
     {
+        std::cout << "Point #" << i << " -> " << (*lit).getX() << "; " << (*lit).getY() << std::endl;
+
         if(i > 0)
         {
             UnitPathNode *node = new UnitPathNode((*lit));
@@ -95,7 +98,7 @@ bool UnitPath::TileValid(int x, int y, ITileMap *map)
 
 StiGame::Point UnitPath::TileMiddlePoint(int t_x, int t_y)
 {
-    StiGame::Point mid ((t_x*Tile::TILE_WIDTH) + Tile::TILE_WIDTH/2, (t_y*Tile::TILE_HEIGHT) * Tile::TILE_HEIGHT/2);
+    StiGame::Point mid ((t_x*Tile::TILE_WIDTH) + Tile::TILE_WIDTH/2, (t_y*Tile::TILE_HEIGHT) + Tile::TILE_HEIGHT/2);
     return mid;
 }
 
@@ -114,8 +117,8 @@ UnitPath* UnitPath::FindPath(StiGame::Point startingPoint, StiGame::Point endPoi
     points.push_back(midTile);
 
     StiGame::Point endMidTile (
-                (endPoint.getX() / Tile::TILE_WIDTH) + Tile::TILE_WIDTH/2,
-                (endPoint.getY() / Tile::TILE_HEIGHT) + Tile::TILE_HEIGHT/2
+                (endPoint.getX() / Tile::TILE_WIDTH)*Tile::TILE_WIDTH + Tile::TILE_WIDTH/2,
+                (endPoint.getY() / Tile::TILE_HEIGHT)*Tile::TILE_WIDTH + Tile::TILE_HEIGHT/2
                 );
 
     //starting A* here
@@ -165,37 +168,39 @@ UnitPath* UnitPath::FindPath(StiGame::Point startingPoint, StiGame::Point endPoi
         {
             ProjectedPath *pp = new ProjectedPath();
             pp->points.push_back(startingPoint);
-            pp->points.push_back(StiGame::Point(&tileCoord));
+            pp->points.push_back(TileMiddlePoint(tileCoord.getX(), tileCoord.getY()));
             paths.push_back(pp);
             allPaths.push_back(pp);
         }
     }
 
     std::vector<ProjectedPath*> tmpPaths;
+    unsigned int avg_score = 200000;
+    unsigned int score_treshold = 5;
     bool completed = false;
+    unsigned int step=0;
+    unsigned int completed_count=0;
     while(!completed)
     {
         auto lit(paths.begin()), lend(paths.end());
-        unsigned int min_score = 200000;
-        unsigned int max_score = 0;
+        unsigned int sum_score = 0;
         for(;lit!=lend;++lit)
         {
             ProjectedPath *pp = (*lit);
-            if(!pp->close)
+            if(!pp->close && !pp->complete)
             {
                 StiGame::Point lastPt = pp->lastPoint();
                 int t_x = lastPt.getX() / Tile::TILE_WIDTH;
                 int t_y = lastPt.getY() / Tile::TILE_HEIGHT;
                 unsigned int score = pp->score();
 
-                if(score < min_score)
-                {
-                    min_score = score;
-                }
+                sum_score += score;
 
-                if(score > max_score)
+                if(score > avg_score + score_treshold)
                 {
-                    max_score = score;
+                    //skipping that path
+                    pp->close = true;
+                    continue;
                 }
 
                 for(int i=0; i<4; i++)
@@ -229,6 +234,12 @@ UnitPath* UnitPath::FindPath(StiGame::Point startingPoint, StiGame::Point endPoi
 
                         newpp->points.push_back(mid);
 
+                        if(mid.equals(&endMidTile))
+                        {
+                            newpp->complete = true;
+                            completed_count++;
+                        }
+
                         tmpPaths.push_back(newpp);
                         allPaths.push_back(newpp);
                     }
@@ -238,15 +249,80 @@ UnitPath* UnitPath::FindPath(StiGame::Point startingPoint, StiGame::Point endPoi
 
             }
         }
-
+        unsigned int total = paths.size();
+        if(total > 0)
+        {
+            avg_score = sum_score / total;
+        }
+        else
+        {
+            avg_score = sum_score;
+        }
         //switching current vector
-        paths = tmpPaths;
+        paths.clear();
+
+        auto tit(tmpPaths.begin()), tend(tmpPaths.end());
+        for(;tit!=tend;++tit)
+        {
+            paths.push_back((*tit));
+        }
+
+        tmpPaths.clear();
+
+        step++;
+
+        if(step >= 10000)
+        {
+            //todo error message here
+            std::cout << "A* Completed with " << step << " steps " << std::endl;
+            break;
+        }
+
+        if(completed_count >= 5)
+        {
+            std::cout << "A* Completed with " << step << " steps " << std::endl;
+            break;
+        }
     }
+
+    //minimizing the score
+    ProjectedPath *minPath = nullptr;
+    auto pit(paths.begin()), pend(paths.end());
+    for(;pit!=pend;++pit)
+    {
+        ProjectedPath *pp = (*pit);
+        if(minPath == nullptr)
+        {
+            minPath = pp;
+        }
+        else
+        {
+            if(pp->score() < minPath->score())
+            {
+                minPath = pp;
+            }
+        }
+    }
+    UnitPath *upath = nullptr;
+    if(minPath != nullptr)
+    {
+        upath = new UnitPath(minPath->points);
+    }
+
+    //need to clear all thoses paths
+    auto pit2(allPaths.begin()), pend2(allPaths.end());
+    for(;pit2!=pend2;++pit2)
+    {
+        delete (*pit2);
+    }
+
+    return upath;
 }
 
 ProjectedPath::ProjectedPath()
 {
     close = false;
+    complete = false;
 }
 
 ProjectedPath::~ProjectedPath()

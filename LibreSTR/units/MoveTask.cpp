@@ -1,5 +1,5 @@
 #include "MoveTask.h"
-
+#include "UnitPath.h"
 MoveTask::MoveTask(MGroundUnit *m_unit, GameMap *m_map, StiGame::Point m_endPoint) :
     Task("MoveTask")
 {
@@ -8,6 +8,10 @@ MoveTask::MoveTask(MGroundUnit *m_unit, GameMap *m_map, StiGame::Point m_endPoin
     endPoint = m_endPoint;
     stepSize = unit->getIdentity()->getMovementSpeed();
     caption = "Moving";
+
+    //debug purpose
+
+    UnitPath *upath = UnitPath::FindPath(StiGame::Point(unit), endPoint, map);
 
     endPointCorrection();
 }

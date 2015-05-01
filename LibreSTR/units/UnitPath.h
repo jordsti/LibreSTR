@@ -38,7 +38,7 @@ public:
     unsigned int score(void);
     StiGame::Point lastPoint(void);
     bool close;
-
+    bool complete;
     ProjectedPath* clone(void);
 };
 
