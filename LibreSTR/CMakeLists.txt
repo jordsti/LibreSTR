@@ -61,6 +61,8 @@ set(SOURCE_FILES main.cpp
     units/HarvestTask.cpp
     units/AttackGroundUnitTask.cpp
     units/AttackBuildingTask.cpp
+    units/UnitPath.cpp
+    units/UnitPathNode.cpp
 
 
     maps/GameMap.cpp
