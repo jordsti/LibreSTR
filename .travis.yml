@@ -17,7 +17,7 @@ before_install:
    - make
    - sudo make install
    - cd ..
-   - python retrieve_extern.py
+   #- python retrieve_extern.py
    #need stigame
    - git clone https://github.com/jordsti/stigame.git
    - mkdir stigame-build
