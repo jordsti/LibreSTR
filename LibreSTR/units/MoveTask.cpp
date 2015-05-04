@@ -1,19 +1,22 @@
 #include "MoveTask.h"
 #include "UnitPath.h"
+
 MoveTask::MoveTask(MGroundUnit *m_unit, GameMap *m_map, StiGame::Point m_endPoint) :
     Task("MoveTask")
 {
+    waiting = true;
     unit = m_unit;
+
     map = m_map;
-    endPoint = m_endPoint;
+    endPoint.setPoint(&m_endPoint);
     stepSize = unit->getIdentity()->getMovementSpeed();
     caption = "Moving";
 
     //debug purpose
-
-    UnitPath *upath = UnitPath::FindPath(StiGame::Point(unit), endPoint, map);
-
+    path = nullptr;
     endPointCorrection();
+
+    thread = new UnitPathThread(this, StiGame::Point(m_unit->getX(), m_unit->getY()), StiGame::Point(&endPoint));
 }
 
 void MoveTask::endPointCorrection(void)
@@ -49,7 +52,7 @@ void MoveTask::endPointCorrection(void)
 
     if(!endPoint.equals(n_x, n_y))
     {
-        endPoint = StiGame::Point(n_x, n_y);
+        endPoint.setPoint(n_x, n_y);
     }
 }
 
@@ -60,6 +63,21 @@ MoveTask::~MoveTask()
 
 void MoveTask::doStep(void)
 {
+    if(waiting)
+    {
+        std::cout << "Waiting on thread to terminate..." << std::endl;
+        return;
+    }
+    else
+    {
+        clearThread();
+    }
+
+    if(path == nullptr)
+    {
+        return;
+    }
+
     StiGame::Point currentPt (unit->getX(), unit->getY());
 
     if(!currentPt.equals(&endPoint))
@@ -196,6 +214,85 @@ void MoveTask::doStep(void)
     }
     else
     {
+        if(path->moveToNext())
+        {
+            endPoint.setPoint(path->getCurrent()->point());
+        }
+        else
+        {
+            delete path;
+            path = nullptr;
+            terminated = true;
+        }
+    }
+}
+
+void MoveTask::setEndPoint(StiGame::Point m_endPoint)
+{
+    if(path != nullptr)
+    {
+        delete path;
+    }
+
+    endPoint.setPoint(&m_endPoint);
+    endPointCorrection();
+    //path = UnitPath::FindPath(StiGame::Point(unit), StiGame::Point(&m_endPoint), map);
+
+    if(thread == nullptr)
+    {
+        waiting = true;
+        thread = new UnitPathThread(this, StiGame::Point(unit->getX(), unit->getY()), StiGame::Point(&endPoint));
+    }
+}
+
+
+ITileMap* MoveTask::getMap(void)
+{
+    return map;
+}
+
+StiGame::Point* MoveTask::getEndPoint(void)
+{
+    return &endPoint;
+}
+
+void MoveTask::setUnitPath(UnitPath *m_path)
+{
+    if(path != nullptr)
+    {
+        delete path;
+        path = nullptr;
+    }
+    path = m_path;
+
+    if(path != nullptr)
+    {
+        //end point become the second points of the path
+        if(path->moveToNext())
+        {
+            endPoint.setPoint(path->getCurrent()->point());
+            if(waiting)
+            {
+                waiting = false;
+            }
+        }
+        else
+        {
+            terminated = true;
+        }
+    }
+    else
+    {
         terminated = true;
+    }
+}
+
+
+void MoveTask::clearThread(void)
+{
+    if(thread != nullptr)
+    {
+        delete thread;
+        thread = nullptr;
     }
 }

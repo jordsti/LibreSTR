@@ -43,7 +43,8 @@ int GroundUnit::getVision(void)
 
 std::string GroundUnit::getSpriteName(void)
 {
-    return identity->getSprite(owner->getPlayerColor(), state);
+    std::string spr_name = identity->getSprite(owner->getPlayerColor(), state);
+    return spr_name;
 }
 
 GroundUnitIdentity* GroundUnit::getIdentity(void)

@@ -1,5 +1,5 @@
 #include "GroundUnitSpriteManager.h"
-
+#include <iostream>
 GroundUnitSpriteManager::GroundUnitSpriteManager()
 {
     library = nullptr;
@@ -36,6 +36,7 @@ StiGame::ClonedDirectionSprite* GroundUnitSpriteManager::getUnitSprite(GroundUni
     }
 
     //need to clone a new sprite
+    std::cout << gUnit->getOwner()->getPlayerColor() << std::endl;
     std::string spr_name =  gUnit->getSpriteName();
     StiGame::ClonedDirectionSprite *clone = library->clone(spr_name);
 

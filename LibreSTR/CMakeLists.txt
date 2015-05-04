@@ -63,7 +63,7 @@ set(SOURCE_FILES main.cpp
     units/AttackBuildingTask.cpp
     units/UnitPath.cpp
     units/UnitPathNode.cpp
-
+    units/UnitPathThread.cpp
 
     maps/GameMap.cpp
     maps/GameMapEvent.cpp

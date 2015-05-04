@@ -1,10 +1,9 @@
 #include "AttackBuildingTask.h"
 
 AttackBuildingTask::AttackBuildingTask(MGroundUnit *m_unit, GameMap *m_map, MBuilding *m_target) :
-    MoveTask(m_unit, m_map, StiGame::Point())
+    MoveTask(m_unit, m_map, m_target->middle())
 {
     target = m_target;
-    endPoint = m_target->middle();
 }
 
 

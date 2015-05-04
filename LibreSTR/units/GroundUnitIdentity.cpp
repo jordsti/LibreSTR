@@ -107,7 +107,7 @@ std::string GroundUnitIdentity::getRadialHoverIcon(void)
 
 std::string GroundUnitIdentity::getSprite(PlayerColor color, GroundUnitState state)
 {
-    return sprites[state][color];
+    return std::string(sprites[state][color]);
 }
 
 std::string GroundUnitIdentity::getName(void)

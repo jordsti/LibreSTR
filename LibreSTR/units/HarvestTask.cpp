@@ -82,7 +82,8 @@ void HarvestTask::doStep(void)
         else
         {
             state = HS_MovingToDepot;
-            endPoint = StiGame::Point(depot->middle());
+            //endPoint.setPoint(depot->middle());
+            setEndPoint(depot->middle());
         }
     }
     else if(state == HS_MovingToDepot)
@@ -100,8 +101,8 @@ void HarvestTask::doStep(void)
         if(unit->distanceWith(&dMid) <= harvestRange)
         {
             state = HS_MovingToResource;
-            endPoint = StiGame::Point(&resourcePoint);
-
+            //endPoint = StiGame::Point(&resourcePoint);
+            setEndPoint(StiGame::Point(&resourcePoint));
             if(resourceType == RT_METAL)
             {
                 player->setMetalCount(player->getMetalCount() + currentResources);
@@ -120,7 +121,7 @@ void HarvestTask::doStep(void)
         MoveTask::doStep();
         stepSize = unit->getIdentity()->getMovementSpeed();
         double dist = unit->distanceWith(&resourcePoint);
-        std::cout << dist << std::endl;
+        //std::cout << dist << std::endl;
         if(dist <= harvestRange)
         {
             state = HS_Harvesting;

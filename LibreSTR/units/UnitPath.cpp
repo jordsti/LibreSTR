@@ -12,6 +12,7 @@ UnitPath::UnitPath(std::vector<StiGame::Point> points) :
 {
     std::cout << "[Debug] UnitPath Creation" << std::endl;
     UnitPathNode *current = &start;
+    currentNode = &start;
     auto lit(points.begin()), lend(points.end());
     int i=0;
     for(;lit!=lend;++lit)
@@ -48,6 +49,12 @@ UnitPathNode* UnitPath::getCurrent(void)
 
 bool UnitPath::moveToNext(void)
 {
+    if(currentNode == nullptr)
+    {
+        currentNode = &start;
+        return true;
+    }
+
     if(currentNode->hasNext())
     {
         currentNode = currentNode->next();
@@ -271,7 +278,7 @@ UnitPath* UnitPath::FindPath(StiGame::Point startingPoint, StiGame::Point endPoi
 
         step++;
 
-        if(step >= 10000)
+        if(step >= 1000)
         {
             //todo error message here
             std::cout << "A* Completed with " << step << " steps " << std::endl;

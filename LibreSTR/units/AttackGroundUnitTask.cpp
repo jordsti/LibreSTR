@@ -13,9 +13,9 @@ AttackGroundUnitTask::~AttackGroundUnitTask()
 
 void AttackGroundUnitTask::doStep()
 {
-    if(!target->equals(&endPoint))
+    if(!target->equals(getEndPoint()))
     {
-        endPoint = StiGame::Point(target->getX(), target->getY());
+        setEndPoint(StiGame::Point(target->getX(), target->getY()));
         stepSize = unit->getIdentity()->getMovementSpeed();
     }
 
