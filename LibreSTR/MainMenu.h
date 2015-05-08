@@ -26,6 +26,7 @@ class MainMenu :
         StiGame::Gui::Label lblTitle;
         StiGame::Gui::Label lblAuthor;
         StiGame::Gui::Button btnNewGame;
+        StiGame::Gui::Button btnMultiplayer;
         StiGame::Gui::Button btnQuit;
 
         StiGame::Gui::Image img;

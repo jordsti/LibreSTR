@@ -87,6 +87,7 @@ endif(CMAKE_BUILD_TYPE STREQUAL "Release")
 add_subdirectory(STRData)
 add_subdirectory(LibreSTR)
 add_subdirectory(MapEditor)
+add_subdirectory(MatchMaster)
 
 
 if(WIN32)

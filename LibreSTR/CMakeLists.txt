@@ -14,6 +14,8 @@ set(SOURCE_FILES main.cpp
     MPlayer.cpp
     LoadingState.cpp
     LoadableObject.cpp
+    MatchMasterClient.cpp
+    MatchBrowser.cpp
 
     ai/CompLeafAction.cpp
     ai/CompLeafCondition.cpp
@@ -76,6 +78,7 @@ set(SOURCE_FILES main.cpp
     maps/PlayerMap.cpp
     maps/Tile.cpp
     maps/ResourceIdentity.cpp
+    maps/BitMap.cpp
 
     LibreSTRVersion.cpp
 )

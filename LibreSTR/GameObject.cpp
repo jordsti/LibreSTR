@@ -283,7 +283,7 @@ void GameObject::moveGroundUnit(Unit *groundUnit, StiGame::Point *targetPt)
     MGroundUnit *_unit = map->getGroundUnitById(groundUnit->getId());
     if(_unit != nullptr)
     {
-        MoveTask *moveTask = new MoveTask(_unit, map, StiGame::Point(targetPt->getX(), targetPt->getY()));
+        MoveTask *moveTask = new MoveTask(_unit, map, StiGame::Point(targetPt));
         logStream->pushLine("Moving unit : " +
                             _unit->getName() +
                             "; " + std::to_string(_unit->getId()) +

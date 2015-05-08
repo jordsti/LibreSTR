@@ -237,7 +237,7 @@ void MoveTask::setEndPoint(StiGame::Point m_endPoint)
     endPoint.setPoint(&m_endPoint);
     endPointCorrection();
     //path = UnitPath::FindPath(StiGame::Point(unit), StiGame::Point(&m_endPoint), map);
-
+    clearThread();
     if(thread == nullptr)
     {
         waiting = true;

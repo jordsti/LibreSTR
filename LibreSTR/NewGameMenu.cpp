@@ -38,15 +38,17 @@ void NewGameMenu::onStart(void)
 
 void NewGameMenu::onResize(int m_width, int m_height)
 {
+    btnBack.prerender();
     btnBack.setPoint(16, m_height - btnBack.getHeight() - 8);
+    btnStart.prerender();
     btnStart.setPoint(m_width - btnStart.getWidth() - 10, m_height - btnStart.getHeight() - 8);
 
     lblMapSize.setPoint(16, 200);
-    delete lblMapSize.render();
+    lblMapSize.prerender();
     cbMapSize.setPoint(lblMapSize.getX() + lblMapSize.getWidth() + 5, 200);
 
     lblPopSize.setPoint(16, 240);
-    delete lblPopSize.render();
+    lblPopSize.prerender();
     cbPopSize.setPoint(lblPopSize.getX() + lblPopSize.getWidth() + 5, 240);
 
     lblTitle.setPoint(8, 16);
