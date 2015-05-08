@@ -1,7 +1,7 @@
 #ifndef UNITPATHTHREAD_H
 #define UNITPATHTHREAD_H
 #include "UnitPath.h"
-#include <Thread.h>
+#include <SGThread.h>
 class MoveTask;
 
 enum UnitThreadStatus {

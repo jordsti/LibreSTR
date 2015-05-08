@@ -1,5 +1,5 @@
 #include "UnitPathThread.h"
-#include <Thread.h>
+#include <SGThread.h>
 #include "MoveTask.h"
 UnitPathThread::UnitPathThread(MoveTask *m_moveTask, StiGame::Point m_start, StiGame::Point m_end)
 {
