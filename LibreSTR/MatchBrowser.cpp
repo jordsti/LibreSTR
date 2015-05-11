@@ -20,8 +20,7 @@ STRData::Match* MatchVO::getMatch(void)
 
 MatchBrowser::MatchBrowser(AssetManager *m_assets) :
     StiGame::Gui::GuiState(),
-    //127.0.0.1 for testing purpose at the moment
-    client("127.0.0.1", STRData::MATCH_MASTER_PORT)
+    client(m_assets->getMasterServer(), STRData::MATCH_MASTER_PORT)
 {
     assets = m_assets;
     initComponents();

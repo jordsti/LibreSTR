@@ -198,6 +198,8 @@ void AssetManager::loadData(void)
     harvestSpeed = vf.getInt("harvestSpeed");
     buildSpeed = vf.getInt("buildSpeed");
 
+    masterServer = vf.getValue("masterServer");
+
     p = GamePath::getFilepath(AssetRoot, "bindings.cfg");
     bindings = new ActionBinding(p);
     bindings->read();
@@ -208,6 +210,11 @@ void AssetManager::loadData(void)
         bindings->write();
     }
 
+}
+
+std::string AssetManager::getMasterServer(void)
+{
+    return masterServer;
 }
 
 int AssetManager::getHarvestSpeed()

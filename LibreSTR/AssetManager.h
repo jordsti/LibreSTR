@@ -27,6 +27,7 @@ class AssetManager
 
         std::string getTileNormal(void);
         std::string getTileBlock(void);
+        std::string getMasterServer(void);
 
         std::list<std::string> getTextures(void);
 
@@ -59,6 +60,8 @@ class AssetManager
 
         std::string tileNormal;
         std::string tileBlock;
+
+        std::string masterServer;
     private:
 };
 
