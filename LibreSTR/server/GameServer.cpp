@@ -15,6 +15,7 @@ GameServer::GameServer(std::string m_gameName) :
     gameName = m_gameName;
     dispatcher.setHandler(this);
     maxPlayers = 8;
+    state = SS_Lobby;
     loadAssets();
 }
 
@@ -27,6 +28,7 @@ GameServer::GameServer(std::string m_gameName, int m_port) :
     gameName = m_gameName;
     dispatcher.setHandler(this);
     maxPlayers = 8;
+    state = SS_Lobby;
     loadAssets();
 }
 
@@ -45,6 +47,17 @@ void GameServer::loadAssets(void)
     assets = new AssetManager();
 }
 
+ServerState GameServer::getState(void)
+{
+    return state;
+}
+
+void GameServer::setState(ServerState m_state)
+{
+    state = m_state;
+}
+
+
 void GameServer::readPacket(UdpPacket *packet)
 {
     PacketStream stream = packet->stream();
@@ -57,7 +70,8 @@ void GameServer::readPacket(UdpPacket *packet)
     else if(type == STRData::MMP_PLAYER_JOIN)
     {
         std::string player_name = stream.readString();
-
+        //todo
+        //send a error message if lobby is already full
         if(players.size() < maxPlayers - 1)
         {
             currentPlayerId++;
@@ -69,6 +83,8 @@ void GameServer::readPacket(UdpPacket *packet)
 
             pCon->host = host;
             pCon->port = packet->ipAddress()->port;
+            pCon->address.host = packet->ipAddress()->host;
+            pCon->address.port = packet->ipAddress()->port;
 
             players.push_back(pCon);
 
@@ -79,10 +95,29 @@ void GameServer::readPacket(UdpPacket *packet)
             PacketStream respStream = respPacket->stream();
             respStream.writeInt32(STRData::MMP_PLAYER_JOIN);
             respStream.writeInt32(pCon->playerId);
-            packet->applyAddress(packet->ipAddress());
+            respPacket->applyAddress(packet->ipAddress());
 
             //sending player id to player
-            dispatcher.sendPacket(packet);
+            dispatcher.sendPacket(respPacket);
+
+            //sending the player name to the other players
+
+            auto pit(players.begin()), pend(players.end());
+            for(;pit!=pend;++pit)
+            {
+                PlayerConnection *_pcon = (*pit);
+                UdpPacket *pPacket = new UdpPacket(64);
+                PacketStream pStream = pPacket->stream();
+
+                pStream.writeInt32(STRData::MMP_NEW_PLAYER);
+                pStream.writeString(player_name);
+
+                pPacket->applyAddress(&_pcon->address);
+
+                dispatcher.sendPacket(pPacket);
+            }
+
+            players.push_back(pCon);
 
             //updating master server
             UdpPacket masterUpdate (64);
@@ -93,6 +128,24 @@ void GameServer::readPacket(UdpPacket *packet)
 
             masterSocket.send(masterUpdate.packet(), masterChannel);
         }
+    }
+    else if(type == STRData::MMP_PLAYER_LIST)
+    {
+        UdpPacket *respPacket = new UdpPacket(1024);
+        PacketStream respStream = respPacket->stream();
+        respStream.writeInt32(STRData::MMP_PLAYER_LIST);
+        respStream.writeInt32(players.size());
+
+        auto pit(players.begin()), pend(players.end());
+        for(;pit!=pend;++pit)
+        {
+            PlayerConnection *pCon = (*pit);
+            respStream.writeString(pCon->playerName);
+        }
+
+        respPacket->applyAddress(packet->ipAddress());
+
+        dispatcher.sendPacket(respPacket);
     }
 }
 

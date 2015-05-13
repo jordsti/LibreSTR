@@ -32,7 +32,7 @@ void MatchMaster::start(void)
             handlePacket(packet, &socket);
             delete packet;
         }
-
+        SDL_Delay(5);
     }
 
     socket.close();

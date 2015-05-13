@@ -14,7 +14,9 @@ enum MatchMasterPacket {
     MMP_MATCH,
     MMP_END,
     MMP_PLAYER_JOIN,
-    MMP_MATCH_UPDATE
+    MMP_MATCH_UPDATE,
+    MMP_PLAYER_LIST,
+    MMP_NEW_PLAYER
 };
 
 const int MATCH_MASTER_PORT = 6000;

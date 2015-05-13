@@ -6,6 +6,10 @@
 #include "AssetManager.h"
 #include "PlayerConnection.h"
 
+enum ServerState {
+    SS_Lobby
+};
+
 class GameServer :
         public StiGame::Net::MessageHandler
 {
@@ -23,8 +27,12 @@ public:
 
     void setMaxPlayers(int m_maxPlayers);
 
+    ServerState getState(void);
+    void setState(ServerState m_state);
+
 private:
     void loadAssets(void);
+    ServerState state;
     AssetManager *assets;
     std::string gameName;
     int maxPlayers;
