@@ -17,6 +17,9 @@ set(SOURCE_FILES main.cpp
     MatchMasterClient.cpp
     MatchBrowser.cpp
 
+    server/GameServer.cpp
+    server/PlayerConnection.cpp
+
     ai/CompLeafAction.cpp
     ai/CompLeafCondition.cpp
     ai/MLeaf.cpp
@@ -91,6 +94,7 @@ include_directories(actions)
 include_directories(gui)
 include_directories(units)
 include_directories(maps)
+include_directories(server)
 
 
 if(WIN32)

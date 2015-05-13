@@ -1,6 +1,7 @@
 #ifndef MATCH_H
 #define MATCH_H
 
+#include <iostream>
 #include <string>
 
 namespace STRData
@@ -11,7 +12,9 @@ enum MatchMasterPacket {
     MMP_REGISTER,
     MMP_REMOVE,
     MMP_MATCH,
-    MMP_END
+    MMP_END,
+    MMP_PLAYER_JOIN,
+    MMP_MATCH_UPDATE
 };
 
 const int MATCH_MASTER_PORT = 6000;

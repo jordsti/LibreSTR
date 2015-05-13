@@ -29,7 +29,7 @@ void MatchMaster::start(void)
         UdpPacket *packet = socket.recv();
         if(packet != nullptr)
         {
-            handlePacket(packet);
+            handlePacket(packet, &socket);
             delete packet;
         }
 
@@ -38,7 +38,7 @@ void MatchMaster::start(void)
     socket.close();
 }
 
-void MatchMaster::handlePacket(UdpPacket *packet)
+void MatchMaster::handlePacket(UdpPacket *packet, UdpSocket *fromSocket)
 {
     PacketStream stream = packet->stream();
 
@@ -64,6 +64,8 @@ void MatchMaster::handlePacket(UdpPacket *packet)
     }
     else if(type == MMP_REGISTER)
     {
+
+        int port = stream.readInt32();
         std::string name = stream.readString();
         int curPlayers = stream.readInt32();
         int maxPlayers = stream.readInt32();
@@ -78,9 +80,9 @@ void MatchMaster::handlePacket(UdpPacket *packet)
         match->setId(currentMatchId);
 
         std::string host_str (SDLNet_ResolveIP(&remote));
-
+        std::cout << "New Game Server Registering from " << host_str << ":" << port << std::endl;
         match->setHost(host_str);
-        match->setPort(remote.port);
+        match->setPort(port);
 
         match->setName(name);
         match->setCurrentPlayers(curPlayers);
@@ -89,6 +91,27 @@ void MatchMaster::handlePacket(UdpPacket *packet)
 
         matches.push_back(match);
 
+        //must return match id to the game server
+
+        UdpPacket packet (64);
+        PacketStream stream = packet.stream();
+        stream.writeInt32(MMP_MATCH);
+        stream.writeInt32(match->getId());
+
+        SDLNet_ResolveHost(&remote, host_str.c_str(), port);
+
+        UdpSocket respSocket;
+        respSocket.open(0);
+
+        int channel = respSocket.bind(-1, &remote);
+
+        if(channel != -1)
+        {
+            respSocket.send(packet.packet(), channel);
+            respSocket.unbind(channel);
+        }
+
+        respSocket.close();
     }
     else if(type == MMP_REMOVE)
     {
@@ -114,6 +137,25 @@ void MatchMaster::handlePacket(UdpPacket *packet)
         {
             matches.remove(m);
             deleted.push_back(m);
+        }
+    }
+    else if(type == MMP_MATCH_UPDATE)
+    {
+        //match update
+        int matchId = stream.readInt32();
+        int curPlayers = stream.readInt32();
+        std::string host (SDLNet_ResolveIP(packet->ipAddress()));
+
+        auto mit(matches.begin()), mend(matches.end());
+        for(;mit!=mend;++mit)
+        {
+            Match *m = (*mit);
+
+            if(m->getId() == matchId && m->getHost() == host)
+            {
+                std::cout << "Updating Match " << matchId  << " Current Players: " << curPlayers << std::endl;
+                m->setCurrentPlayers(curPlayers);
+            }
         }
     }
 }
@@ -149,7 +191,6 @@ int MatchMaster_SendMatches(void *data_ptr)
             stream.writeString(match->getHost());
             stream.writeInt32(match->getCurrentPlayers());
             stream.writeInt32(match->getMaxPlayers());
-            stream.writeString(match->getHost());
             stream.writeInt32(match->getPort());
             stream.writeBool(match->isPasswordProtected());
 

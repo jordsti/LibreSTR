@@ -5,6 +5,7 @@
 #include "Match.h"
 #include <list>
 #include <vector>
+#include <UdpSocket.h>
 
 struct FetchState {
     std::vector<STRData::Match*> matches;
@@ -18,7 +19,7 @@ public:
     virtual ~MatchMaster();
 
     void start(void);
-    void handlePacket(StiGame::Net::UdpPacket *packet);
+    void handlePacket(StiGame::Net::UdpPacket *packet, StiGame::Net::UdpSocket *fromSocket);
 
     void addMatch(STRData::Match *match);
 private:

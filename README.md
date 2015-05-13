@@ -2,6 +2,7 @@ LibreSTR
 ========
 LibreSTR is a open source real-time strategy game. 
 
+[![Build Status](https://travis-ci.org/jordsti/LibreSTR.svg?branch=master)](https://travis-ci.org/jordsti/LibreSTR)
 
 ### Features
 

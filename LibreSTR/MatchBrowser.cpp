@@ -1,22 +1,6 @@
 #include "MatchBrowser.h"
 #include "MainMenu.h"
-
-
-MatchVO::MatchVO(STRData::Match *m_match) :
-    StiGame::Gui::ValueObject(m_match->getId(), m_match->getName())
-{
-    match = m_match;
-}
-
-MatchVO::~MatchVO()
-{
-
-}
-
-STRData::Match* MatchVO::getMatch(void)
-{
-    return match;
-}
+#include <ValueObject.h>
 
 MatchBrowser::MatchBrowser(AssetManager *m_assets) :
     StiGame::Gui::GuiState(),
@@ -26,6 +10,7 @@ MatchBrowser::MatchBrowser(AssetManager *m_assets) :
     initComponents();
 
     refreshing = false;
+    selectedMatch = nullptr;
 }
 
 MatchBrowser::~MatchBrowser()
@@ -45,28 +30,40 @@ void MatchBrowser::initComponents(void)
 
     btnBack.setCaption("Back");
 
-    matchesList.setDimension(350, 200);
-    matchesList.setPoint(8, 70);
+    matchesTable.setDimension(700, 400);
+    matchesTable.setPoint(8, 70);
+
+    matchesTable.addColumn("Name", 250);
+    matchesTable.addColumn("Players", 150);
+    matchesTable.addColumn("Host", 200);
+    matchesTable.addColumn("Port", 100);
 
     btnRefresh.setCaption("Refresh");
 
     btnNewGame.setCaption("New Game");
 
+    btnJoinGame.setCaption("Join Game");
+
     add(&lblTitle);
     add(&btnBack);
     add(&btnRefresh);
     add(&btnNewGame);
-    add(&matchesList);
+    add(&matchesTable);
+    add(&btnJoinGame);
 
     btnBack.subscribe(this);
     btnRefresh.subscribe(this);
     btnNewGame.subscribe(this);
+    btnJoinGame.subscribe(this);
+
+    matchesTable.subscribe(this);
 }
 
 void MatchBrowser::refreshList(void)
 {
     if(client.isCompleted() && !refreshing)
     {
+        selectedMatch = nullptr;
         client.fetchMatches();
         refreshing = true;
     }
@@ -88,8 +85,25 @@ bool MatchBrowser::handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *a
         //todo
         //new multiplayer game state
     }
+    else if(src == &btnJoinGame)
+    {
+
+    }
 
     return true;
+}
+
+void MatchBrowser::handleEvent(StiGame::Gui::TableClickEventThrower *src, StiGame::Gui::TableClickEventArgs *args)
+{
+    StiGame::Gui::TableRow *row = args->getRow();
+    if(row != nullptr)
+    {
+        STRData::Match *match = client.getMatchById(row->getValueObject()->getId());
+        if(match != nullptr)
+        {
+            selectedMatch = match;
+        }
+    }
 }
 
 void MatchBrowser::onPaint(SDL_Renderer *renderer)
@@ -103,11 +117,20 @@ void MatchBrowser::onPaint(SDL_Renderer *renderer)
         auto lit(_matches.begin()), lend(_matches.end());
         for(;lit!=lend;++lit)
         {
-            MatchVO *vo = new MatchVO((*lit));
-            matches.push_back(vo);
-            matchesList.add(vo);
+            STRData::Match *m = (*lit);
+            StiGame::Gui::TableRow *row = matchesTable.newRow();
+            row->setValue(0, m->getName());
+            std::string players = std::to_string(m->getCurrentPlayers()) + "/" + std::to_string(m->getMaxPlayers());
+            row->setValue(1, players);
+            row->setValue(2, m->getHost());
+            row->setValue(3, std::to_string(m->getPort()));
+
+            StiGame::Gui::ValueObject *vo = new StiGame::Gui::ValueObject(m->getId(), m->getName());
+            row->setValueObject(vo);
         }
     }
+
+    btnJoinGame.setVisible(selectedMatch != nullptr);
 
 
     GuiState::onPaint(renderer);
@@ -122,7 +145,10 @@ void MatchBrowser::onResize(int m_width, int m_height)
     btnRefresh.setPoint(btnBack.getX() + btnBack.getWidth() + 10, m_height - btnBack.getHeight() - 8);
 
     btnNewGame.prerender();
-    btnNewGame.setPoint(matchesList.getX(), matchesList.getY() + matchesList.getHeight() + 5);
+    btnNewGame.setPoint(matchesTable.getX(), matchesTable.getY() + matchesTable.getHeight() + 5);
+
+    btnJoinGame.prerender();
+    btnJoinGame.setPoint(matchesTable.getX() + btnNewGame.getWidth() + 10, matchesTable.getY() + matchesTable.getHeight() + 5);
 
     lblTitle.setPoint(8, 16);
 

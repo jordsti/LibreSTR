@@ -3,29 +3,19 @@
 
 #include <GuiState.h>
 #include <Button.h>
-#include <List.h>
 #include <Label.h>
 #include "MatchMasterClient.h"
 #include <EventListener.h>
 #include "AssetManager.h"
 #include <list>
+#include <Table.h>
+#include <TableClickEventListener.h>
 
-class MatchVO :
-        public StiGame::Gui::ValueObject
-{
-public:
-    MatchVO(STRData::Match *m_match);
-    virtual ~MatchVO();
-
-    STRData::Match* getMatch(void);
-
-private:
-    STRData::Match *match;
-};
 
 class MatchBrowser :
         public StiGame::Gui::GuiState,
-        public StiGame::EventListener
+        public StiGame::EventListener,
+        public StiGame::Gui::TableClickEventListener
 {
 public:
     MatchBrowser(AssetManager *m_assets);
@@ -35,11 +25,12 @@ public:
     void onResize(int m_width, int m_height);
 
     bool handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *args);
+    void handleEvent(StiGame::Gui::TableClickEventThrower *src, StiGame::Gui::TableClickEventArgs *args);
     void refreshList(void);
 
     void onPaint(SDL_Renderer *renderer);
 private:
-    std::list<MatchVO*> matches;
+    STRData::Match *selectedMatch;
     void initComponents(void);
 
     bool refreshing;
@@ -48,7 +39,8 @@ private:
     StiGame::Gui::Button btnBack;
     StiGame::Gui::Button btnRefresh;
     StiGame::Gui::Button btnNewGame;
-    StiGame::Gui::List matchesList;
+    StiGame::Gui::Button btnJoinGame;
+    StiGame::Gui::Table matchesTable;
     StiGame::Gui::Label lblTitle;
 
     MatchMasterClient client;

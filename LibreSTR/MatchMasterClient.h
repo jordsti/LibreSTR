@@ -19,6 +19,9 @@ public:
     bool isCompleted(void);
 
     std::list<STRData::Match*>& getMatches(void);
+
+    STRData::Match* getMatchById(int matchId);
+
 private:
     std::string host;
     int port;

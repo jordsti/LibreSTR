@@ -85,14 +85,15 @@ int MatchMasterClient_FetchMatches(void *data_ptr)
                 if(type == STRData::MMP_MATCH)
                 {
                     /*
-                     *   stream.writeInt32(MMP_MATCH);
-                     *   stream.writeInt32(match->getId());
-                     *   stream.writeString(match->getName());
-                     *   stream.writeString(match->getHost());
-                     *   stream.writeInt32(match->getCurrentPlayers());
-                     *   stream.writeInt32(match->getMaxPlayers());
-                     *   stream.writeInt32(match->getPort());
-                     *   stream.writeBool(match->isPasswordProtected());
+                    * stream.writeInt32(MMP_MATCH);
+                    *stream.writeInt32(match->getId());
+                    *stream.writeString(match->getName());
+                    *stream.writeString(match->getHost());
+                    *stream.writeInt32(match->getCurrentPlayers());
+                    *stream.writeInt32(match->getMaxPlayers());
+                    *stream.writeString(match->getHost());
+                    *stream.writeInt32(match->getPort());
+                    *stream.writeBool(match->isPasswordProtected());
                     */
                     //reading match info
                     STRData::Match *match = new STRData::Match();
@@ -127,4 +128,19 @@ int MatchMasterClient_FetchMatches(void *data_ptr)
     socket.close();
     std::cout << "Fetch Matches thread ended" << std::endl;
     return 1;
+}
+
+STRData::Match* MatchMasterClient::getMatchById(int matchId)
+{
+    auto mit(matches.begin()), mend(matches.end());
+    for(;mit!=mend;++mit)
+    {
+        STRData::Match *match = (*mit);
+        if(match->getId() == matchId)
+        {
+            return match;
+        }
+    }
+
+    return nullptr;
 }

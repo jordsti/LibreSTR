@@ -9,6 +9,7 @@
 #include "LibreSTRVersion.h"
 
 #include "FileSystem.h"
+#include "GameServer.h"
 
 using namespace StiGame;
 
@@ -18,6 +19,7 @@ int main(int argc, char** argv)
     bool fullscreen = true;
     int width = 1024;
     int height = 768;
+    bool serverMode = false;
 
     Dimension maxDim = Viewport::GetHighestResolution();
 
@@ -77,29 +79,41 @@ std::cout << "Overriding fullscreen resolution to windowed : " << width << "x" <
                     std::cout << "Viewport height : " << height << std::endl;
                 }
             }
+            else if(arg == "-server")
+            {
+                serverMode = true;
+            }
         }
 
         i++;
     }
 
     LibreSTRVersion version = LibreSTRVersion::CurrentVersion();
-    Viewport *vp = new Viewport(width, height, fullscreen);
-    std::string vstr = version.getVersionString();
-    std::string wtitle = "LibreSTR ["+ vstr +"]";
-    vp->setTitle(wtitle.c_str());
+    if(serverMode)
+    {
+        GameServer server("default name");
+        server.start();
+    }
+    else
+    {
+        Viewport *vp = new Viewport(width, height, fullscreen);
+        std::string vstr = version.getVersionString();
+        std::string wtitle = "LibreSTR ["+ vstr +"]";
+        vp->setTitle(wtitle.c_str());
 
-    //loading asset
-    AssetManager *assets = new AssetManager();
-    MapGenerator::setAssets(assets);
+        //loading asset
+        AssetManager *assets = new AssetManager();
+        MapGenerator::setAssets(assets);
 
-    LibreSTRStyle *style = new LibreSTRStyle();
-    Gui::Runtime::getInstance()->ForceStyle(style);
+        LibreSTRStyle *style = new LibreSTRStyle();
+        Gui::Runtime::getInstance()->ForceStyle(style);
 
-    MainMenu *mainMenu = new MainMenu(assets);
+        MainMenu *mainMenu = new MainMenu(assets);
 
-    vp->push(mainMenu);
-    vp->setFps(50);
-    vp->startLoop();
+        vp->push(mainMenu);
+        vp->setFps(50);
+        vp->startLoop();
+    }
 
     return 0;
 }
