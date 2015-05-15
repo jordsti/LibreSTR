@@ -1,7 +1,11 @@
 #include "OptionState.h"
 #include "MainMenu.h"
 #include "ResolutionVO.h"
-
+/* TO DO
+ * - add toggle console binding
+ * - add show fps binding
+ * - save settings !!
+ */
 OptionState::OptionState(AssetManager *m_assets)
 {
     assets = m_assets;
@@ -21,11 +25,13 @@ void OptionState::onResize(int m_width, int m_height)
     lblPlayerName.prerender();
     lblPlayerName.setPoint(8, lblTitle.getY() + lblTitle.getHeight() + 10);
 
-    tbPlayerName.setPoint(lblPlayerName.getX() + 5, lblPlayerName.getY());
+    tbPlayerName.prerender();
+    tbPlayerName.setPoint(lblPlayerName.getX() + lblPlayerName.getWidth() + 5, lblPlayerName.getY());
 
     lblResolutions.prerender();
     lblResolutions.setPoint(8, lblPlayerName.getY() + lblPlayerName.getHeight() + 10);
 
+    cbResolutions.prerender();
     cbResolutions.setPoint(lblResolutions.getX() + lblResolutions.getWidth() + 5, lblPlayerName.getY() + lblPlayerName.getHeight() + 10);
 
     btnBack.prerender();
@@ -35,7 +41,39 @@ void OptionState::onResize(int m_width, int m_height)
 
     cbFullscreen.prerender();
 
-    cbFullscreen.setPoint(8, lblResolutions.getY() + 10);
+    cbFullscreen.setPoint(8, lblResolutions.getY() + lblResolutions.getHeight() + 10);
+
+    lblMinimap.prerender();
+    lblMinimap.setPoint(8, cbFullscreen.getY() + cbFullscreen.getHeight() + 10);
+
+    kbShowMinimap.setPoint(lblMinimap.getX() + lblMinimap.getWidth() + 5, lblMinimap.getY());
+
+    lblPauseGame.prerender();
+    lblPauseGame.setPoint(8, lblMinimap.getY() + lblMinimap.getHeight() + 10);
+
+    kbPauseGame.setPoint(lblPauseGame.getX() + lblPauseGame.getWidth() + 5, lblPauseGame.getY());
+
+    lblMoveViewUp.prerender();
+    lblMoveViewUp.setPoint(8, lblPauseGame.getY() + lblPauseGame.getHeight() + 10);
+
+    kbMoveViewUp.setPoint(lblMoveViewUp.getX() + lblMoveViewUp.getWidth() + 5, lblMoveViewUp.getY());
+
+    lblMoveViewDown.prerender();
+    lblMoveViewDown.setPoint(8, lblMoveViewUp.getY() + lblMoveViewUp.getHeight() + 10);
+
+    kbMoveViewDown.setPoint(lblMoveViewDown.getX() + lblMoveViewDown.getWidth() + 5, lblMoveViewDown.getY());
+
+    lblMoveViewRight.prerender();
+    lblMoveViewRight.setPoint(8, lblMoveViewDown.getY() + lblMoveViewDown.getHeight() + 10);
+
+    kbMoveViewRight.setPoint(lblMoveViewRight.getX() + lblMoveViewRight.getWidth() + 5, lblMoveViewRight.getY());
+
+    lblMoveViewLeft.prerender();
+    lblMoveViewLeft.setPoint(8, lblMoveViewRight.getY() + lblMoveViewRight.getHeight() + 10);
+
+    kbMoveViewLeft.setPoint(lblMoveViewLeft.getX() + lblMoveViewLeft.getWidth() + 5, lblMoveViewLeft.getY());
+
+    cbFullscreen.setChecked(viewport->getVideoConfig()->isFullscreen());
 
     //filling resolution
     std::list<StiGame::Dimension> resolutions = viewport->GetSupportedResolution();
@@ -93,7 +131,34 @@ void OptionState::initComponents(void)
     lblResolutions.setCaption("Resolution : ");
 
     cbFullscreen.setCaption("Fullscreen");
-    cbFullscreen.setChecked(viewport->getVideoConfig()->isFullscreen());
+
+    lblMinimap.setCaption("Show Minimap");
+
+    kbShowMinimap.fromActionMap(assets->getBindings()->getBinding("show_minimap"));
+    KeyEventThrower::subscribe(&kbShowMinimap);
+
+    lblPauseGame.setCaption("Pause Game");
+
+    kbPauseGame.fromActionMap(assets->getBindings()->getBinding("pause_game"));
+    KeyEventThrower::subscribe(&kbPauseGame);
+
+    lblMoveViewUp.setCaption("Move View Up");
+    kbMoveViewUp.fromActionMap(assets->getBindings()->getBinding("view_move_up"));
+    KeyEventThrower::subscribe(&kbMoveViewUp);
+
+    lblMoveViewDown.setCaption("Move View Down");
+    kbMoveViewDown.fromActionMap(assets->getBindings()->getBinding("view_move_down"));
+    KeyEventThrower::subscribe(&kbMoveViewDown);
+
+    lblMoveViewRight.setCaption("Move View Right");
+    kbMoveViewRight.fromActionMap(assets->getBindings()->getBinding("view_move_right"));
+    KeyEventThrower::subscribe(&kbMoveViewRight);
+
+    lblMoveViewLeft.setCaption("Move View Left");
+    kbMoveViewLeft.fromActionMap(assets->getBindings()->getBinding("view_move_left"));
+    KeyEventThrower::subscribe(&kbMoveViewLeft);
+
+    btnBack.subscribe(this);
 
     add(&lblTitle);
     add(&lblPlayerName);
@@ -101,5 +166,24 @@ void OptionState::initComponents(void)
     add(&lblResolutions);
     add(&cbResolutions);
     add(&cbFullscreen);
+
+    add(&lblMinimap);
+    add(&kbShowMinimap);
+
+    add(&lblMoveViewUp);
+    add(&kbMoveViewUp);
+
+    add(&lblMoveViewDown);
+    add(&kbMoveViewDown);
+
+    add(&lblMoveViewRight);
+    add(&kbMoveViewRight);
+
+    add(&lblMoveViewLeft);
+    add(&kbMoveViewLeft);
+
+    add(&lblPauseGame);
+    add(&kbPauseGame);
+
     add(&btnBack);
 }

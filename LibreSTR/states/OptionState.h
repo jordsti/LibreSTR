@@ -8,6 +8,7 @@
 #include <ComboBox.h>
 #include <EventListener.h>
 #include <CheckBox.h>
+#include <KeyBind.h>
 #include <SelectionEventListener.h>
 #include "AssetManager.h"
 
@@ -38,6 +39,24 @@ private:
     StiGame::Gui::CheckBox cbFullscreen;
 
     StiGame::Gui::Button btnBack;
+
+    StiGame::Gui::Label lblMinimap;
+    StiGame::Gui::KeyBind kbShowMinimap;
+
+    StiGame::Gui::Label lblPauseGame;
+    StiGame::Gui::KeyBind kbPauseGame;
+
+    StiGame::Gui::Label lblMoveViewUp;
+    StiGame::Gui::KeyBind kbMoveViewUp;
+
+    StiGame::Gui::Label lblMoveViewDown;
+    StiGame::Gui::KeyBind kbMoveViewDown;
+
+    StiGame::Gui::Label lblMoveViewRight;
+    StiGame::Gui::KeyBind kbMoveViewRight;
+
+    StiGame::Gui::Label lblMoveViewLeft;
+    StiGame::Gui::KeyBind kbMoveViewLeft;
 
     void initComponents(void);
 };
