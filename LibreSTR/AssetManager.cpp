@@ -9,7 +9,10 @@ using namespace StiGame;
 
 const int AssetManager::BINDINGS_COUNT = 9;
 
-AssetManager::AssetManager()
+std::string AssetManager::OPTION_FILE = "option.vars";
+
+AssetManager::AssetManager() :
+    options(GamePath::getFilepath(AssetRoot, OPTION_FILE))
 {
     //ctor
     loadData();
@@ -21,6 +24,11 @@ AssetManager::~AssetManager()
     delete resMetal;
     delete resGaz;
     delete bindings;
+}
+
+StiGame::VarFile* AssetManager::getOptions(void)
+{
+    return &options;
 }
 
 StiGame::ActionBinding* AssetManager::getBindings(void)
@@ -210,6 +218,13 @@ void AssetManager::loadData(void)
         bindings->write();
     }
 
+
+    //options check up
+    if(!options.isVarExists("playerName"))
+    {
+        options.put("playerName", "John Doe");
+        options.write();
+    }
 }
 
 std::string AssetManager::getMasterServer(void)

@@ -4,6 +4,7 @@
 #include <string>
 #include <SGThread.h>
 #include <vector>
+#include "Match.h"
 
 enum ClientState {
     CS_NotConnected,
@@ -29,6 +30,7 @@ public:
     bool isRunning(void);
 
     void start(void);
+    void stop(void);
 
     int getPlayerId(void);
     void setPlayerId(int m_playerId);
@@ -36,7 +38,13 @@ public:
     void addPlayer(std::string m_playerName);
     void clearPlayers(void);
 
+    STRData::Match* getMatch(void);
+    bool isMatchInfoReceived(void);
+    void setMatchInfoReceived(bool m_matchInfoReceived);
+
 private:
+    bool matchInfoReceived;
+    STRData::Match match;
     std::vector< std::string > players;
     std::string playerName;
     int playerId;

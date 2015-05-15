@@ -5,17 +5,21 @@ set(SOURCE_FILES main.cpp
     AssetManager.cpp
     GameObject.cpp
     GameObjectListener.cpp
-    GameState.cpp
     GameLoadingState.cpp
     GameLoader.cpp
-    MainMenu.cpp
-    NewGameMenu.cpp
     Player.cpp
     MPlayer.cpp
     LoadingState.cpp
     LoadableObject.cpp
     MatchMasterClient.cpp
-    MatchBrowser.cpp
+    ResolutionVO.cpp
+
+    states/MatchBrowser.cpp
+    states/LobbyState.cpp
+    states/OptionState.cpp
+    states/MainMenu.cpp
+    states/NewGameMenu.cpp
+    states/GameState.cpp
 
     server/GameServer.cpp
     server/PlayerConnection.cpp
@@ -98,6 +102,7 @@ include_directories(units)
 include_directories(maps)
 include_directories(server)
 include_directories(client)
+include_directories(states)
 
 
 if(WIN32)

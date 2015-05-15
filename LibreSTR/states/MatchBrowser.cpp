@@ -2,6 +2,7 @@
 #include "MainMenu.h"
 #include <ValueObject.h>
 #include "GameClient.h"
+#include "LobbyState.h"
 
 MatchBrowser::MatchBrowser(AssetManager *m_assets) :
     StiGame::Gui::GuiState(),
@@ -90,10 +91,8 @@ bool MatchBrowser::handleEvent(StiGame::EventThrower *src, StiGame::EventArgs *a
     {
         if(selectedMatch != nullptr)
         {
-            //todo
-            //new lobby state here
-            GameClient *gameClient = new GameClient(selectedMatch->getHost(), selectedMatch->getPort());
-            gameClient->start();
+            LobbyState *state = new LobbyState(assets, selectedMatch->getHost(), selectedMatch->getPort());
+            viewport->push(state);
         }
     }
 

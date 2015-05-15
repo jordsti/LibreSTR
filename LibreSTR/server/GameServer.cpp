@@ -86,15 +86,17 @@ void GameServer::readPacket(UdpPacket *packet)
             pCon->address.host = packet->ipAddress()->host;
             pCon->address.port = packet->ipAddress()->port;
 
-            players.push_back(pCon);
-
             //todo
             //must update master server
 
             UdpPacket *respPacket = new UdpPacket(64);
             PacketStream respStream = respPacket->stream();
             respStream.writeInt32(STRData::MMP_PLAYER_JOIN);
+            //send the match info too
             respStream.writeInt32(pCon->playerId);
+            respStream.writeString(gameName);
+            respStream.writeInt32(players.size() + 1);
+            respStream.writeInt32(maxPlayers);
             respPacket->applyAddress(packet->ipAddress());
 
             //sending player id to player
@@ -118,7 +120,6 @@ void GameServer::readPacket(UdpPacket *packet)
             }
 
             players.push_back(pCon);
-
             //updating master server
             UdpPacket masterUpdate (64);
             PacketStream mStream = masterUpdate.stream();

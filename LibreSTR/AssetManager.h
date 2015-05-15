@@ -11,6 +11,7 @@ class AssetManager
 {
     public:
         static const int BINDINGS_COUNT;
+        static std::string OPTION_FILE;
 
         AssetManager();
         virtual ~AssetManager();
@@ -39,7 +40,11 @@ class AssetManager
         int getHarvestSpeed(void);
         int getBuildSpeed(void);
 
+        StiGame::VarFile* getOptions(void);
+
     protected:
+        StiGame::VarFile options;
+
         void loadData(void);
         void initBindings(void);
 

@@ -1,7 +1,6 @@
 #include "GameClient.h"
 #include <UdpSocket.h>
 #include <PacketStream.h>
-#include "Match.h"
 #include <iostream>
 using namespace StiGame;
 using namespace Net;
@@ -13,11 +12,23 @@ GameClient::GameClient(std::string m_host, int m_port)
     running = false;
     playerId = 0;
     state = CS_NotConnected;
+    matchInfoReceived = false;
+    playerName = "John Doe";
 }
 
 GameClient::~GameClient()
 {
 
+}
+
+bool GameClient::isMatchInfoReceived(void)
+{
+    return matchInfoReceived;
+}
+
+void GameClient::setMatchInfoReceived(bool m_matchInfoReceived)
+{
+    matchInfoReceived = m_matchInfoReceived;
 }
 
 std::string GameClient::getHost(void)
@@ -35,6 +46,11 @@ ClientState GameClient::getState(void)
     return state;
 }
 
+STRData::Match* GameClient::getMatch(void)
+{
+    return &match;
+}
+
 bool GameClient::isRunning(void)
 {
     return running;
@@ -44,6 +60,11 @@ void GameClient::start(void)
 {
     clientThread = new Thread(&GameClient_Loop, "client thread", this);
     running = true;
+}
+
+void GameClient::stop(void)
+{
+    running = false;
 }
 
 int GameClient::getPlayerId(void)
@@ -106,7 +127,7 @@ int GameClient_Loop(void *data_ptr)
         PacketStream stream = packet.stream();
 
         stream.writeInt32(STRData::MMP_PLAYER_JOIN);
-        stream.writeString("PlayerName");
+        stream.writeString(client->getPlayerName());
 
         socket.send(packet.packet(), channel);
 
@@ -124,7 +145,13 @@ int GameClient_Loop(void *data_ptr)
                 {
                     //receiving our player id
                     int playerId = recvStream.readInt32();
+                    client->getMatch()->setName(recvStream.readString());
+                    client->getMatch()->setCurrentPlayers(recvStream.readInt32());
+                    client->getMatch()->setMaxPlayers(recvStream.readInt32());
+
                     client->setPlayerId(playerId);
+
+                    client->setMatchInfoReceived(true);
                     std::cout << "Player Id received : " << playerId << std::endl;
 
                     //ask for the player list

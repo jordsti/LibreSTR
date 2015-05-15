@@ -4,6 +4,7 @@
 #include "NewGameMenu.h"
 #include "GameState.h"
 #include "MatchBrowser.h"
+#include "OptionState.h"
 
 const int MainMenu::BUTTON_WIDTH = 250;
 const int MainMenu::BUTTON_HEIGHT = 40;
@@ -22,7 +23,6 @@ MainMenu::~MainMenu()
     //dtor
 }
 
-
 void MainMenu::initComponents(void)
 {
     lblTitle.setFont(style->getBigFont());
@@ -36,6 +36,9 @@ void MainMenu::initComponents(void)
     btnMultiplayer.setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     btnMultiplayer.setCaption("Multiplayer");
 
+    btnOptions.setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+    btnOptions.setCaption("Options");
+
     btnQuit.setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     btnQuit.setCaption("Quit");
 
@@ -46,11 +49,12 @@ void MainMenu::initComponents(void)
     add(&lblAuthor);
     add(&btnNewGame);
     add(&btnMultiplayer);
+    add(&btnOptions);
     add(&btnQuit);
-
 
     btnNewGame.subscribe(this);
     btnMultiplayer.subscribe(this);
+    btnOptions.subscribe(this);
     btnQuit.subscribe(this);
 }
 
@@ -72,6 +76,11 @@ bool MainMenu::handleEvent(EventThrower *src, EventArgs *evt)
         MatchBrowser *state = new MatchBrowser(assets);
         viewport->push(state);
     }
+    else if(src == &btnOptions)
+    {
+        OptionState *state = new OptionState(assets);
+        viewport->push(state);
+    }
     else if(src == &btnQuit)
     {
         running = false;
@@ -91,7 +100,8 @@ void MainMenu::onResize(int m_width, int m_height)
 
     btnNewGame.setPoint((m_width - btnNewGame.getWidth())/2, 100);
     btnMultiplayer.setPoint((m_width - btnMultiplayer.getWidth())/2, 100 + BUTTON_HEIGHT + 10);
-    btnQuit.setPoint((m_width - btnQuit.getWidth())/2, 100 + (BUTTON_HEIGHT + 10)*2);
+    btnOptions.setPoint((m_width - btnOptions.getWidth())/2, 100 + (BUTTON_HEIGHT + 10)*2);
+    btnQuit.setPoint((m_width - btnQuit.getWidth())/2, 100 + (BUTTON_HEIGHT + 10)*3);
 
-    img.setPoint((m_width - img.getWidth())/2, 100 + 2*BUTTON_HEIGHT + 25);
+    img.setPoint((m_width - img.getWidth())/2, 100 + 3*BUTTON_HEIGHT + 25);
 }
